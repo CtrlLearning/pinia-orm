@@ -1,6 +1,6 @@
 import { getActivePinia } from 'pinia'
 import { expect } from 'vitest'
-import type { Elements } from 'pinia-orm'
+import type { Elements } from '@ctrllearning/pinia-orm'
 
 interface Entities {
   [name: string]: Elements

@@ -1,5 +1,5 @@
-import type { PiniaOrmPlugin } from 'pinia-orm'
-import { definePiniaOrmPlugin } from 'pinia-orm'
+import type { PiniaOrmPlugin } from '@ctrllearning/pinia-orm'
+import { definePiniaOrmPlugin } from '@ctrllearning/pinia-orm'
 import type { GlobalConfig } from './types/config'
 
 export function createPiniaOrmAxios(

@@ -4,7 +4,10 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   resolve: {
     alias: {
-      'pinia-orm': path.resolve(__dirname, '../pinia-orm/src/index.ts'),
+      '@ctrllearning/pinia-orm': path.resolve(
+        __dirname,
+        '../pinia-orm/src/index.ts',
+      ),
       '@ctrllearning/pinia-orm-normalizr': path.resolve(
         __dirname,
         '../normalizr/src/index.js',
@@ -13,7 +16,7 @@ export default defineConfig({
   },
   test: {
     setupFiles: ['./test/setup.ts'],
-    externals: ['pinia-orm'],
+    externals: ['@ctrllearning/pinia-orm'],
     coverage: {
       enabled: true,
       reporter: ['lcov', 'text', 'html'],

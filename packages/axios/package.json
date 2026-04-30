@@ -51,13 +51,13 @@
     "test": "vitest --run"
   },
   "devDependencies": {
+    "@ctrllearning/pinia-orm": "workspace:*",
     "@size-limit/preset-small-lib": "^11.2.0",
     "@vitest/coverage-v8": "^3.2.4",
     "axios": "^1.15.2",
     "axios-mock-adapter": "^2.1.0",
     "oxlint": "^1.62.0",
     "pinia": "^2.3.1",
-    "pinia-orm": "workspace:*",
     "size-limit": "^11.2.0",
     "typescript": "^5.9.3",
     "unbuild": "^3.6.1",

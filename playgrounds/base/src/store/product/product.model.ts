@@ -1,4 +1,4 @@
-import { Model } from 'pinia-orm'
+import { Model } from '@ctrllearning/pinia-orm'
 import type { ProductRo } from './product-ro.ts'
 import type { StoreFields } from '@/types/store-fields.ts'
 

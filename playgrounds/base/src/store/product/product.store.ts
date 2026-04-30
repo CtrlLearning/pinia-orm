@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { useRepo } from 'pinia-orm'
+import { useRepo } from '@ctrllearning/pinia-orm'
 import { ProductModel } from '@/store/product/product.model.ts'
 import type { ProductRo } from '@/store/product/product-ro.ts'
 import { computed } from 'vue'

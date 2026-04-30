@@ -1,4 +1,4 @@
-import type { Element } from 'pinia-orm'
+import type { Element } from '@ctrllearning/pinia-orm'
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 export type PersistMethods = 'save' | 'insert'

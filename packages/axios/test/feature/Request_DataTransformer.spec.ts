@@ -1,6 +1,6 @@
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
-import { Model } from 'pinia-orm'
+import { Model } from '@ctrllearning/pinia-orm'
 import { afterEach, beforeEach, describe, it } from 'vitest'
 import { assertState } from '../helpers'
 import { useAxiosRepo } from '../../src'

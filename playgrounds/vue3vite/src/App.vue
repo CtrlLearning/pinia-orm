@@ -5,7 +5,7 @@ import { onMounted, computed } from 'vue'
 
 import { useAxiosRepo } from '@ctrllearning/pinia-orm-axios'
 import UserModel from './models/User'
-import { useRepo } from 'pinia-orm'
+import { useRepo } from '@ctrllearning/pinia-orm'
 
 onMounted(() => {
   useRepo(UserModel).save({

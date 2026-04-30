@@ -1,5 +1,5 @@
 import type { AxiosResponse } from 'axios'
-import type { Collection, Element } from 'pinia-orm'
+import type { Collection, Element } from '@ctrllearning/pinia-orm'
 import type { Config, PersistMethods } from '../types/config'
 import type { AxiosRepository } from '../repository/AxiosRepository'
 

@@ -1,7 +1,7 @@
 import { createPinia, setActivePinia } from 'pinia'
 import { beforeEach } from 'vitest'
 import { createApp } from 'vue'
-import { Model, createORM, useRepo } from 'pinia-orm'
+import { Model, createORM, useRepo } from '@ctrllearning/pinia-orm'
 import axios from 'axios'
 import { createPiniaOrmAxios } from '../src'
 

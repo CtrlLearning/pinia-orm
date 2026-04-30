@@ -1,6 +1,6 @@
-import type { Database, Model } from 'pinia-orm'
+import type { Database, Model } from '@ctrllearning/pinia-orm'
 import type { Pinia } from 'pinia'
-import { Repository, config } from 'pinia-orm'
+import { Repository, config } from '@ctrllearning/pinia-orm'
 import type { AxiosInstance } from 'axios'
 import { useAxiosApi } from '../index'
 import type { Config, GlobalConfig } from '../types/config'

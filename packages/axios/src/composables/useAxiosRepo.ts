@@ -1,5 +1,5 @@
-import type { Constructor, Model } from 'pinia-orm'
-import { useRepo } from 'pinia-orm'
+import type { Constructor, Model } from '@ctrllearning/pinia-orm'
+import { useRepo } from '@ctrllearning/pinia-orm'
 import { getActivePinia } from 'pinia'
 import { AxiosRepository } from '../repository/AxiosRepository'
 

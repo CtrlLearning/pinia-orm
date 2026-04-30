@@ -1,4 +1,4 @@
-import { Model } from 'pinia-orm'
+import { Model } from '@ctrllearning/pinia-orm'
 
 export default class User extends Model {
   static entity = 'users'

@@ -8,10 +8,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ctrllearning/pinia-orm": "workspace:*",
     "@ctrllearning/pinia-orm-axios": "workspace:*",
     "axios": "^1.7.2",
     "pinia": "^2.1.7",
-    "pinia-orm": "workspace:*",
     "vue": "^3.4.29"
   },
   "devDependencies": {
