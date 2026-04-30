@@ -18,9 +18,14 @@
     "test": "pnpm --filter './packages/**' test",
     "test:coverage": "pnpm --filter './packages/**' coverage",
     "test:types": "tsc --build ./tsconfig.json",
-    "test:dts": "lerna run test:dts"
+    "test:dts": "lerna run test:dts",
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^0.5.1",
+    "@changesets/cli": "^2.27.1",
     "@lerna-lite/cli": "^3.12.3",
     "@lerna-lite/run": "^3.12.3",
     "@types/lodash.kebabcase": "^4.1.9",
