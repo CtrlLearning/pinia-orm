@@ -13,7 +13,7 @@ describe('feature/hooks/saving', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static saving (model: Model) {
+      static saving(model: Model) {
         model.name = 'John'
       }
     }
@@ -37,10 +37,12 @@ describe('feature/hooks/saving', () => {
       @Num(0) declare age: number
       @BelongsTo(() => Post, 'postId') declare post: User | null
 
-      static saving (model: User) {
+      static saving(model: User) {
         const fields = model.$fields()
         for (const name in fields) {
-          if (fields[name] instanceof BelongsToClass && model.name === 'John') { model[(fields[name] as BelongsToClass).foreignKey] = null }
+          if (fields[name] instanceof BelongsToClass && model.name === 'John') {
+            model[(fields[name] as BelongsToClass).foreignKey] = null
+          }
         }
       }
     }
@@ -54,7 +56,12 @@ describe('feature/hooks/saving', () => {
 
     const savingMethod = vi.spyOn(User, 'saving')
 
-    useRepo(User).save({ id: 1, name: 'John Doe', age: 30, post: { id: 1, title: 'News' } })
+    useRepo(User).save({
+      id: 1,
+      name: 'John Doe',
+      age: 30,
+      post: { id: 1, title: 'News' },
+    })
 
     expect(savingMethod).toHaveBeenCalledOnce()
 
@@ -87,7 +94,7 @@ describe('feature/hooks/saving', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static saving (model: Model) {
+      static saving(model: Model) {
         model.name = 'John'
         return false
       }
@@ -112,7 +119,7 @@ describe('feature/hooks/saving', () => {
       @Str('') declare name: string
       @Num(0) declare age: number
 
-      static saving (model: Model) {
+      static saving(model: Model) {
         model.name = 'John'
         return false
       }

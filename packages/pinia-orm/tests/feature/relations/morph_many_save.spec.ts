@@ -21,7 +21,7 @@ describe('feature/relations/morph_many_save', () => {
     @Str('') link!: string
 
     @MorphMany(() => Comment, 'commentableId', 'commentableType')
-      comments!: Comment[]
+    comments!: Comment[]
   }
 
   it('saves a model to the store with "morph many" relation', () => {
@@ -127,7 +127,7 @@ describe('feature/relations/morph_many_save', () => {
     Model.clearRegistries()
     class Comment extends Model {
       static entity = 'comments'
-      static fields () {
+      static fields() {
         return {
           id: this.number(0),
           url: this.string(''),
@@ -144,7 +144,7 @@ describe('feature/relations/morph_many_save', () => {
       static entity = 'person'
       static primaryKey = 'id'
 
-      static fields () {
+      static fields() {
         return {
           id: this.uid(),
           job: this.attr(''),
@@ -155,7 +155,7 @@ describe('feature/relations/morph_many_save', () => {
 
     class Video extends Model {
       static entity = 'videos'
-      static fields () {
+      static fields() {
         return {
           id: this.number(0),
           link: this.string(''),
@@ -165,7 +165,7 @@ describe('feature/relations/morph_many_save', () => {
     }
     class Post extends Model {
       static entity = 'posts'
-      static fields () {
+      static fields() {
         return {
           id: this.number(0),
           title: this.string(''),
@@ -222,7 +222,6 @@ describe('feature/relations/morph_many_save', () => {
       person: {
         p: { id: 'p', job: 'dev' },
       },
-
     })
   })
 })

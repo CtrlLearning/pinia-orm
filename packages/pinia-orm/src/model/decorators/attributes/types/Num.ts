@@ -4,7 +4,7 @@ import type { TypeDefault } from '../../../attributes/types/Type'
 /**
  * Create a Number attribute property decorator.
  */
-export function Num (
+export function Num(
   value: TypeDefault<number>,
   options: TypeOptions = {},
 ): PropertyDecorator {
@@ -14,7 +14,9 @@ export function Num (
     self.setRegistry(propertyKey, () => {
       const attr = self.number(value)
 
-      if (options.notNullable) { attr.notNullable() }
+      if (options.notNullable) {
+        attr.notNullable()
+      }
 
       return attr
     })

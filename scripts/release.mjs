@@ -63,8 +63,8 @@ async function main() {
     if (currentBranch !== EXPECTED_BRANCH) {
       console.log(
         chalk.red(
-          `You should be on brach "${EXPECTED_BRANCH}" but are on "${currentBranch}"`
-        )
+          `You should be on brach "${EXPECTED_BRANCH}" but are on "${currentBranch}"`,
+        ),
       )
       return
     }
@@ -75,11 +75,12 @@ async function main() {
   if (!skipCleanGitCheck) {
     const isOutdatedRE = new RegExp(
       `\\W${EXPECTED_BRANCH}\\W.*(?:fast-forwardable|local out of date)`,
-      'i'
+      'i',
     )
 
     const isOutdatedGit = isOutdatedRE.test(
-      (await run('git', ['remote', 'show', 'origin'], { stdio: 'pipe' })).stdout
+      (await run('git', ['remote', 'show', 'origin'], { stdio: 'pipe' }))
+        .stdout,
     )
 
     if (isOutdatedGit) {
@@ -114,7 +115,7 @@ async function main() {
   step(
     `Ready to release ${packagesToRelease
       .map(({ name }) => chalk.bold.white(name))
-      .join(', ')}`
+      .join(', ')}`,
   )
 
   const pkgWithVersions = await pSeries(
@@ -158,7 +159,7 @@ async function main() {
       }
 
       return { name, path, version, pkg }
-    })
+    }),
   )
 
   const { yes: isReleaseConfirmed } = await prompt({
@@ -167,7 +168,7 @@ async function main() {
     message: `Releasing \n${pkgWithVersions
       .map(
         ({ name, version }) =>
-          `  · ${chalk.white(name)}: ${chalk.yellow.bold('v' + version)}`
+          `  · ${chalk.white(name)}: ${chalk.yellow.bold('v' + version)}`,
       )
       .join('\n')}\nConfirm?`,
   })
@@ -188,7 +189,7 @@ async function main() {
     })
     await fs.copyFile(
       resolve(__dirname, '../LICENSE'),
-      resolve(pkg.path, 'LICENSE')
+      resolve(pkg.path, 'LICENSE'),
     )
   }
 
@@ -258,11 +259,11 @@ async function updateVersions(packageList) {
       const content = JSON.stringify(pkg, null, 2) + '\n'
       return isDryRun
         ? dryRun('write', [name], {
-          dependencies: pkg.dependencies,
-          peerDependencies: pkg.peerDependencies,
-        })
+            dependencies: pkg.dependencies,
+            peerDependencies: pkg.peerDependencies,
+          })
         : fs.writeFile(join(path, 'package.json'), content)
-    })
+    }),
   )
 }
 
@@ -276,8 +277,8 @@ function updateDeps(pkg, depType, updatedPackages) {
     if (dep && updatedDep) {
       console.log(
         chalk.yellow(
-          `${pkg.name} -> ${depType} -> ${dep}@~${updatedDep.version}`
-        )
+          `${pkg.name} -> ${depType} -> ${dep}@~${updatedDep.version}`,
+        ),
       )
       deps[dep] = '>=' + updatedDep.version
     }
@@ -300,10 +301,10 @@ async function publishPackage(pkg) {
       {
         cwd: pkg.path,
         stdio: 'pipe',
-      }
+      },
     )
     console.log(
-      chalk.green(`Successfully published ${pkg.name}@${pkg.version}`)
+      chalk.green(`Successfully published ${pkg.name}@${pkg.version}`),
     )
   } catch (e) {
     if (e.stderr.match(/previously published/)) {
@@ -319,7 +320,7 @@ async function publishPackage(pkg) {
  *
  * @returns {Promise<{ name: string; path: string; pkg: any; version: string }[]}
  */
- async function getChangedPackages() {
+async function getChangedPackages() {
   let lastTag
 
   try {
@@ -333,7 +334,7 @@ async function publishPackage(pkg) {
     const { stdout } = await run(
       'git',
       ['rev-list', '--max-parents=0', 'HEAD'],
-      { stdio: 'pipe' }
+      { stdio: 'pipe' },
     )
     lastTag = stdout
   }
@@ -357,7 +358,7 @@ async function publishPackage(pkg) {
             join(folder, 'src'),
             join(folder, 'package.json'),
           ],
-          { stdio: 'pipe' }
+          { stdio: 'pipe' },
         )
 
         if (hasChanges) {
@@ -371,7 +372,7 @@ async function publishPackage(pkg) {
           return null
         }
       }
-    })
+    }),
   )
 
   return pkgs.filter((p) => p)

@@ -22,14 +22,17 @@ export interface UseCollect<M extends Model = Model> {
 /**
  * Return all possible helper functions for the collection
  */
-export function useCollect<M extends Model = Model> (models: Collection<M>): UseCollect<M> {
+export function useCollect<M extends Model = Model>(
+  models: Collection<M>,
+): UseCollect<M> {
   return {
-    sum: field => useSum(models, field),
-    min: field => useMin(models, field),
-    max: field => useMax(models, field),
-    pluck: field => usePluck(models, field),
-    groupBy: fields => useGroupBy(models, fields),
-    sortBy: (sort, flags: SortFlags = 'SORT_REGULAR') => useSortBy(models, sort, flags),
+    sum: (field) => useSum(models, field),
+    min: (field) => useMin(models, field),
+    max: (field) => useMax(models, field),
+    pluck: (field) => usePluck(models, field),
+    groupBy: (fields) => useGroupBy(models, fields),
+    sortBy: (sort, flags: SortFlags = 'SORT_REGULAR') =>
+      useSortBy(models, sort, flags),
     keys: () => useKeys(models),
   }
 }

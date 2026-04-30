@@ -40,7 +40,7 @@ describe('feature/repository/new', () => {
       @Num(21) declare age: number
       @Bool(true) declare active: boolean
 
-      static creating (model: User) {
+      static creating(model: User) {
         model.items = ['t', 's']
       }
     }
@@ -53,11 +53,19 @@ describe('feature/repository/new', () => {
 
     assertState({
       users: {
-        uid1: { id: 'uid1', name: 'John Doe', items: '["t","s"]', age: 21, active: true },
+        uid1: {
+          id: 'uid1',
+          name: 'John Doe',
+          items: '["t","s"]',
+          age: 21,
+          active: true,
+        },
       },
     })
 
-    expect(userRepo.hydratedDataCache.get('usersuid1')?.items).toBeInstanceOf(Array)
+    expect(userRepo.hydratedDataCache.get('usersuid1')?.items).toBeInstanceOf(
+      Array,
+    )
   })
 
   it('throws if a primary key is not capable of being generated', () => {

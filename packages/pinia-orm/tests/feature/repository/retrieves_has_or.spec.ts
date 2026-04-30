@@ -20,7 +20,7 @@ describe('feature/repository/retrieves_has_or', () => {
     @Str('') name!: string
 
     @HasMany(() => Post, 'userId')
-      posts!: Post[]
+    posts!: Post[]
   }
 
   it('can filter by "or has" clause', () => {
@@ -39,7 +39,10 @@ describe('feature/repository/retrieves_has_or', () => {
       },
     })
 
-    const users = userRepo.orHas('posts', '=', 1).where('name', 'Johnny Doe').get()
+    const users = userRepo
+      .orHas('posts', '=', 1)
+      .where('name', 'Johnny Doe')
+      .get()
 
     const expected = [
       { id: 2, name: 'Jane Doe' },
@@ -96,9 +99,14 @@ describe('feature/repository/retrieves_has_or', () => {
     })
 
     const users = userRepo
-      .orWhereHas('posts', (query) => {
-        query.where('title', 'Title 03')
-      }, '=', 1)
+      .orWhereHas(
+        'posts',
+        (query) => {
+          query.where('title', 'Title 03')
+        },
+        '=',
+        1,
+      )
       .where('name', 'Johnny Doe')
       .get()
 

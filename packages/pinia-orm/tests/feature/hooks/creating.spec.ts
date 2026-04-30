@@ -13,7 +13,7 @@ describe('feature/hooks/creating', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static creating (model: Model) {
+      static creating(model: Model) {
         model.name = 'John'
       }
     }
@@ -35,7 +35,7 @@ describe('feature/hooks/creating', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static creating (model: Model) {
+      static creating(model: Model) {
         model.name = 'John'
       }
     }
@@ -70,7 +70,7 @@ describe('feature/hooks/creating', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static creating (model: User) {
+      static creating(model: User) {
         model.name = 'John'
         return false
       }
@@ -95,7 +95,7 @@ describe('feature/hooks/creating', () => {
       @Str('') declare name: string
       @Num(0) declare age: number
 
-      static creating (model: User) {
+      static creating(model: User) {
         model.name = 'John'
         return false
       }
@@ -120,7 +120,7 @@ describe('feature/hooks/creating', () => {
       @Str('') declare name: string
       @Num(0) declare age: number
 
-      static creating (model: User) {
+      static creating(model: User) {
         model.name = 'John'
       }
     }

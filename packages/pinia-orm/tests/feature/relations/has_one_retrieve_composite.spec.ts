@@ -24,7 +24,7 @@ describe('feature/relations/has_one_retrieve_composite', () => {
     @Str('') declare name: string
 
     @HasOne(() => Phone, ['userId', 'userSecondId'])
-      phone!: Phone | null
+    phone!: Phone | null
   }
 
   it('can eager load has one relation', () => {
@@ -32,7 +32,12 @@ describe('feature/relations/has_one_retrieve_composite', () => {
     const phonesRepo = useRepo(Phone)
 
     usersRepo.save({ id: 1, secondId: 1, name: 'John Doe' })
-    phonesRepo.save({ id: 1, userId: 1, userSecondId: 1, number: '123-4567-8912' })
+    phonesRepo.save({
+      id: 1,
+      userId: 1,
+      userSecondId: 1,
+      number: '123-4567-8912',
+    })
 
     const user = usersRepo.with('phone').first()!
 

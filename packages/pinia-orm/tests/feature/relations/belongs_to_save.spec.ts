@@ -20,7 +20,7 @@ describe('feature/relations/belongs_to_save', () => {
     @Str('') title!: string
 
     @BelongsTo(() => User, 'userId')
-      author!: User | null
+    author!: User | null
   }
 
   it('inserts a record to the store with "belongs to" relation', () => {
@@ -71,7 +71,9 @@ describe('feature/relations/belongs_to_save', () => {
         title: 'Title 01',
         author: [{ id: 1, name: 'John Doe' }],
       })
-    }).toThrowError('[Pinia ORM] You are passing a list to " posts.author " which is a one to one Relation(BelongsTo): [{"id":1,"name":"John Doe"}]')
+    }).toThrowError(
+      '[Pinia ORM] You are passing a list to " posts.author " which is a one to one Relation(BelongsTo): [{"id":1,"name":"John Doe"}]',
+    )
   })
 
   it('can insert a record with missing relational key', () => {

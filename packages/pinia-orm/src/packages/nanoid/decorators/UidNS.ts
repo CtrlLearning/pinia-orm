@@ -5,7 +5,7 @@ import type { NanoidOptions } from '../../../../src/model/decorators/Contracts'
 /**
  * Create a cast for an attribute property decorator.
  */
-export function Uid (options?: NanoidOptions): PropertyDecorator {
+export function Uid(options?: NanoidOptions): PropertyDecorator {
   return (target, propertyKey) => {
     const self = target.$self()
     self.setCast(propertyKey, UidCast.withParameters(options))

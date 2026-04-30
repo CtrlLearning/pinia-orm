@@ -1,7 +1,15 @@
 import { beforeEach, describe, it } from 'vitest'
 
 import { Model, useRepo } from '../../../src'
-import { Attr, BelongsToMany, HasMany, HasOne, MorphMany, Num, Str } from '../../../src/decorators'
+import {
+  Attr,
+  BelongsToMany,
+  HasMany,
+  HasOne,
+  MorphMany,
+  Num,
+  Str,
+} from '../../../src/decorators'
 import { assertState } from '../../helpers'
 import { OnDelete } from '../../../src/model/decorators/OnDelete'
 
@@ -48,9 +56,11 @@ describe('feature/repository/delete_with_relations', () => {
     class Post extends Model {
       static entity = 'posts'
 
-      static fields () {
+      static fields() {
         return {
-          extraComments: this.hasMany(ExtraComment, 'postId').onDelete('cascade'),
+          extraComments: this.hasMany(ExtraComment, 'postId').onDelete(
+            'cascade',
+          ),
         }
       }
 
@@ -105,51 +115,53 @@ describe('feature/repository/delete_with_relations', () => {
 
     const usersRepo = useRepo(User)
 
-    usersRepo.save([{
-      id: 1,
-      name: 'John Doe',
-      roles: [{ id: 1, pivot: { level: 1 } }, { id: 2 }, { id: 4 }],
-      posts: [
-        {
-          id: 1,
-          title: 'Title 01',
-          comments: [
-            { id: 3, comment_id: 3, title: 'Title 03' },
-            { id: 4, comment_id: 3, title: 'Title 04' },
-          ],
-          extraComments: [
-            { id: 3, title: 'Title 03' },
-            { id: 4, title: 'Title 04' },
-          ],
-        },
-        { id: 2, title: 'Title 02' },
-      ],
-    },
-    {
-      id: 2,
-      name: 'Johnny Doe',
-      roles: [{ id: 1, pivot: { level: 2 } }],
-      posts: [
-        {
-          id: 3,
-          title: 'Title 03',
-          comments: [
-            { id: 1, comment_id: 3, title: 'Title 01' },
-            { id: 2, comment_id: 3, title: 'Title 02' },
-          ],
-          extraComments: [
-            { id: 1, title: 'Title 01' },
-            { id: 2, title: 'Title 02' },
-          ],
-          specialImage: { id: 5, title: 'Title 05' },
-          images: [
-            { id: 1, title: 'Image 01' },
-            { id: 2, title: 'Image 02' },
-          ],
-        },
-        { id: 4, title: 'Title 04' },
-      ],
-    }])
+    usersRepo.save([
+      {
+        id: 1,
+        name: 'John Doe',
+        roles: [{ id: 1, pivot: { level: 1 } }, { id: 2 }, { id: 4 }],
+        posts: [
+          {
+            id: 1,
+            title: 'Title 01',
+            comments: [
+              { id: 3, comment_id: 3, title: 'Title 03' },
+              { id: 4, comment_id: 3, title: 'Title 04' },
+            ],
+            extraComments: [
+              { id: 3, title: 'Title 03' },
+              { id: 4, title: 'Title 04' },
+            ],
+          },
+          { id: 2, title: 'Title 02' },
+        ],
+      },
+      {
+        id: 2,
+        name: 'Johnny Doe',
+        roles: [{ id: 1, pivot: { level: 2 } }],
+        posts: [
+          {
+            id: 3,
+            title: 'Title 03',
+            comments: [
+              { id: 1, comment_id: 3, title: 'Title 01' },
+              { id: 2, comment_id: 3, title: 'Title 02' },
+            ],
+            extraComments: [
+              { id: 1, title: 'Title 01' },
+              { id: 2, title: 'Title 02' },
+            ],
+            specialImage: { id: 5, title: 'Title 05' },
+            images: [
+              { id: 1, title: 'Image 01' },
+              { id: 2, title: 'Image 02' },
+            ],
+          },
+          { id: 4, title: 'Title 04' },
+        ],
+      },
+    ])
 
     usersRepo.destroy(2)
 

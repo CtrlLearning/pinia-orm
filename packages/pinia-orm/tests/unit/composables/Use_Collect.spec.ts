@@ -26,13 +26,15 @@ describe('unit/composables/Collect', () => {
   let userCollection: ReturnType<typeof useCollect<User>>
 
   beforeEach(() => {
-    userCollection = useCollect(useRepo(User).make([
-      { id: 1, name: 'James', age: 40, post: { id: 1, title: 'Title1' } },
-      { id: 2, name: 'James', age: 30, post: { id: 2, title: 'Title2' } },
-      { id: 3, name: 'David', age: 20 },
-      { id: 4, name: 'john', age: 20 },
-      { id: 5, name: 'Zod', age: 20 },
-    ]))
+    userCollection = useCollect(
+      useRepo(User).make([
+        { id: 1, name: 'James', age: 40, post: { id: 1, title: 'Title1' } },
+        { id: 2, name: 'James', age: 30, post: { id: 2, title: 'Title2' } },
+        { id: 3, name: 'David', age: 20 },
+        { id: 4, name: 'john', age: 20 },
+        { id: 5, name: 'Zod', age: 20 },
+      ]),
+    )
   })
 
   it('can group records using the "groupBy" modifier', () => {
@@ -44,12 +46,8 @@ describe('unit/composables/Collect', () => {
       David: useRepo(User).make([
         { id: 3, name: 'David', age: 20, post: null },
       ]),
-      john: useRepo(User).make([
-        { id: 4, name: 'john', age: 20, post: null },
-      ]),
-      Zod: useRepo(User).make([
-        { id: 5, name: 'Zod', age: 20, post: null },
-      ]),
+      john: useRepo(User).make([{ id: 4, name: 'john', age: 20, post: null }]),
+      Zod: useRepo(User).make([{ id: 5, name: 'Zod', age: 20, post: null }]),
     }
 
     const expected2 = {
@@ -59,15 +57,9 @@ describe('unit/composables/Collect', () => {
       '[James,30]': useRepo(User).make([
         { id: 2, name: 'James', age: 30, post: { id: 2, title: 'Title2' } },
       ]),
-      '[David,20]': useRepo(User).make([
-        { id: 3, name: 'David', age: 20 },
-      ]),
-      '[john,20]': useRepo(User).make([
-        { id: 4, name: 'john', age: 20 },
-      ]),
-      '[Zod,20]': useRepo(User).make([
-        { id: 5, name: 'Zod', age: 20 },
-      ]),
+      '[David,20]': useRepo(User).make([{ id: 3, name: 'David', age: 20 }]),
+      '[john,20]': useRepo(User).make([{ id: 4, name: 'john', age: 20 }]),
+      '[Zod,20]': useRepo(User).make([{ id: 5, name: 'Zod', age: 20 }]),
     }
 
     expect(userCollection.groupBy('name')).toEqual(expected)
@@ -93,7 +85,7 @@ describe('unit/composables/Collect', () => {
 
     expect(userCollection.sortBy('name')).toEqual(expected)
     expect(userCollection.sortBy('name', 'SORT_FLAG_CASE')).toEqual(expected2)
-    expect(userCollection.sortBy(model => model.name)).toEqual(expected)
+    expect(userCollection.sortBy((model) => model.name)).toEqual(expected)
     expect(userCollection.sortBy([['name', 'asc']])).toEqual(expected)
   })
 

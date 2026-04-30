@@ -19,7 +19,7 @@ export class Request {
   /**
    * Create a new api instance.
    */
-  constructor (repository: AxiosRepository) {
+  constructor(repository: AxiosRepository) {
     this.repository = repository
 
     this.registerActions()
@@ -33,8 +33,9 @@ export class Request {
   /**
    * Get the axios client.
    */
-  get axios (): AxiosInstance {
-    this.repository.axios = this.repository.axios ?? this.repository.config.axiosApi.axios
+  get axios(): AxiosInstance {
+    this.repository.axios =
+      this.repository.axios ?? this.repository.config.axiosApi.axios
     if (!this.repository.axios) {
       throw new Error(
         '[Pinia ORM Axios] The axios instance is not registered. Please register the axios instance to the repository.',
@@ -47,8 +48,11 @@ export class Request {
   /**
    * Register actions from the repository config.
    */
-  private registerActions (): void {
-    const actions = { ...this.repository.config.axiosApi?.actions, ...this.repository.getModel().$config()?.axiosApi?.actions }
+  private registerActions(): void {
+    const actions = {
+      ...this.repository.config.axiosApi?.actions,
+      ...this.repository.getModel().$config()?.axiosApi?.actions,
+    }
 
     if (!actions) {
       return
@@ -66,7 +70,7 @@ export class Request {
   /**
    * Register the given object action.
    */
-  private registerObjectAction (name: string, action: any): void {
+  private registerObjectAction(name: string, action: any): void {
     this[name] = (config: Config) => {
       return this.request({ ...action, ...config })
     }
@@ -75,49 +79,49 @@ export class Request {
   /**
    * Register the given function action.
    */
-  private registerFunctionAction (name: string, action: any): void {
+  private registerFunctionAction(name: string, action: any): void {
     this[name] = action.bind(this)
   }
 
   /**
    * Perform a get request.
    */
-  get (url: string, config: Config = {}): Promise<Response> {
+  get(url: string, config: Config = {}): Promise<Response> {
     return this.request({ method: 'get', url, ...config })
   }
 
   /**
    * Perform a post request.
    */
-  post (url: string, data: any = {}, config: Config = {}): Promise<Response> {
+  post(url: string, data: any = {}, config: Config = {}): Promise<Response> {
     return this.request({ method: 'post', url, data, ...config })
   }
 
   /**
    * Perform a put request.
    */
-  put (url: string, data: any = {}, config: Config = {}): Promise<Response> {
+  put(url: string, data: any = {}, config: Config = {}): Promise<Response> {
     return this.request({ method: 'put', url, data, ...config })
   }
 
   /**
    * Perform a patch request.
    */
-  patch (url: string, data: any = {}, config: Config = {}): Promise<Response> {
+  patch(url: string, data: any = {}, config: Config = {}): Promise<Response> {
     return this.request({ method: 'patch', url, data, ...config })
   }
 
   /**
    * Perform a delete request.
    */
-  delete (url: string, config: Config = {}): Promise<Response> {
+  delete(url: string, config: Config = {}): Promise<Response> {
     return this.request({ method: 'delete', url, ...config })
   }
 
   /**
    * Perform an api request.
    */
-  async request (config: Config): Promise<Response> {
+  async request(config: Config): Promise<Response> {
     const requestConfig = this.createConfig(config)
 
     const axiosResponse = await this.axios.request(requestConfig)
@@ -129,7 +133,7 @@ export class Request {
    * Create a new config by merging the global config, the repository config,
    * and the given config.
    */
-  private createConfig (config: Config): Config {
+  private createConfig(config: Config): Config {
     return {
       ...this.config,
       ...this.repository.globalApiConfig,
@@ -142,7 +146,7 @@ export class Request {
    * Create a new response instance by applying a few initialization processes.
    * For example, it saves response data if `save` option id set to `true`.
    */
-  private async createResponse (
+  private async createResponse(
     axiosResponse: AxiosResponse,
     config: Config,
   ): Promise<Response> {

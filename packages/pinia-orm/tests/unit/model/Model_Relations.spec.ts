@@ -2,12 +2,19 @@ import { describe, expect, it } from 'vitest'
 import { Model, useRepo } from '../../../src'
 import {
   Attr,
-  BelongsTo, BelongsToMany,
+  BelongsTo,
+  BelongsToMany,
   HasMany,
   HasManyBy,
-  HasManyThrough, HasOne,
+  HasManyThrough,
+  HasOne,
   MorphMany,
-  MorphOne, MorphTo, MorphToMany, MorphedByMany, Num, Str,
+  MorphOne,
+  MorphTo,
+  MorphToMany,
+  MorphedByMany,
+  Num,
+  Str,
 } from '../../../src/decorators'
 
 describe('unit/model/Model_Relations', () => {
@@ -21,7 +28,13 @@ describe('unit/model/Model_Relations', () => {
   class Tag extends Model {
     static entity = 'tags'
 
-    @MorphedByMany(() => User, () => Taggable, 'tagId', 'taggableId', 'taggableType')
+    @MorphedByMany(
+      () => User,
+      () => Taggable,
+      'tagId',
+      'taggableId',
+      'taggableType',
+    )
     declare users: User[]
 
     @Attr() declare id: number
@@ -91,25 +104,34 @@ describe('unit/model/Model_Relations', () => {
     @Attr() nameIds!: number[]
 
     @HasOne(() => Phone, 'userId')
-      phone!: Phone | null
+    phone!: Phone | null
 
     @BelongsTo(() => Country, 'countryId')
-      country!: Country | null
+    country!: Country | null
 
     @HasMany(() => Post, 'userId')
-      posts!: Post[]
+    posts!: Post[]
 
     @HasManyBy(() => Name, 'nameIds')
-      names!: Name[]
+    names!: Name[]
 
     @MorphOne(() => Image, 'imageableId', 'imageableType')
-      image!: Image | null
+    image!: Image | null
 
-    @BelongsToMany(() => Role, () => RoleUser, 'userId', 'roleId') declare roles: Role[]
+    @BelongsToMany(() => Role, () => RoleUser, 'userId', 'roleId')
+    declare roles: Role[]
 
-    @MorphToMany(() => Tag, () => Taggable, 'tagId', 'taggableId', 'taggableType') declare tags: Tag[]
+    @MorphToMany(
+      () => Tag,
+      () => Taggable,
+      'tagId',
+      'taggableId',
+      'taggableType',
+    )
+    declare tags: Tag[]
 
-    @MorphMany(() => Comment, 'commentableId', 'commentableType') declare comments: Comment[]
+    @MorphMany(() => Comment, 'commentableId', 'commentableType')
+    declare comments: Comment[]
   }
 
   class Image extends Model {
@@ -120,7 +142,7 @@ describe('unit/model/Model_Relations', () => {
     @Attr() imageableType!: string
 
     @MorphTo(() => [User], 'imageableId', 'imageableType')
-      imageable!: User | null
+    imageable!: User | null
   }
 
   it('fills "has one" relation', () => {
@@ -228,11 +250,13 @@ describe('unit/model/Model_Relations', () => {
 
     const user = userRepo.make({
       id: 1,
-      comments: [{
-        id: 2,
-        commentableId: 1,
-        commentableType: 'users',
-      }],
+      comments: [
+        {
+          id: 2,
+          commentableId: 1,
+          commentableType: 'users',
+        },
+      ],
     })
 
     expect(user.comments[0]).toBeInstanceOf(Comment)

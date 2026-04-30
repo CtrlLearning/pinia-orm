@@ -1,24 +1,27 @@
 export default class PolymorphicSchema {
-  constructor (definition, schemaAttribute) {
+  constructor(definition, schemaAttribute) {
     if (schemaAttribute) {
-      this._schemaAttribute = typeof schemaAttribute === 'string' ? input => input[schemaAttribute] : schemaAttribute
+      this._schemaAttribute =
+        typeof schemaAttribute === 'string'
+          ? (input) => input[schemaAttribute]
+          : schemaAttribute
     }
     this.define(definition)
   }
 
-  get isSingleSchema () {
+  get isSingleSchema() {
     return !this._schemaAttribute
   }
 
-  define (definition) {
+  define(definition) {
     this.schema = definition
   }
 
-  getSchemaAttribute (input, parent, key) {
+  getSchemaAttribute(input, parent, key) {
     return !this.isSingleSchema && this._schemaAttribute(input, parent, key)
   }
 
-  inferSchema (input, parent, key) {
+  inferSchema(input, parent, key) {
     if (this.isSingleSchema) {
       return this.schema
     }
@@ -27,14 +30,26 @@ export default class PolymorphicSchema {
     return this.schema[attr]
   }
 
-  normalizeValue (value, parent, key, visit, addEntity, visitedEntities) {
+  normalizeValue(value, parent, key, visit, addEntity, visitedEntities) {
     const schema = this.inferSchema(value, parent, key)
     if (!schema) {
       return value
     }
-    const normalizedValue = visit(value, parent, key, schema, addEntity, visitedEntities)
-    return this.isSingleSchema || normalizedValue === undefined || normalizedValue === null
+    const normalizedValue = visit(
+      value,
+      parent,
+      key,
+      schema,
+      addEntity,
+      visitedEntities,
+    )
+    return this.isSingleSchema ||
+      normalizedValue === undefined ||
+      normalizedValue === null
       ? normalizedValue
-      : { id: normalizedValue, schema: this.getSchemaAttribute(value, parent, key) }
+      : {
+          id: normalizedValue,
+          schema: this.getSchemaAttribute(value, parent, key),
+        }
   }
 }

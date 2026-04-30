@@ -4,7 +4,7 @@ import type { PropertyDecorator } from '../../Contracts'
 /**
  * Create a has-many attribute property decorator.
  */
-export function HasManyThrough (
+export function HasManyThrough(
   related: () => typeof Model,
   through: () => typeof Model,
   firstKey: string,
@@ -16,7 +16,14 @@ export function HasManyThrough (
     const self = target.$self()
 
     self.setRegistry(propertyKey, () =>
-      self.hasManyThrough(related(), through(), firstKey, secondKey, localKey, secondLocalKey),
+      self.hasManyThrough(
+        related(),
+        through(),
+        firstKey,
+        secondKey,
+        localKey,
+        secondLocalKey,
+      ),
     )
   }
 }

@@ -9,10 +9,10 @@ describe('feature/relations/belongs_to_many_save', () => {
 
     @Num(0) id!: number
     @BelongsToMany(() => Role, () => RoleUser, 'user_id', 'role_id')
-      roles!: Role
+    roles!: Role
 
     @BelongsToMany(() => Role, () => SuperRoleUser, 'user_id', 'role_id')
-      superRoles!: Role
+    superRoles!: Role
   }
 
   class Role extends Model {
@@ -103,7 +103,7 @@ describe('feature/relations/belongs_to_many_save', () => {
 
       static primaryKey = ['retailerId', 'supplierId']
 
-      static fields () {
+      static fields() {
         return {
           supplierId: this.number(null),
           retailerId: this.number(null),
@@ -114,12 +114,22 @@ describe('feature/relations/belongs_to_many_save', () => {
     class Client extends Model {
       static entity = 'clients'
 
-      static fields () {
+      static fields() {
         return {
           id: this.number(0),
           name: this.string(null),
-          retailers: this.belongsToMany(Client, ClientRetailer, 'supplierId', 'retailerId'),
-          suppliers: this.belongsToMany(Client, ClientRetailer, 'retailerId', 'supplierId'),
+          retailers: this.belongsToMany(
+            Client,
+            ClientRetailer,
+            'supplierId',
+            'retailerId',
+          ),
+          suppliers: this.belongsToMany(
+            Client,
+            ClientRetailer,
+            'retailerId',
+            'supplierId',
+          ),
         }
       }
     }
@@ -196,34 +206,33 @@ describe('feature/relations/belongs_to_many_save', () => {
 
     assertState({
       client_retailers: {
-        '[1,4]': { 'supplierId': 4, 'retailerId': 1, 'retailerCode': '104' },
-        '[3,2]': { 'supplierId': 2, 'retailerId': 3, 'retailerCode': '302' },
-        '[5,2]': { 'supplierId': 2, 'retailerId': 5, 'retailerCode': '502' },
-        '[4,1]': { 'supplierId': 1, 'retailerId': 4, 'retailerCode': '401' },
-        '[5,4]': { 'supplierId': 4, 'retailerId': 5, 'retailerCode': '504' },
-        '[5,1]': { 'supplierId': 1, 'retailerId': 5, 'retailerCode': '501' },
-
+        '[1,4]': { supplierId: 4, retailerId: 1, retailerCode: '104' },
+        '[3,2]': { supplierId: 2, retailerId: 3, retailerCode: '302' },
+        '[5,2]': { supplierId: 2, retailerId: 5, retailerCode: '502' },
+        '[4,1]': { supplierId: 1, retailerId: 4, retailerCode: '401' },
+        '[5,4]': { supplierId: 4, retailerId: 5, retailerCode: '504' },
+        '[5,1]': { supplierId: 1, retailerId: 5, retailerCode: '501' },
       },
       clients: {
         1: {
-          'id': 1,
-          'name': 'Client 1',
+          id: 1,
+          name: 'Client 1',
         },
         2: {
-          'id': 2,
-          'name': 'Client 2',
+          id: 2,
+          name: 'Client 2',
         },
         3: {
-          'id': 3,
-          'name': 'Client 3',
+          id: 3,
+          name: 'Client 3',
         },
         4: {
-          'id': 4,
-          'name': 'Client 4',
+          id: 4,
+          name: 'Client 4',
         },
         5: {
-          'id': 5,
-          'name': 'Client 5',
+          id: 5,
+          name: 'Client 5',
         },
       },
     })

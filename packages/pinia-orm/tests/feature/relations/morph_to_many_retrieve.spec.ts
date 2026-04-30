@@ -10,7 +10,13 @@ describe('feature/relations/morph_to_many_retrieve', () => {
 
     @Attr() id!: number
     @Str('') name!: string
-    @MorphToMany(() => Tag, { as: 'userPivot', model: () => Taggable }, 'tag_id', 'taggable_id', 'taggable_type')
+    @MorphToMany(
+      () => Tag,
+      { as: 'userPivot', model: () => Taggable },
+      'tag_id',
+      'taggable_id',
+      'taggable_type',
+    )
     declare tags: Tag[]
   }
 
@@ -19,7 +25,13 @@ describe('feature/relations/morph_to_many_retrieve', () => {
 
     @Attr() id!: number
     @Str('') name!: string
-    @MorphToMany(() => Tag, () => Taggable, 'tag_id', 'taggable_id', 'taggable_type')
+    @MorphToMany(
+      () => Tag,
+      () => Taggable,
+      'tag_id',
+      'taggable_id',
+      'taggable_type',
+    )
     declare tags: Tag[]
   }
 
@@ -58,9 +70,24 @@ describe('feature/relations/morph_to_many_retrieve', () => {
         2: { id: 2 },
       },
       taggables: {
-        '[1,1,"users"]': { tag_id: 1, taggable_id: 1, taggable_type: 'users', level: 1 },
-        '[2,3,"videos"]': { tag_id: 2, taggable_id: 3, taggable_type: 'videos', level: 2 },
-        '[2,1,"users"]': { tag_id: 2, taggable_id: 1, taggable_type: 'users', level: null },
+        '[1,1,"users"]': {
+          tag_id: 1,
+          taggable_id: 1,
+          taggable_type: 'users',
+          level: 1,
+        },
+        '[2,3,"videos"]': {
+          tag_id: 2,
+          taggable_id: 3,
+          taggable_type: 'videos',
+          level: 2,
+        },
+        '[2,1,"users"]': {
+          tag_id: 2,
+          taggable_id: 1,
+          taggable_type: 'users',
+          level: null,
+        },
       },
     })
 
@@ -95,10 +122,30 @@ describe('feature/relations/morph_to_many_retrieve', () => {
         2: { id: 2 },
       },
       taggables: {
-        '[1,1,"users"]': { tag_id: 1, taggable_id: 1, taggable_type: 'users', level: 1 },
-        '[1,1,"videos"]': { tag_id: 1, taggable_id: 1, taggable_type: 'videos', level: 2 },
-        '[2,1,"users"]': { tag_id: 2, taggable_id: 1, taggable_type: 'users', level: null },
-        '[2,2,"videos"]': { tag_id: 2, taggable_id: 2, taggable_type: 'videos', level: 3 },
+        '[1,1,"users"]': {
+          tag_id: 1,
+          taggable_id: 1,
+          taggable_type: 'users',
+          level: 1,
+        },
+        '[1,1,"videos"]': {
+          tag_id: 1,
+          taggable_id: 1,
+          taggable_type: 'videos',
+          level: 2,
+        },
+        '[2,1,"users"]': {
+          tag_id: 2,
+          taggable_id: 1,
+          taggable_type: 'users',
+          level: null,
+        },
+        '[2,2,"videos"]': {
+          tag_id: 2,
+          taggable_id: 2,
+          taggable_type: 'videos',
+          level: 3,
+        },
       },
     })
 
@@ -156,8 +203,18 @@ describe('feature/relations/morph_to_many_retrieve', () => {
         2: { id: 2 },
       },
       taggables: {
-        '[1,1,"users"]': { tag_id: 1, taggable_id: 1, taggable_type: 'users', level: 1 },
-        '[2,1,"users"]': { tag_id: 2, taggable_id: 1, taggable_type: 'users', level: null },
+        '[1,1,"users"]': {
+          tag_id: 1,
+          taggable_id: 1,
+          taggable_type: 'users',
+          level: 1,
+        },
+        '[2,1,"users"]': {
+          tag_id: 2,
+          taggable_id: 1,
+          taggable_type: 'users',
+          level: null,
+        },
       },
     })
 

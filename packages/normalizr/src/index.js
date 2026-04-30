@@ -8,23 +8,31 @@ const visit = (value, parent, key, schema, addEntity, visitedEntities) => {
     return value
   }
 
-  if (typeof schema === 'object' && (!schema.normalize || typeof schema.normalize !== 'function')) {
-    const method = Array.isArray(schema) ? ArrayUtils.normalize : ObjectUtils.normalize
+  if (
+    typeof schema === 'object' &&
+    (!schema.normalize || typeof schema.normalize !== 'function')
+  ) {
+    const method = Array.isArray(schema)
+      ? ArrayUtils.normalize
+      : ObjectUtils.normalize
     return method(schema, value, parent, key, visit, addEntity, visitedEntities)
   }
 
   return schema.normalize(value, parent, key, visit, addEntity, visitedEntities)
 }
 
-const addEntities = entities => (schema, processedEntity, value, parent, key) => {
-  const schemaKey = schema.key
-  const id = schema.getId(value, parent, key)
-  if (!(schemaKey in entities)) {
-    entities[schemaKey] = {}
-  }
+const addEntities =
+  (entities) => (schema, processedEntity, value, parent, key) => {
+    const schemaKey = schema.key
+    const id = schema.getId(value, parent, key)
+    if (!(schemaKey in entities)) {
+      entities[schemaKey] = {}
+    }
 
-  entities[schemaKey][id] = entities[schemaKey][id] ? schema.merge(entities[schemaKey][id], processedEntity) : processedEntity
-}
+    entities[schemaKey][id] = entities[schemaKey][id]
+      ? schema.merge(entities[schemaKey][id], processedEntity)
+      : processedEntity
+  }
 
 export const schema = {
   Array: ArraySchema,

@@ -2,10 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { Model, useRepo } from '../../../src'
 import { Num, Str } from '../../../src/decorators'
-import {
-  assertState,
-  fillState,
-} from '../../helpers'
+import { assertState, fillState } from '../../helpers'
 
 describe('feature/hooks/updated', () => {
   it('does nothing when passing in an empty array', () => {
@@ -16,7 +13,7 @@ describe('feature/hooks/updated', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static updated (model: Model) {
+      static updated(model: Model) {
         model.name = 'John'
       }
     }
@@ -48,7 +45,7 @@ describe('feature/hooks/updated', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static updated () {
+      static updated() {
         // Doing updated stuff
       }
     }

@@ -62,9 +62,7 @@ describe('feature/relations/has_many_through_retrieve', () => {
     })
     assertModel(countries[1], {
       id: 2,
-      posts: [
-        { id: 3, userId: 3, title: 'Title 03' },
-      ],
+      posts: [{ id: 3, userId: 3, title: 'Title 03' }],
     })
   })
 

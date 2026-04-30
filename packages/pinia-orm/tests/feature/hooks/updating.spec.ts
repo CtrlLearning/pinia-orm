@@ -2,10 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { Model, useRepo } from '../../../src'
 import { Num, Str } from '../../../src/decorators'
-import {
-  assertState,
-  fillState,
-} from '../../helpers'
+import { assertState, fillState } from '../../helpers'
 
 describe('feature/hooks/updating', () => {
   it('does nothing when passing in an empty array', () => {
@@ -16,7 +13,7 @@ describe('feature/hooks/updating', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static updating (model: Model) {
+      static updating(model: Model) {
         model.name = 'John'
       }
     }
@@ -48,7 +45,7 @@ describe('feature/hooks/updating', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static updating (model: Model) {
+      static updating(model: Model) {
         expect(model.$isDirty()).toBe(true)
         model.name = 'John'
       }
@@ -92,7 +89,7 @@ describe('feature/hooks/updating', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static updating (model: Model) {
+      static updating(model: Model) {
         expect(model.$isDirty()).toBe(false)
         model.name = 'John'
       }
@@ -126,7 +123,7 @@ describe('feature/hooks/updating', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static updating () {
+      static updating() {
         return false
       }
     }

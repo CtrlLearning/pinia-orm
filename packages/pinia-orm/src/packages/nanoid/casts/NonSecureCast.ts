@@ -9,11 +9,11 @@ export class UidCast extends CastAttribute {
   /**
    * Create a new String attribute instance.
    */
-  constructor (attributes: ModelFields) {
+  constructor(attributes: ModelFields) {
     super(attributes)
   }
 
-  static withParameters (parameters?: NanoidOptions): typeof CastAttribute {
+  static withParameters(parameters?: NanoidOptions): typeof CastAttribute {
     this.parameters = parameters
     return this
   }
@@ -21,8 +21,10 @@ export class UidCast extends CastAttribute {
   /**
    * Make the value for the attribute.
    */
-  set (value: any): string | null {
-    const nanoid = this.$parameters?.alphabet ? customAlphabet(this.$parameters.alphabet) : urlAlphabet
+  set(value: any): string | null {
+    const nanoid = this.$parameters?.alphabet
+      ? customAlphabet(this.$parameters.alphabet)
+      : urlAlphabet
     return value ?? nanoid(this.$parameters?.size)
   }
 }

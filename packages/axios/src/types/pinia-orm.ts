@@ -1,4 +1,8 @@
-import type { FilledInstallOptions as FOptions, InstallOptions as IOptions, ModelConfigOptions as MCOptions } from 'pinia-orm'
+import type {
+  FilledInstallOptions as FOptions,
+  InstallOptions as IOptions,
+  ModelConfigOptions as MCOptions,
+} from 'pinia-orm'
 import type { Config, InstallConfig } from './config'
 
 declare module 'pinia-orm' {

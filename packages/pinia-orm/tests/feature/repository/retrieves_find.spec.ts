@@ -91,9 +91,11 @@ describe('feature/repository/retrieves_find', () => {
       { id: 3, name: 'Johnny Doe' },
     ])
 
-    const users2 = userRepo.useCache('users', {
-      ids: [1, 3],
-    }).find([1, 3])
+    const users2 = userRepo
+      .useCache('users', {
+        ids: [1, 3],
+      })
+      .find([1, 3])
 
     expect(users2.length).toBe(2)
     assertInstanceOf(users2, User)

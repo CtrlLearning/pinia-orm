@@ -16,7 +16,13 @@ describe('feature/relations/morph_to_many_save_custom_key', () => {
       static primaryKey = 'morphToManyId'
 
       @Num(0) declare morphToManyId: number
-      @MorphToMany(() => Role, () => Roleable, 'roleId', 'rolableId', 'rolableType')
+      @MorphToMany(
+        () => Role,
+        () => Roleable,
+        'roleId',
+        'rolableId',
+        'rolableType',
+      )
       declare permissions: Role[]
     }
 
@@ -58,9 +64,24 @@ describe('feature/relations/morph_to_many_save_custom_key', () => {
         2: { id: 2 },
       },
       roleables: {
-        '[1,1,"users"]': { roleId: 1, rolableId: 1, rolableType: 'users', level: 1 },
-        '[2,1,"users"]': { roleId: 2, rolableId: 1, rolableType: 'users', level: null },
-        '[2,2,"users"]': { roleId: 2, rolableId: 2, rolableType: 'users', level: null },
+        '[1,1,"users"]': {
+          roleId: 1,
+          rolableId: 1,
+          rolableType: 'users',
+          level: 1,
+        },
+        '[2,1,"users"]': {
+          roleId: 2,
+          rolableId: 1,
+          rolableType: 'users',
+          level: null,
+        },
+        '[2,2,"users"]': {
+          roleId: 2,
+          rolableId: 2,
+          rolableType: 'users',
+          level: null,
+        },
       },
     })
   })
@@ -69,7 +90,7 @@ describe('feature/relations/morph_to_many_save_custom_key', () => {
     class Contact extends Model {
       static entity = 'contacts'
 
-      static fields () {
+      static fields() {
         return {
           id: this.uid(),
           userId: this.attr(null),
@@ -81,10 +102,16 @@ describe('feature/relations/morph_to_many_save_custom_key', () => {
     class User extends Model {
       static entity = 'users'
 
-      static fields () {
+      static fields() {
         return {
           id: this.uid(),
-          groups: this.morphToMany(Group, Groupable, 'groupId', 'groupableId', 'groupableType'),
+          groups: this.morphToMany(
+            Group,
+            Groupable,
+            'groupId',
+            'groupableId',
+            'groupableType',
+          ),
           prename: this.string('naame'),
         }
       }
@@ -93,7 +120,7 @@ describe('feature/relations/morph_to_many_save_custom_key', () => {
     class Group extends Model {
       static entity = 'groups'
 
-      static fields () {
+      static fields() {
         return {
           id: this.uid(),
           name: this.string('group'),
@@ -105,7 +132,7 @@ describe('feature/relations/morph_to_many_save_custom_key', () => {
       static entity = 'groupables'
       static primaryKey = ['groupId', 'groupableId', 'groupableType']
 
-      static fields () {
+      static fields() {
         return {
           groupId: this.attr(null),
           groupableId: this.attr(null),
@@ -119,10 +146,12 @@ describe('feature/relations/morph_to_many_save_custom_key', () => {
       user: {
         id: 1,
         prename: 'blub',
-        groups: [{
-          id: 1,
-          name: 'hoho',
-        }],
+        groups: [
+          {
+            id: 1,
+            name: 'hoho',
+          },
+        ],
       },
     })
 
@@ -149,8 +178,14 @@ describe('feature/relations/morph_to_many_save_custom_key', () => {
       static primaryKey = 'belongsToManyId'
 
       @Num(0) belongsToManyId!: number
-      @MorphToMany(() => Role, () => Roleable, 'roleId', 'rolableId', 'rolableType')
-        permissions!: Role
+      @MorphToMany(
+        () => Role,
+        () => Roleable,
+        'roleId',
+        'rolableId',
+        'rolableType',
+      )
+      permissions!: Role
     }
 
     class Role extends Model {
@@ -193,9 +228,24 @@ describe('feature/relations/morph_to_many_save_custom_key', () => {
         2: { newRoleId: 2 },
       },
       rolables: {
-        '[1,1,"users"]': { roleId: 1, rolableId: 1, rolableType: 'users', level: 1 },
-        '[2,1,"users"]': { roleId: 2, rolableId: 1, rolableType: 'users', level: null },
-        '[2,2,"users"]': { roleId: 2, rolableId: 2, rolableType: 'users', level: null },
+        '[1,1,"users"]': {
+          roleId: 1,
+          rolableId: 1,
+          rolableType: 'users',
+          level: 1,
+        },
+        '[2,1,"users"]': {
+          roleId: 2,
+          rolableId: 1,
+          rolableType: 'users',
+          level: null,
+        },
+        '[2,2,"users"]': {
+          roleId: 2,
+          rolableId: 2,
+          rolableType: 'users',
+          level: null,
+        },
       },
     })
   })

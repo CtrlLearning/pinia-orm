@@ -13,11 +13,11 @@ export class UidCast extends CastAttribute {
   /**
    * Create a new String attribute instance.
    */
-  constructor (attributes: ModelFields) {
+  constructor(attributes: ModelFields) {
     super(attributes)
   }
 
-  static withParameters (parameters?: NanoidOptions): typeof CastAttribute {
+  static withParameters(parameters?: NanoidOptions): typeof CastAttribute {
     this.parameters = parameters
     return this
   }
@@ -25,8 +25,10 @@ export class UidCast extends CastAttribute {
   /**
    * Make the value for the attribute.
    */
-  async set (value: any): Promise<string | null> {
-    const nanoid = this.$parameters?.alphabet ? customAlphabet(this.$parameters.alphabet) : urlAlphabet
-    return value ?? await nanoid(this.$parameters?.size)
+  async set(value: any): Promise<string | null> {
+    const nanoid = this.$parameters?.alphabet
+      ? customAlphabet(this.$parameters.alphabet)
+      : urlAlphabet
+    return value ?? (await nanoid(this.$parameters?.size))
   }
 }

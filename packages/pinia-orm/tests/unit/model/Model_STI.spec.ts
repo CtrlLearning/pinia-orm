@@ -13,14 +13,14 @@ describe('unit/model/Model_STI', () => {
     class Animal extends Model {
       static entity = 'animals'
 
-      static fields () {
+      static fields() {
         return {
           id: this.attr(null),
           type: this.attr('animal'),
         }
       }
 
-      static types () {
+      static types() {
         return {
           animal: Animal,
           dog: Dog,
@@ -33,7 +33,7 @@ describe('unit/model/Model_STI', () => {
 
       static baseEntity = 'animals'
 
-      static fields () {
+      static fields() {
         return {
           ...super.fields(),
           type: this.attr('dog'),
@@ -89,7 +89,7 @@ describe('unit/model/Model_STI', () => {
       @Attr(null) id!: number | null
       @Attr('animal') type!: string
 
-      static types () {
+      static types() {
         return {
           animal: Animal,
           dog: Dog,
@@ -102,7 +102,7 @@ describe('unit/model/Model_STI', () => {
 
       static baseEntity = 'animals'
 
-      static fields () {
+      static fields() {
         return {
           ...super.schemas[super.entity],
         }
@@ -143,14 +143,14 @@ describe('unit/model/Model_STI', () => {
 
       static typeKey = 'type'
 
-      static types () {
+      static types() {
         return {
           0: AnonymousPost,
           1: UserPost,
         }
       }
 
-      static fields () {
+      static fields() {
         return {
           id: this.attr(null),
           title: this.attr(''),
@@ -168,7 +168,7 @@ describe('unit/model/Model_STI', () => {
 
       static baseEntity = 'anonymousPosts'
 
-      static fields () {
+      static fields() {
         return {
           ...super.fields(),
           user_id: this.attr(null),
@@ -180,7 +180,7 @@ describe('unit/model/Model_STI', () => {
     class Image extends Model {
       static entity = 'images'
 
-      static fields () {
+      static fields() {
         return {
           id: this.attr(null),
           title: this.attr(''),
@@ -192,7 +192,7 @@ describe('unit/model/Model_STI', () => {
     class User extends Model {
       static entity = 'users'
 
-      static fields () {
+      static fields() {
         return {
           id: this.attr(null),
           name: this.attr(''),
@@ -264,14 +264,14 @@ describe('unit/model/Model_STI', () => {
     class Person extends Model {
       static entity = 'person'
 
-      static types () {
+      static types() {
         return {
           PERSON: Person,
           ADULT: Adult,
         }
       }
 
-      static fields () {
+      static fields() {
         return {
           id: this.attr(null),
           name: this.attr(''),
@@ -284,7 +284,7 @@ describe('unit/model/Model_STI', () => {
 
       static baseEntity = 'person'
 
-      static fields () {
+      static fields() {
         return {
           ...super.fields(),
           job: this.attr(''),
@@ -318,7 +318,7 @@ describe('unit/model/Model_STI', () => {
       static primaryKey = '@id'
       static typeKey = '@type'
 
-      static types () {
+      static types() {
         return {
           Personne,
           PersonneMorale,
@@ -326,11 +326,11 @@ describe('unit/model/Model_STI', () => {
         }
       }
 
-      static fields () {
+      static fields() {
         return {
           '@id': this.string(),
           '@type': this.string(),
-          'id': this.number(),
+          id: this.number(),
         }
       }
     }
@@ -339,7 +339,7 @@ describe('unit/model/Model_STI', () => {
       static entity = 'PersonnePhysique'
       static baseEntity = 'Personne'
 
-      static fields () {
+      static fields() {
         return {
           ...super.fields(),
           prenom: this.string(),
@@ -352,7 +352,7 @@ describe('unit/model/Model_STI', () => {
       static entity = 'PersonneMorale'
       static baseEntity = 'Personne'
 
-      static fields () {
+      static fields() {
         return {
           ...super.fields(),
           enseigne: this.string(),
@@ -365,17 +365,17 @@ describe('unit/model/Model_STI', () => {
     const personneMorale = {
       '@id': '/api/personne_morales/1',
       '@type': 'PersonneMorale',
-      'id': 1,
-      'enseigne': 'Business',
-      'raisonSociale': 'Super',
+      id: 1,
+      enseigne: 'Business',
+      raisonSociale: 'Super',
     }
 
     const personnePhysique = {
       '@id': '/api/personne_physiques/1',
       '@type': 'PersonnePhysique',
-      'id': 2,
-      'prenom': 'John',
-      'nom': 'Doe',
+      id: 2,
+      prenom: 'John',
+      nom: 'Doe',
     }
 
     const personneMoraleRepo = useRepo(PersonneMorale)

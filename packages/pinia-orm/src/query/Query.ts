@@ -9,7 +9,14 @@ import {
   isFunction,
   orderBy,
 } from '../support/Utils'
-import type { Collection, Element, Elements, GroupedCollection, Item, NormalizedData } from '../data/Data'
+import type {
+  Collection,
+  Element,
+  Elements,
+  GroupedCollection,
+  Item,
+  NormalizedData,
+} from '../data/Data'
 import type { Database } from '../database/Database'
 import { Relation } from '../model/attributes/relations/Relation'
 import { MorphTo } from '../model/attributes/relations/MorphTo'
@@ -88,7 +95,9 @@ export class Query<M extends Model = Model> {
   /**
    * The cache object.
    */
-  protected cache?: WeakCache<string, Collection<M> | GroupedCollection<M>> | undefined
+  protected cache?:
+    | WeakCache<string, Collection<M> | GroupedCollection<M>>
+    | undefined
 
   /**
    * The relationships that should be eager loaded.
@@ -114,7 +123,13 @@ export class Query<M extends Model = Model> {
   /**
    * Create a new query instance.
    */
-  constructor (database: Database, model: M, cache: WeakCache<string, Collection<M> | GroupedCollection<M>> | undefined, hydratedData: Map<string, M>, pinia?: Pinia) {
+  constructor(
+    database: Database,
+    model: M,
+    cache: WeakCache<string, Collection<M> | GroupedCollection<M>> | undefined,
+    hydratedData: Map<string, M>,
+    pinia?: Pinia,
+  ) {
     this.database = database
     this.model = model
     this.pinia = pinia
@@ -126,16 +141,28 @@ export class Query<M extends Model = Model> {
   /**
    * Create a new query instance for the given model.
    */
-  newQuery (model: string): Query<M> {
+  newQuery(model: string): Query<M> {
     this.getNewHydrated = true
-    return new Query<M>(this.database, this.database.getModel(model), this.cache, this.hydratedDataCache, this.pinia)
+    return new Query<M>(
+      this.database,
+      this.database.getModel(model),
+      this.cache,
+      this.hydratedDataCache,
+      this.pinia,
+    )
   }
 
   /**
    * Create a new query instance with constraints for the given model.
    */
-  newQueryWithConstraints (model: string): Query<M> {
-    const newQuery = new Query<M>(this.database, this.database.getModel(model), this.cache, this.hydratedDataCache, this.pinia)
+  newQueryWithConstraints(model: string): Query<M> {
+    const newQuery = new Query<M>(
+      this.database,
+      this.database.getModel(model),
+      this.cache,
+      this.hydratedDataCache,
+      this.pinia,
+    )
 
     // Copy query constraints
     newQuery.eagerLoad = { ...this.eagerLoad }
@@ -152,30 +179,57 @@ export class Query<M extends Model = Model> {
   /**
    * Create a new query instance from the given relation.
    */
-  newQueryForRelation (relation: Relation): Query<M> {
-    return new Query<M>(this.database, relation.getRelated() as M, this.cache, new Map<string, M>(), this.pinia)
+  newQueryForRelation(relation: Relation): Query<M> {
+    return new Query<M>(
+      this.database,
+      relation.getRelated() as M,
+      this.cache,
+      new Map<string, M>(),
+      this.pinia,
+    )
   }
 
   /**
    * Create a new interpreter instance.
    */
-  protected newInterpreter (): Interpreter {
+  protected newInterpreter(): Interpreter {
     return new Interpreter(this.model)
   }
 
   /**
    * Commit a store action and get the data
    */
-  protected commit (name: StoreActions | 'all' | 'get', payload?: any) {
-    const store = useDataStore(this.model.$storeName(), this.model.$piniaOptions(), this.model.$piniaExtend(), this)(this.pinia)
+  protected commit(name: StoreActions | 'all' | 'get', payload?: any) {
+    const store = useDataStore(
+      this.model.$storeName(),
+      this.model.$piniaOptions(),
+      this.model.$piniaExtend(),
+      this,
+    )(this.pinia)
 
     if (import.meta.hot) {
-      import.meta.hot.accept(acceptHMRUpdate(store as DataStore, import.meta.hot))
+      import.meta.hot.accept(
+        acceptHMRUpdate(store as DataStore, import.meta.hot),
+      )
     }
 
-    if (name && name !== 'all' && name !== 'get' && typeof store[name] === 'function') { store[name](payload, false) }
+    if (
+      name &&
+      name !== 'all' &&
+      name !== 'get' &&
+      typeof store[name] === 'function'
+    ) {
+      store[name](payload, false)
+    }
 
-    if (this.cache && ['get', 'all', 'insert', 'flush', 'delete', 'update', 'destroy'].includes(name)) { this.cache.clear() }
+    if (
+      this.cache &&
+      ['get', 'all', 'insert', 'flush', 'delete', 'update', 'destroy'].includes(
+        name,
+      )
+    ) {
+      this.cache.clear()
+    }
 
     return store.$state.data
   }
@@ -183,14 +237,14 @@ export class Query<M extends Model = Model> {
   /**
    * Make meta field visible
    */
-  withMeta (): this {
+  withMeta(): this {
     return this.makeVisible(['_meta'])
   }
 
   /**
    * Make hidden fields visible
    */
-  makeVisible (fields: string[]): this {
+  makeVisible(fields: string[]): this {
     this.visible = fields
     this.getNewHydrated = true
 
@@ -200,7 +254,7 @@ export class Query<M extends Model = Model> {
   /**
    * Make visible fields hidden
    */
-  makeHidden (fields: string[]): this {
+  makeHidden(fields: string[]): this {
     this.hidden = fields
     this.getNewHydrated = true
 
@@ -212,9 +266,20 @@ export class Query<M extends Model = Model> {
   /**
    * Add a basic where clause to the query.
    */
-  where<T extends WherePrimaryClosure<M> | NonMethodKeys<M> | string[] | (string & {})>(
+  where<
+    T extends
+      | WherePrimaryClosure<M>
+      | NonMethodKeys<M>
+      | string[]
+      | (string & {}),
+  >(
     field: T,
-    value?: T extends string[] ? string | number | (string | number)[] : WhereSecondaryClosure<M[T extends keyof M ? T : never]> | M[T extends keyof M ? T : never] | null,
+    value?: T extends string[]
+      ? string | number | (string | number)[]
+      :
+          | WhereSecondaryClosure<M[T extends keyof M ? T : never]>
+          | M[T extends keyof M ? T : never]
+          | null,
   ): this {
     this.wheres.push({ field, value, boolean: 'and' })
 
@@ -224,48 +289,63 @@ export class Query<M extends Model = Model> {
   /**
    * Add a "where in" clause to the query.
    */
-  whereIn<T extends NonMethodKeys<M>>(field: T | string & {}, values: any[] | Set<any>): this {
-    if (values instanceof Set) { values = Array.from(values) }
+  whereIn<T extends NonMethodKeys<M>>(
+    field: T | (string & {}),
+    values: any[] | Set<any>,
+  ): this {
+    if (values instanceof Set) {
+      values = Array.from(values)
+    }
     return this.where(field, values as any)
   }
 
   /**
    * Add a "where not in" clause to the query.
    */
-  whereNotIn (field: string, values: any[] | Set<any>): this {
-    if (values instanceof Set) { values = Array.from(values) }
-    return this.where(query => !values.includes(query[field as keyof Model]))
+  whereNotIn(field: string, values: any[] | Set<any>): this {
+    if (values instanceof Set) {
+      values = Array.from(values)
+    }
+    return this.where((query) => !values.includes(query[field as keyof Model]))
   }
 
   /**
    * Add a "where not in" clause to the query.
    */
-  orWhereIn (field: string, values: any[] | Set<any>): this {
-    if (values instanceof Set) { values = Array.from(values) }
+  orWhereIn(field: string, values: any[] | Set<any>): this {
+    if (values instanceof Set) {
+      values = Array.from(values)
+    }
     return this.orWhere(field, values as any)
   }
 
   /**
    * Add a "where not in" clause to the query.
    */
-  orWhereNotIn (field: string, values: any[] | Set<any>): this {
-    if (values instanceof Set) { values = Array.from(values) }
-    return this.orWhere(query => !values.includes(query[field as keyof Model]))
+  orWhereNotIn(field: string, values: any[] | Set<any>): this {
+    if (values instanceof Set) {
+      values = Array.from(values)
+    }
+    return this.orWhere(
+      (query) => !values.includes(query[field as keyof Model]),
+    )
   }
 
   /**
    * Add a where clause on the primary key to the query.
    */
-  whereId (ids: string | number | (string | number)[]): this {
+  whereId(ids: string | number | (string | number)[]): this {
     return this.where(this.model.$getKeyName(), ids)
   }
 
   /**
    * Add an "or where" clause to the query.
    */
-  orWhere<T extends WherePrimaryClosure<M> | NonMethodKeys<M> | string & {}>(
+  orWhere<T extends WherePrimaryClosure<M> | NonMethodKeys<M> | (string & {})>(
     field: T,
-    value?: WhereSecondaryClosure<M[T extends keyof M ? T : never]> | M[T extends keyof M ? T : never],
+    value?:
+      | WhereSecondaryClosure<M[T extends keyof M ? T : never]>
+      | M[T extends keyof M ? T : never],
   ): this {
     this.wheres.push({ field, value, boolean: 'or' })
 
@@ -275,77 +355,117 @@ export class Query<M extends Model = Model> {
   /**
    * Add a "whereNULL" clause to the query.
    */
-  whereNull (field: string): this {
+  whereNull(field: string): this {
     return this.where(field, null)
   }
 
   /**
    * Add a "whereNotNULL" clause to the query.
    */
-  whereNotNull (field: string): this {
-    return this.where(query => query[field as keyof Model] != null)
+  whereNotNull(field: string): this {
+    return this.where((query) => query[field as keyof Model] != null)
   }
 
   /**
    * Add a "where has" clause to the query.
    */
-  whereHas<T extends WithKeys<M>>(relation: T | string & {}, callback: M[T] extends Model | Model[] | null ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>> : () => void = () => { }, operator?: string | number, count?: number): this {
-    return this.where(this.getFieldWhereForRelations(relation, callback, operator, count))
+  whereHas<T extends WithKeys<M>>(
+    relation: T | (string & {}),
+    callback: M[T] extends Model | Model[] | null
+      ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>>
+      : () => void = () => {},
+    operator?: string | number,
+    count?: number,
+  ): this {
+    return this.where(
+      this.getFieldWhereForRelations(relation, callback, operator, count),
+    )
   }
 
   /**
    * Add an "or where has" clause to the query.
    */
-  orWhereHas<T extends WithKeys<M>>(relation: T | string & {}, callback: M[T] extends Model | Model[] | null ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>> : () => void = () => { }, operator?: string | number, count?: number): this {
-    return this.orWhere(this.getFieldWhereForRelations(relation, callback, operator, count))
+  orWhereHas<T extends WithKeys<M>>(
+    relation: T | (string & {}),
+    callback: M[T] extends Model | Model[] | null
+      ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>>
+      : () => void = () => {},
+    operator?: string | number,
+    count?: number,
+  ): this {
+    return this.orWhere(
+      this.getFieldWhereForRelations(relation, callback, operator, count),
+    )
   }
 
   /**
    * Add a "has" clause to the query.
    */
-  has (relation: string, operator?: string | number, count?: number): this {
-    return this.where(this.getFieldWhereForRelations(relation, () => { }, operator, count))
+  has(relation: string, operator?: string | number, count?: number): this {
+    return this.where(
+      this.getFieldWhereForRelations(relation, () => {}, operator, count),
+    )
   }
 
   /**
    * Add an "or has" clause to the query.
    */
-  orHas (relation: string, operator?: string | number, count?: number): this {
-    return this.orWhere(this.getFieldWhereForRelations(relation, () => { }, operator, count))
+  orHas(relation: string, operator?: string | number, count?: number): this {
+    return this.orWhere(
+      this.getFieldWhereForRelations(relation, () => {}, operator, count),
+    )
   }
 
   /**
    * Add a "doesn't have" clause to the query.
    */
-  doesntHave (relation: string): this {
-    return this.where(this.getFieldWhereForRelations(relation, () => { }, '=', 0))
+  doesntHave(relation: string): this {
+    return this.where(
+      this.getFieldWhereForRelations(relation, () => {}, '=', 0),
+    )
   }
 
   /**
    * Add a "doesn't have" clause to the query.
    */
-  orDoesntHave (relation: string): this {
-    return this.orWhere(this.getFieldWhereForRelations(relation, () => { }, '=', 0))
+  orDoesntHave(relation: string): this {
+    return this.orWhere(
+      this.getFieldWhereForRelations(relation, () => {}, '=', 0),
+    )
   }
 
   /**
    * Add a "where doesn't have" clause to the query.
    */
-  whereDoesntHave<T extends WithKeys<M>>(relation: T | string & {}, callback: M[T] extends Model | Model[] | null ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>> : () => void = () => { }): this {
-    return this.where(this.getFieldWhereForRelations(relation, callback, '=', 0))
+  whereDoesntHave<T extends WithKeys<M>>(
+    relation: T | (string & {}),
+    callback: M[T] extends Model | Model[] | null
+      ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>>
+      : () => void = () => {},
+  ): this {
+    return this.where(
+      this.getFieldWhereForRelations(relation, callback, '=', 0),
+    )
   }
 
   /**
    * Add an "or where doesn't have" clause to the query.
    */
-  orWhereDoesntHave<T extends WithKeys<M>>(relation: T | string & {}, callback: M[T] extends Model | Model[] | null ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>> : () => void = () => { }): this {
-    return this.orWhere(this.getFieldWhereForRelations(relation, callback, '=', 0))
+  orWhereDoesntHave<T extends WithKeys<M>>(
+    relation: T | (string & {}),
+    callback: M[T] extends Model | Model[] | null
+      ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>>
+      : () => void = () => {},
+  ): this {
+    return this.orWhere(
+      this.getFieldWhereForRelations(relation, callback, '=', 0),
+    )
   }
 
   /**
    * Add a "group by" clause to the query.
    */
-  groupBy (...fields: GroupByFields): this {
+  groupBy(...fields: GroupByFields): this {
     fields.forEach((field) => {
       this.groups.push({ field })
     })
@@ -356,7 +476,7 @@ export class Query<M extends Model = Model> {
   /**
    * Add an "order by" clause to the query.
    */
-  orderBy (field: OrderBy, direction: OrderDirection = 'asc'): this {
+  orderBy(field: OrderBy, direction: OrderDirection = 'asc'): this {
     this.orders.push({ field, direction })
 
     return this
@@ -365,7 +485,7 @@ export class Query<M extends Model = Model> {
   /**
    * Set the "limit" value of the query.
    */
-  limit (value: number): this {
+  limit(value: number): this {
     this.take = value
 
     return this
@@ -374,7 +494,7 @@ export class Query<M extends Model = Model> {
   /**
    * Set the "offset" value of the query.
    */
-  offset (value: number): this {
+  offset(value: number): this {
     this.skip = value
 
     return this
@@ -383,7 +503,12 @@ export class Query<M extends Model = Model> {
   /**
    * Set the relationships that should be eager loaded.
    */
-  with<T extends WithKeys<M>>(name: T | string & {}, callback: M[T] extends Model | Model[] | null ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>> : () => void = () => { }): this {
+  with<T extends WithKeys<M>>(
+    name: T | (string & {}),
+    callback: M[T] extends Model | Model[] | null
+      ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>>
+      : () => void = () => {},
+  ): this {
     this.getNewHydrated = true
     // @ts-expect-error name type can be used
     this.eagerLoad[name] = callback
@@ -394,14 +519,16 @@ export class Query<M extends Model = Model> {
   /**
    * Set to eager load all top-level relationships. Constraint is set for all relationships.
    */
-  withAll (callback: EagerLoadConstraint<any> = () => { }): this {
+  withAll(callback: EagerLoadConstraint<any> = () => {}): this {
     let fields: ModelFields = this.model.$fields()
     const typeModels = Object.values(this.model.$types())
     typeModels.forEach((typeModel) => {
       fields = { ...fields, ...typeModel.fields() }
     })
 
-    for (const name in fields) { fields[name] instanceof Relation && this.with(name, callback as any) }
+    for (const name in fields) {
+      fields[name] instanceof Relation && this.with(name, callback as any)
+    }
 
     return this
   }
@@ -409,7 +536,7 @@ export class Query<M extends Model = Model> {
   /**
    * Set to eager load all relationships recursively.
    */
-  withAllRecursive (depth = 3): this {
+  withAllRecursive(depth = 3): this {
     return this.withAll((query) => {
       depth > 0 && query.withAllRecursive(depth - 1)
     })
@@ -418,7 +545,7 @@ export class Query<M extends Model = Model> {
   /**
    * Define to use the cache for a query
    */
-  useCache (key?: string, params?: Record<string, any>): this {
+  useCache(key?: string, params?: Record<string, any>): this {
     this.fromCache = true
     this.cacheConfig = {
       key,
@@ -431,27 +558,40 @@ export class Query<M extends Model = Model> {
   /**
    * Get where closure for relations
    */
-  protected getFieldWhereForRelations<T extends WithKeys<M>>(relation: T | (string & {}), callback: M[T] extends Model | Model[] | null ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>> : () => void = () => { }, operator?: string | number, count?: number): WherePrimaryClosure<M> {
-    const modelIdsByRelation = this.newQuery(this.model.$entity()).with(relation, callback).get(false)
+  protected getFieldWhereForRelations<T extends WithKeys<M>>(
+    relation: T | (string & {}),
+    callback: M[T] extends Model | Model[] | null
+      ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>>
+      : () => void = () => {},
+    operator?: string | number,
+    count?: number,
+  ): WherePrimaryClosure<M> {
+    const modelIdsByRelation = this.newQuery(this.model.$entity())
+      .with(relation, callback)
+      .get(false)
       .filter((model) => {
         const modelRelation = model[relation as T]
 
         return compareWithOperator(
-          isArray(modelRelation) ? modelRelation.length : modelRelation === null ? 0 : 1,
-          typeof operator === 'number' ? operator : count ?? 1,
-          (typeof operator === 'number' || count === undefined) ? '>=' : operator,
+          isArray(modelRelation)
+            ? modelRelation.length
+            : modelRelation === null
+              ? 0
+              : 1,
+          typeof operator === 'number' ? operator : (count ?? 1),
+          typeof operator === 'number' || count === undefined ? '>=' : operator,
         )
       })
-      .map(model => model.$getIndexId())
+      .map((model) => model.$getIndexId())
 
-    return model => modelIdsByRelation.includes(model.$getIndexId())
+    return (model) => modelIdsByRelation.includes(model.$getIndexId())
   }
 
   /**
    * Get all models by id from the store. The difference with the `get` is that this
    * method will not process any query chain.
    */
-  protected storeFind (ids: string[] = []): Collection<M> {
+  protected storeFind(ids: string[] = []): Collection<M> {
     const data = this.commit('all')
     const collection = [] as Collection<M>
 
@@ -459,11 +599,26 @@ export class Query<M extends Model = Model> {
 
     if (deduplicatedIds.size > 0) {
       deduplicatedIds.forEach((id) => {
-        if (data[id]) { collection.push(this.hydrate(data[id], { visible: this.visible, hidden: this.hidden, operation: 'get' })) }
+        if (data[id]) {
+          collection.push(
+            this.hydrate(data[id], {
+              visible: this.visible,
+              hidden: this.hidden,
+              operation: 'get',
+            }),
+          )
+        }
       })
     } else {
-      Object.values(data)
-        .forEach((value: any) => collection.push(this.hydrate(value, { visible: this.visible, hidden: this.hidden, operation: 'get' })))
+      Object.values(data).forEach((value: any) =>
+        collection.push(
+          this.hydrate(value, {
+            visible: this.visible,
+            hidden: this.hidden,
+            operation: 'get',
+          }),
+        ),
+      )
     }
 
     return collection
@@ -473,41 +628,54 @@ export class Query<M extends Model = Model> {
    * Get all models from the store. The difference with the `get` is that this
    * method will not process any query chain. It'll always retrieve all models.
    */
-  all (): Collection<M> {
+  all(): Collection<M> {
     return this.storeFind()
   }
 
   /**
    * Retrieve models by processing whole query chain.
    */
-  get<T extends 'group' | 'collection' = 'collection'>(triggerHook?: boolean): T extends 'group' ? GroupedCollection<M> : Collection<M>
-  get (triggerHook = true): Collection<M> | GroupedCollection<M> {
-    if (!this.fromCache || !this.cache) { return this.internalGet(triggerHook) }
+  get<T extends 'group' | 'collection' = 'collection'>(
+    triggerHook?: boolean,
+  ): T extends 'group' ? GroupedCollection<M> : Collection<M>
+  get(triggerHook = true): Collection<M> | GroupedCollection<M> {
+    if (!this.fromCache || !this.cache) {
+      return this.internalGet(triggerHook)
+    }
 
     const key = this.cacheConfig.key
       ? this.cacheConfig.key + JSON.stringify(this.cacheConfig.params)
       : generateKey(this.model.$entity(), {
-        where: this.wheres,
-        groups: this.groups,
-        orders: this.orders,
-        eagerLoads: this.eagerLoad,
-        skip: this.skip,
-        take: this.take,
-        hidden: this.hidden,
-        visible: this.visible,
-      })
+          where: this.wheres,
+          groups: this.groups,
+          orders: this.orders,
+          eagerLoads: this.eagerLoad,
+          skip: this.skip,
+          take: this.take,
+          hidden: this.hidden,
+          visible: this.visible,
+        })
     const result = this.cache.get(key)
 
-    if (result) { return result }
+    if (result) {
+      return result
+    }
 
     const queryResult = this.internalGet(triggerHook)
     this.cache.set(key, queryResult)
     return queryResult
   }
 
-  private internalGet (triggerHook: boolean): Collection<M> | GroupedCollection<M> {
-    if (this.model.$entity() !== this.model.$baseEntity() || this.model.$namespace() !== this.model.$baseNamespace()) {
-      const typeKeyValue = this.model.$fields()[this.model.$typeKey()].make() ?? this.model.$entity()
+  private internalGet(
+    triggerHook: boolean,
+  ): Collection<M> | GroupedCollection<M> {
+    if (
+      this.model.$entity() !== this.model.$baseEntity() ||
+      this.model.$namespace() !== this.model.$baseNamespace()
+    ) {
+      const typeKeyValue =
+        this.model.$fields()[this.model.$typeKey()].make() ??
+        this.model.$entity()
       this.where(this.model.$typeKey(), typeKeyValue)
     }
 
@@ -517,16 +685,22 @@ export class Query<M extends Model = Model> {
       models = this.filterLimit(models)
     }
 
-    if (!isEmpty(models)) { this.eagerLoadRelations(models) }
+    if (!isEmpty(models)) {
+      this.eagerLoadRelations(models)
+    }
 
     if (this.orders.length > 0) {
       models = this.filterOrder(models)
       models = this.filterLimit(models)
     }
 
-    if (triggerHook) { models.forEach(model => model.$self().retrieved(model)) }
+    if (triggerHook) {
+      models.forEach((model) => model.$self().retrieved(model))
+    }
 
-    if (this.groups.length > 0) { return this.filterGroup(models) }
+    if (this.groups.length > 0) {
+      return this.filterGroup(models)
+    }
 
     return models
   }
@@ -534,16 +708,16 @@ export class Query<M extends Model = Model> {
   /**
    * Execute the query and get the first result.
    */
-  first (): Item<M> {
+  first(): Item<M> {
     return this.limit(1).get()[0] ?? null
   }
 
   /**
    * Find a model by its primary key.
    */
-  find (id: string | number): Item<M>
-  find (ids: (string | number)[]): Collection<M>
-  find (ids: any): any {
+  find(id: string | number): Item<M>
+  find(ids: (string | number)[]): Collection<M>
+  find(ids: any): any {
     return this.whereId(ids)[isArray(ids) ? 'get' : 'first']()
   }
 
@@ -551,15 +725,29 @@ export class Query<M extends Model = Model> {
    * Retrieve models by processing all filters set to the query chain.
    */
 
-  select (): Collection<M> {
+  select(): Collection<M> {
     let ids: string[] = []
     // store the original wheres so multiple selects don't alter the result
     const originalWheres = this.wheres
-    const whereIdsIndex = this.wheres.findIndex(where => where.field === this.model.$getKeyName())
+    const whereIdsIndex = this.wheres.findIndex(
+      (where) => where.field === this.model.$getKeyName(),
+    )
     if (whereIdsIndex > -1) {
       const whereIds = this.wheres[whereIdsIndex].value
-      ids = ((isFunction(whereIds) ? [] : isArray(whereIds) ? whereIds : [whereIds]) || []).map(String) || []
-      if (ids.length > 0) { this.wheres = [...this.wheres.slice(0, whereIdsIndex), ...this.wheres.slice(whereIdsIndex + 1)] }
+      ids =
+        (
+          (isFunction(whereIds)
+            ? []
+            : isArray(whereIds)
+              ? whereIds
+              : [whereIds]) || []
+        ).map(String) || []
+      if (ids.length > 0) {
+        this.wheres = [
+          ...this.wheres.slice(0, whereIdsIndex),
+          ...this.wheres.slice(whereIdsIndex + 1),
+        ]
+      }
     }
 
     let models = this.storeFind(ids)
@@ -574,25 +762,27 @@ export class Query<M extends Model = Model> {
   /**
    * Filter the given collection by the registered where clause.
    */
-  protected filterWhere (models: Collection<M>): Collection<M> {
-    if (isEmpty(this.wheres)) { return models }
+  protected filterWhere(models: Collection<M>): Collection<M> {
+    if (isEmpty(this.wheres)) {
+      return models
+    }
 
     const comparator = this.getWhereComparator()
 
-    return models.filter(model => comparator(model))
+    return models.filter((model) => comparator(model))
   }
 
   /**
    * Get comparator for the where clause.
    */
-  protected getWhereComparator (): (model: M) => boolean {
-    const { and, or } = groupBy(this.wheres, where => where.boolean)
+  protected getWhereComparator(): (model: M) => boolean {
+    const { and, or } = groupBy(this.wheres, (where) => where.boolean)
 
     return (model) => {
       const results: boolean[] = []
 
-      and && results.push(and.every(w => this.whereComparator(model, w)))
-      or && results.push(or.some(w => this.whereComparator(model, w)))
+      and && results.push(and.every((w) => this.whereComparator(model, w)))
+      or && results.push(or.some((w) => this.whereComparator(model, w)))
 
       return results.includes(true)
     }
@@ -601,12 +791,18 @@ export class Query<M extends Model = Model> {
   /**
    * The function to compare where clause to the given model.
    */
-  protected whereComparator (model: M, where: Where<M>): boolean {
-    if (isFunction(where.field)) { return where.field(model) }
+  protected whereComparator(model: M, where: Where<M>): boolean {
+    if (isFunction(where.field)) {
+      return where.field(model)
+    }
 
-    if (isArray(where.value)) { return where.value.includes(model[where.field as keyof M]) }
+    if (isArray(where.value)) {
+      return where.value.includes(model[where.field as keyof M])
+    }
 
-    if (isFunction(where.value)) { return where.value(model[where.field as keyof M]) }
+    if (isFunction(where.value)) {
+      return where.value(model[where.field as keyof M])
+    }
 
     return model[where.field as keyof M] === where.value
   }
@@ -614,9 +810,9 @@ export class Query<M extends Model = Model> {
   /**
    * Filter the given collection by the registered order conditions.
    */
-  protected filterOrder (models: Collection<M>): Collection<M> {
-    const fields = this.orders.map(order => order.field)
-    const directions = this.orders.map(order => order.direction)
+  protected filterOrder(models: Collection<M>): Collection<M> {
+    const fields = this.orders.map((order) => order.field)
+    const directions = this.orders.map((order) => order.direction)
 
     return orderBy(models, fields, directions)
   }
@@ -624,12 +820,15 @@ export class Query<M extends Model = Model> {
   /**
    * Filter the given collection by the registered group conditions.
    */
-  protected filterGroup (models: Collection<M>): Record<string, Collection<M>> {
+  protected filterGroup(models: Collection<M>): Record<string, Collection<M>> {
     const grouped: Record<string, Collection<M>> | M[keyof M] = {}
-    const fields = this.groups.map(group => group.field)
+    const fields = this.groups.map((group) => group.field)
 
     models.forEach((model) => {
-      const key = fields.length === 1 ? model[fields[0] as keyof M] : `[${fields.map(field => model[field as keyof M]).toString()}]`
+      const key =
+        fields.length === 1
+          ? model[fields[0] as keyof M]
+          : `[${fields.map((field) => model[field as keyof M]).toString()}]`
       grouped[key as string] = (grouped[key as string] || []).concat(model)
     })
 
@@ -639,7 +838,7 @@ export class Query<M extends Model = Model> {
   /**
    * Filter the given collection by the registered limit and offset values.
    */
-  protected filterLimit (models: Collection<M>): Collection<M> {
+  protected filterLimit(models: Collection<M>): Collection<M> {
     return this.take !== null
       ? models.slice(this.skip, this.skip + this.take)
       : models.slice(this.skip)
@@ -648,16 +847,18 @@ export class Query<M extends Model = Model> {
   /**
    * Eager load relations on the model.
    */
-  load (models: Collection<M>): void {
+  load(models: Collection<M>): void {
     this.eagerLoadRelations(models)
   }
 
   /**
    * Eager load the relationships for the models.
    */
-  protected eagerLoadRelations (models: Collection<M>): void {
+  protected eagerLoadRelations(models: Collection<M>): void {
     // @ts-expect-error ToDo fix eagerLoad type
-    for (const name in this.eagerLoad) { this.eagerLoadRelation(models, name, this.eagerLoad[name as string]) }
+    for (const name in this.eagerLoad) {
+      this.eagerLoadRelation(models, name, this.eagerLoad[name as string])
+    }
   }
 
   /**
@@ -665,7 +866,7 @@ export class Query<M extends Model = Model> {
    */
   protected eagerLoadRelation<T extends WithKeys<M>>(
     models: Collection<M>,
-    name: T | string & {},
+    name: T | (string & {}),
     constraints: EagerLoadConstraint<M>,
   ): void {
     // First we will "back up" the existing where conditions on the query so we can
@@ -688,7 +889,7 @@ export class Query<M extends Model = Model> {
   /**
    * Get the relation instance for the given relation name.
    */
-  protected getRelation (name: string): Relation {
+  protected getRelation(name: string): Relation {
     return this.model.$getRelation(name)
   }
 
@@ -696,24 +897,30 @@ export class Query<M extends Model = Model> {
    * Retrieves the models from the store by following the given
    * normalized schema.
    */
-  revive (schema: Element[]): Collection<M>
-  revive (schema: Element): Item<M>
-  revive (schema: Element | Element[]): Item<M> | Collection<M> {
+  revive(schema: Element[]): Collection<M>
+  revive(schema: Element): Item<M>
+  revive(schema: Element | Element[]): Item<M> | Collection<M> {
     return isArray(schema) ? this.reviveMany(schema) : this.reviveOne(schema)
   }
 
   /**
    * Revive single model from the given schema.
    */
-  reviveOne (schema: Element): Item<M> {
+  reviveOne(schema: Element): Item<M> {
     this.getNewHydrated = false
 
     const id = this.model.$getIndexId(schema)
     const item = this.commit('get')[id] ?? null
 
-    if (!item) { return null }
+    if (!item) {
+      return null
+    }
 
-    const model = this.hydrate(item, { visible: this.visible, hidden: this.hidden, operation: 'get' })
+    const model = this.hydrate(item, {
+      visible: this.visible,
+      hidden: this.hidden,
+      operation: 'get',
+    })
 
     this.reviveRelations(model, schema)
 
@@ -723,7 +930,7 @@ export class Query<M extends Model = Model> {
   /**
    * Revive multiple models from the given schema.
    */
-  reviveMany (schema: Element[]): Collection<M> {
+  reviveMany(schema: Element[]): Collection<M> {
     return schema.reduce<Collection<M>>((collection, item) => {
       const model = this.reviveOne(item)
 
@@ -736,17 +943,21 @@ export class Query<M extends Model = Model> {
   /**
    * Revive relations for the given schema and entity.
    */
-  protected reviveRelations (model: M, schema: Element) {
+  protected reviveRelations(model: M, schema: Element) {
     const fields = this.model.$fields()
 
     for (const key in schema) {
       const attr = fields[key]
 
-      if (!(attr instanceof Relation)) { continue }
+      if (!(attr instanceof Relation)) {
+        continue
+      }
 
       const relatedSchema = schema[key]
 
-      if (!relatedSchema) { return }
+      if (!relatedSchema) {
+        return
+      }
 
       // Inverse polymorphic relations have the same parent and child model
       // so we need to query using the type stored in the parent model.
@@ -769,16 +980,25 @@ export class Query<M extends Model = Model> {
   /**
    * Create and persist model with default values.
    */
-  new (persist = true): M | null {
+  new(persist = true): M | null {
     let model = this.hydrate({}, { operation: persist ? 'set' : 'get' })
     const isCreating = model.$self().creating(model)
     const isSaving = model.$self().saving(model)
-    if (isCreating === false || isSaving === false) { return null }
+    if (isCreating === false || isSaving === false) {
+      return null
+    }
 
-    if (model.$isDirty()) { model = this.hydrate(model.$getAttributes(), { operation: persist ? 'set' : 'get' }) }
+    if (model.$isDirty()) {
+      model = this.hydrate(model.$getAttributes(), {
+        operation: persist ? 'set' : 'get',
+      })
+    }
 
     if (persist) {
-      this.hydratedDataCache.set(this.model.$entity() + model.$getKey(undefined, true), this.hydrate(model.$getAttributes(), { operation: 'get' }))
+      this.hydratedDataCache.set(
+        this.model.$entity() + model.$getKey(undefined, true),
+        this.hydrate(model.$getAttributes(), { operation: 'get' }),
+      )
       model.$self().created(model)
       model.$self().saved(model)
       this.commit('insert', this.compile(model))
@@ -790,12 +1010,15 @@ export class Query<M extends Model = Model> {
   /**
    * Save the given records to the store with data normalization.
    */
-  save (records: Element[]): M[]
-  save (record: Element): M
-  save (records: Element | Element[]): M | M[] {
-    let processedData: [Element | Element[], NormalizedData] = this.newInterpreter().process(records)
+  save(records: Element[]): M[]
+  save(record: Element): M
+  save(records: Element | Element[]): M | M[] {
+    let processedData: [Element | Element[], NormalizedData] =
+      this.newInterpreter().process(records)
     const modelTypes = this.model.$types()
-    const isChildEntity = this.model.$baseEntity() !== this.model.$entity() || this.model.$baseNamespace() !== this.model.$namespace()
+    const isChildEntity =
+      this.model.$baseEntity() !== this.model.$entity() ||
+      this.model.$baseNamespace() !== this.model.$namespace()
 
     if (Object.values(modelTypes).length > 0 || isChildEntity) {
       const modelTypesKeys = Object.keys(modelTypes)
@@ -803,15 +1026,27 @@ export class Query<M extends Model = Model> {
       records = isArray(records) ? records : [records]
 
       records.forEach((record: Element) => {
-        const recordType = (modelTypesKeys.includes(`${record[this.model.$typeKey()]}`) || isChildEntity)
-          ? record[this.model.$typeKey()] ?? (this.model.$fields()[this.model.$typeKey()] as Type).defaultValue
-          : modelTypesKeys[0]
-        if (!recordsByTypes[recordType]) { recordsByTypes[recordType] = [] }
+        const recordType =
+          modelTypesKeys.includes(`${record[this.model.$typeKey()]}`) ||
+          isChildEntity
+            ? (record[this.model.$typeKey()] ??
+              (this.model.$fields()[this.model.$typeKey()] as Type)
+                .defaultValue)
+            : modelTypesKeys[0]
+        if (!recordsByTypes[recordType]) {
+          recordsByTypes[recordType] = []
+        }
         recordsByTypes[recordType].push(record)
       })
       for (const entry in recordsByTypes) {
         const typeModel = modelTypes[entry]
-        if (typeModel.modelEntity() === this.model.$modelEntity()) { processedData = this.newInterpreter().process(recordsByTypes[entry]) } else { this.newQueryWithConstraints(typeModel.modelEntity()).save(recordsByTypes[entry]) }
+        if (typeModel.modelEntity() === this.model.$modelEntity()) {
+          processedData = this.newInterpreter().process(recordsByTypes[entry])
+        } else {
+          this.newQueryWithConstraints(typeModel.modelEntity()).save(
+            recordsByTypes[entry],
+          )
+        }
       }
     }
 
@@ -829,7 +1064,7 @@ export class Query<M extends Model = Model> {
   /**
    * Save the given elements to the store.
    */
-  saveElements (elements: Elements): void {
+  saveElements(elements: Elements): void {
     const newData = {} as Elements
     const currentData = this.commit('all')
     const afterSavingHooks = []
@@ -838,31 +1073,52 @@ export class Query<M extends Model = Model> {
       const record = elements[id]
       const existing = currentData[id]
       let model: M = existing
-        ? Object.assign(this.hydrate(existing, { operation: 'set', action: 'update' }), record)
+        ? Object.assign(
+            this.hydrate(existing, { operation: 'set', action: 'update' }),
+            record,
+          )
         : this.hydrate(record, { operation: 'set', action: 'save' })
       const isSaving = model.$self().saving(model, record)
-      const isUpdatingOrCreating = existing ? model.$self().updating(model, record) : model.$self().creating(model, record)
-      if (isSaving === false || isUpdatingOrCreating === false) { continue }
+      const isUpdatingOrCreating = existing
+        ? model.$self().updating(model, record)
+        : model.$self().creating(model, record)
+      if (isSaving === false || isUpdatingOrCreating === false) {
+        continue
+      }
 
-      if (model.$isDirty()) { model = this.hydrate(model.$getAttributes(), { operation: 'set', action: 'update' }) }
+      if (model.$isDirty()) {
+        model = this.hydrate(model.$getAttributes(), {
+          operation: 'set',
+          action: 'update',
+        })
+      }
 
       afterSavingHooks.push(() => model.$self().saved(model, record))
-      afterSavingHooks.push(() => existing ? model.$self().updated(model, record) : model.$self().created(model, record))
+      afterSavingHooks.push(() =>
+        existing
+          ? model.$self().updated(model, record)
+          : model.$self().created(model, record),
+      )
       newData[id] = model.$getAttributes()
-      if (Object.values(model.$types()).length > 0 && !newData[id][model.$typeKey()]) { newData[id][model.$typeKey()] = record[model.$typeKey()] }
+      if (
+        Object.values(model.$types()).length > 0 &&
+        !newData[id][model.$typeKey()]
+      ) {
+        newData[id][model.$typeKey()] = record[model.$typeKey()]
+      }
     }
     if (Object.keys(newData).length > 0) {
       this.commit('save', newData)
-      afterSavingHooks.forEach(hook => hook())
+      afterSavingHooks.forEach((hook) => hook())
     }
   }
 
   /**
    * Insert the given record to the store.
    */
-  insert (records: Element[]): Collection<M>
-  insert (record: Element): M
-  insert (records: Element | Element[]): M | Collection<M> {
+  insert(records: Element[]): Collection<M>
+  insert(record: Element): M
+  insert(records: Element | Element[]): M | Collection<M> {
     const models = this.hydrate(records, { operation: 'set', action: 'insert' })
 
     this.commit('insert', this.compile(models))
@@ -873,9 +1129,9 @@ export class Query<M extends Model = Model> {
   /**
    * Insert the given records to the store by replacing any existing records.
    */
-  fresh (records: Element[]): Collection<M>
-  fresh (record: Element): M
-  fresh (records: Element | Element[]): M | Collection<M> {
+  fresh(records: Element[]): Collection<M>
+  fresh(record: Element): M
+  fresh(records: Element | Element[]): M | Collection<M> {
     this.hydratedDataCache.clear()
     const models = this.hydrate(records, { action: 'update' })
 
@@ -887,16 +1143,31 @@ export class Query<M extends Model = Model> {
   /**
    * Update the reocrd matching the query chain.
    */
-  update (record: Element): Collection<M> {
+  update(record: Element): Collection<M> {
     const models = this.get(false)
 
-    if (isEmpty(models)) { return [] }
+    if (isEmpty(models)) {
+      return []
+    }
 
     const newModels = models.map((model) => {
-      const oldModelUpdate = Object.assign(this.hydrate(model.$getAttributes(), { action: 'update', operation: 'set' }), record)
-      if (model.$self().updating(oldModelUpdate, record) === false) { return model }
+      const oldModelUpdate = Object.assign(
+        this.hydrate(model.$getAttributes(), {
+          action: 'update',
+          operation: 'set',
+        }),
+        record,
+      )
+      if (model.$self().updating(oldModelUpdate, record) === false) {
+        return model
+      }
 
-      const newModel = oldModelUpdate.$isDirty() ? this.hydrate({ ...model.$getAttributes(), ...record }, { action: 'update', operation: 'set' }) : oldModelUpdate
+      const newModel = oldModelUpdate.$isDirty()
+        ? this.hydrate(
+            { ...model.$getAttributes(), ...record },
+            { action: 'update', operation: 'set' },
+          )
+        : oldModelUpdate
       newModel.$self().updated(newModel, record)
       return newModel
     })
@@ -909,36 +1180,42 @@ export class Query<M extends Model = Model> {
   /**
    * Destroy the models for the given id.
    */
-  destroy (ids: (string | number)[]): Collection<M>
-  destroy (id: string | number): Item<M>
-  destroy (ids: any): any {
+  destroy(ids: (string | number)[]): Collection<M>
+  destroy(id: string | number): Item<M>
+  destroy(ids: any): any {
     return isArray(ids) ? this.destroyMany(ids) : this.destroyOne(ids)
   }
 
-  protected destroyOne (id: string | number): Item<M> {
+  protected destroyOne(id: string | number): Item<M> {
     const model = this.find(id)
 
-    if (!model) { return null }
+    if (!model) {
+      return null
+    }
 
     const [afterHooks, removeIds] = this.dispatchDeleteHooks(model)
     if (!removeIds.includes(model.$getIndexId())) {
       this.commit('destroy', [model.$getIndexId()])
-      afterHooks.forEach(hook => hook())
+      afterHooks.forEach((hook) => hook())
     }
 
     return model
   }
 
-  protected destroyMany (ids: (string | number)[]): Collection<M> {
+  protected destroyMany(ids: (string | number)[]): Collection<M> {
     const models = this.find(ids)
 
-    if (isEmpty(models)) { return [] }
+    if (isEmpty(models)) {
+      return []
+    }
 
     const [afterHooks, removeIds] = this.dispatchDeleteHooks(models)
-    const checkedIds = this.getIndexIdsFromCollection(models).filter(id => !removeIds.includes(id))
+    const checkedIds = this.getIndexIdsFromCollection(models).filter(
+      (id) => !removeIds.includes(id),
+    )
 
     this.commit('destroy', checkedIds)
-    afterHooks.forEach(hook => hook())
+    afterHooks.forEach((hook) => hook())
 
     return models
   }
@@ -946,16 +1223,20 @@ export class Query<M extends Model = Model> {
   /**
    * Delete records resolved by the query chain.
    */
-  delete (): M[] {
+  delete(): M[] {
     const models = this.get(false)
 
-    if (isEmpty(models)) { return [] }
+    if (isEmpty(models)) {
+      return []
+    }
 
     const [afterHooks, removeIds] = this.dispatchDeleteHooks(models)
-    const ids = this.getIndexIdsFromCollection(models).filter(id => !removeIds.includes(id))
+    const ids = this.getIndexIdsFromCollection(models).filter(
+      (id) => !removeIds.includes(id),
+    )
 
     this.commit('delete', ids)
-    afterHooks.forEach(hook => hook())
+    afterHooks.forEach((hook) => hook())
 
     return models
   }
@@ -963,26 +1244,41 @@ export class Query<M extends Model = Model> {
   /**
    * Delete all records in the store.
    */
-  flush (): Collection<M> {
+  flush(): Collection<M> {
     this.commit('flush')
     this.hydratedDataCache.clear()
     return this.get(false)
   }
 
-  protected checkAndDeleteRelations (model: M) {
+  protected checkAndDeleteRelations(model: M) {
     const fields = model.$fields()
     for (const name in fields) {
       const relation = fields[name] as Relation
-      if (fields[name] instanceof Relation && relation.onDeleteMode && model[name as keyof M]) {
+      if (
+        fields[name] instanceof Relation &&
+        relation.onDeleteMode &&
+        model[name as keyof M]
+      ) {
         // @ts-expect-error keyof M only causes models not to bey array... dont know why
-        const models = isArray(model[name as keyof M]) ? model[name] : [model[name]]
+        const models = isArray(model[name as keyof M])
+          ? model[name]
+          : [model[name]]
         const relationIds = models.map((relation: Model) => {
           return relation.$getKey(undefined, true)
         })
         const record: Record<string, any> = {}
 
         if (relation instanceof BelongsToMany) {
-          this.newQuery(relation.pivot.$entity()).where(relation.foreignPivotKey, model[model.$getLocalKey() as string extends keyof M ? keyof M & string : never]).delete()
+          this.newQuery(relation.pivot.$entity())
+            .where(
+              relation.foreignPivotKey,
+              model[
+                model.$getLocalKey() as string extends keyof M
+                  ? keyof M & string
+                  : never
+              ],
+            )
+            .delete()
           continue
         }
 
@@ -992,14 +1288,18 @@ export class Query<M extends Model = Model> {
             break
           }
           case 'set null': {
-            if ((relation as HasMany).foreignKey) { record[(relation as HasMany).foreignKey as string] = null }
+            if ((relation as HasMany).foreignKey) {
+              record[(relation as HasMany).foreignKey as string] = null
+            }
 
             if ((relation as MorphMany).morphId) {
               record[(relation as MorphMany).morphId] = null
               record[(relation as MorphMany).morphType] = null
             }
 
-            this.newQueryForRelation(relation).whereId(relationIds).update(record)
+            this.newQueryForRelation(relation)
+              .whereId(relationIds)
+              .update(record)
             break
           }
         }
@@ -1007,7 +1307,9 @@ export class Query<M extends Model = Model> {
     }
   }
 
-  protected dispatchDeleteHooks (models: M | Collection<M>): [{ (): void }[], string[]] {
+  protected dispatchDeleteHooks(
+    models: M | Collection<M>,
+  ): [{ (): void }[], string[]] {
     const afterHooks: { (): void }[] = []
     const notDeletableIds: string[] = []
     models = isArray(models) ? models : [models]
@@ -1018,9 +1320,15 @@ export class Query<M extends Model = Model> {
     models.forEach((currentModel) => {
       const isDeleting = currentModel.$self().deleting(currentModel)
 
-      if (isDeleting === false) { notDeletableIds.push(currentModel.$getIndexId()) } else {
-        this.hydratedDataCache.delete('set' + this.model.$entity() + currentModel.$getIndexId())
-        this.hydratedDataCache.delete('get' + this.model.$entity() + currentModel.$getIndexId())
+      if (isDeleting === false) {
+        notDeletableIds.push(currentModel.$getIndexId())
+      } else {
+        this.hydratedDataCache.delete(
+          'set' + this.model.$entity() + currentModel.$getIndexId(),
+        )
+        this.hydratedDataCache.delete(
+          'get' + this.model.$entity() + currentModel.$getIndexId(),
+        )
         afterHooks.push(() => currentModel.$self().deleted(currentModel))
         this.checkAndDeleteRelations(currentModel)
       }
@@ -1032,18 +1340,21 @@ export class Query<M extends Model = Model> {
   /**
    * Get an array of index ids from the given collection.
    */
-  protected getIndexIdsFromCollection (models: Collection<M>): string[] {
-    return models.map(model => model.$getIndexId())
+  protected getIndexIdsFromCollection(models: Collection<M>): string[] {
+    return models.map((model) => model.$getIndexId())
   }
 
   /**
    * Instantiate new models with the given record.
    */
-  protected hydrate (record: Element, options?: ModelOptions): M
-  protected hydrate (records: Element[], options?: ModelOptions): Collection<M>
-  protected hydrate (records: Element | Element[], options?: ModelOptions): M | Collection<M> {
+  protected hydrate(record: Element, options?: ModelOptions): M
+  protected hydrate(records: Element[], options?: ModelOptions): Collection<M>
+  protected hydrate(
+    records: Element | Element[],
+    options?: ModelOptions,
+  ): M | Collection<M> {
     return isArray(records)
-      ? records.map(record => this.hydrate(record, options))
+      ? records.map((record) => this.hydrate(record, options))
       : this.getHydratedModel(records, { relations: false, ...(options || {}) })
   }
 
@@ -1051,7 +1362,7 @@ export class Query<M extends Model = Model> {
    * Convert given models into an indexed object that is ready to be saved to
    * the store.
    */
-  protected compile (models: M | Collection<M>): Elements {
+  protected compile(models: M | Collection<M>): Elements {
     const collection = isArray(models) ? models : [models]
 
     return collection.reduce<Elements>((records, model) => {
@@ -1064,7 +1375,7 @@ export class Query<M extends Model = Model> {
    * Save already existing models and return them if they exist to prevent
    * an update event trigger in vue if the object is used.
    */
-  protected getHydratedModel (record: Element, options?: ModelOptions): M {
+  protected getHydratedModel(record: Element, options?: ModelOptions): M {
     const id = this.model.$entity() + this.model.$getKey(record, true)
     const operationId = options?.operation + id
     let savedHydratedModel = this.hydratedDataCache.get(operationId)
@@ -1074,17 +1385,25 @@ export class Query<M extends Model = Model> {
       savedHydratedModel = undefined
     }
 
-    if (
-      !this.getNewHydrated &&
-      savedHydratedModel
-    ) { return savedHydratedModel }
+    if (!this.getNewHydrated && savedHydratedModel) {
+      return savedHydratedModel
+    }
 
     const modelByType = this.model.$types()[record[this.model.$typeKey()]]
-    const getNewInsance = (newOptions?: ModelOptions) => (modelByType ? modelByType.newRawInstance() as M : this.model)
-      .$newInstance(record, { relations: false, ...(options || {}), ...newOptions })
+    const getNewInsance = (newOptions?: ModelOptions) =>
+      (modelByType
+        ? (modelByType.newRawInstance() as M)
+        : this.model
+      ).$newInstance(record, {
+        relations: false,
+        ...(options || {}),
+        ...newOptions,
+      })
     const hydratedModel = getNewInsance()
 
-    if (isEmpty(this.eagerLoad) && options?.operation !== 'set') { this.hydratedDataCache.set(operationId, hydratedModel) }
+    if (isEmpty(this.eagerLoad) && options?.operation !== 'set') {
+      this.hydratedDataCache.set(operationId, hydratedModel)
+    }
 
     return hydratedModel
   }

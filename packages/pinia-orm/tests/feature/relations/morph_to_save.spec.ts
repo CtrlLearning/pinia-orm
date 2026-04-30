@@ -20,7 +20,7 @@ describe('feature/relations/morph_to_save', () => {
     @Attr() imageableId!: number
     @Attr() imageableType!: string
     @MorphTo(() => [User], 'imageableId', 'imageableType')
-      imageable!: User | null
+    imageable!: User | null
   }
 
   it('inserts a record to the store with "morph to" relation', () => {
@@ -58,7 +58,9 @@ describe('feature/relations/morph_to_save', () => {
         imageableType: 'users',
         imageable: [{ id: 2, name: 'John Doe' }],
       })
-    }).toThrowError('[Pinia ORM] You are passing a list to " images.imageable " which is a one to one Relation(MorphTo): [{"id":2,"name":"John Doe"}]')
+    }).toThrowError(
+      '[Pinia ORM] You are passing a list to " images.imageable " which is a one to one Relation(MorphTo): [{"id":2,"name":"John Doe"}]',
+    )
   })
 
   it('generates missing relational key', () => {

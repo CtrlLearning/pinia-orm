@@ -29,32 +29,32 @@ export interface Repository<M extends Model = Model> {
   /**
    * Add a where clause where `field` value is in values.
    */
-  whereIn (field: string, values: any[] | Set<any>): Query<M>
+  whereIn(field: string, values: any[] | Set<any>): Query<M>
   /**
    * Add a where clause where `field` value is in values or ...
    */
-  orWhereIn (field: string, values: any[] | Set<any>): Query<M>
+  orWhereIn(field: string, values: any[] | Set<any>): Query<M>
   /**
    * Add a where clause where `field` value is not in values or ...
    */
-  orWhereNotIn (field: string, values: any[] | Set<any>): Query<M>
+  orWhereNotIn(field: string, values: any[] | Set<any>): Query<M>
   /**
    * Add a where clause where `field` has not defined values
    */
-  whereNotIn (field: string, values: any[] | Set<any>): Query<M>
+  whereNotIn(field: string, values: any[] | Set<any>): Query<M>
   /**
    * Add a where clause to get all results where `field` is null
    */
-  whereNull (field: string): Query<M>
+  whereNull(field: string): Query<M>
   /**
    * Add a where clause to get all results where `field` is not null
    */
-  whereNotNull (field: string): Query<M>
+  whereNotNull(field: string): Query<M>
   /**
    * Find the model with the given id.
    */
-  find (id: string | number): Item<M>
-  find (ids: (string | number)[]): Collection<M>
+  find(id: string | number): Item<M>
+  find(ids: (string | number)[]): Collection<M>
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-declaration-merging
@@ -110,16 +110,22 @@ export class Repository<M extends Model = Model> {
   /**
    * Create a new Repository instance.
    */
-  constructor (database: Database, pinia?: Pinia) {
+  constructor(database: Database, pinia?: Pinia) {
     this.config = globalConfig
     this.database = database
     this.pinia = pinia
     this.hydratedDataCache = hydratedDataCache as Map<string, M>
     return new Proxy(this, {
-      get (repository, field) {
-        if (typeof field === 'symbol') { return }
-        if (field in repository) { return repository[field] } // normal case
-        if (field === 'use' || field === 'model' || field === 'queryCache') { return }
+      get(repository, field) {
+        if (typeof field === 'symbol') {
+          return
+        }
+        if (field in repository) {
+          return repository[field]
+        } // normal case
+        if (field === 'use' || field === 'model' || field === 'queryCache') {
+          return
+        }
 
         return function (...args: any) {
           // This function will be executed when property is accessed as a function
@@ -133,7 +139,7 @@ export class Repository<M extends Model = Model> {
   /**
    * Set the model
    */
-  static setModel (model: typeof Model) {
+  static setModel(model: typeof Model) {
     this.useModel = model
     return this
   }
@@ -141,16 +147,18 @@ export class Repository<M extends Model = Model> {
   /**
    * Set the global config
    */
-  setConfig (config: FilledInstallOptions) {
+  setConfig(config: FilledInstallOptions) {
     this.config = config
   }
 
   /**
    * Initialize the repository by setting the model instance.
    */
-  initialize (model?: ModelConstructor<M>): this {
+  initialize(model?: ModelConstructor<M>): this {
     if (this.config.cache && this.config.cache !== true) {
-      this.queryCache = (this.config.cache.shared ? cache : new this.config.cache.provider()) as WeakCache<string, M[]>
+      this.queryCache = (
+        this.config.cache.shared ? cache : new this.config.cache.provider()
+      ) as WeakCache<string, M[]>
     }
 
     // If there's a model passed in, just use that and return immediately.
@@ -177,7 +185,7 @@ export class Repository<M extends Model = Model> {
   /**
    * Get the constructor for this model.
    */
-  $self (): typeof Repository {
+  $self(): typeof Repository {
     return this.constructor as typeof Repository
   }
 
@@ -186,7 +194,7 @@ export class Repository<M extends Model = Model> {
    * it will throw an error. It happens when users use a custom repository
    * without setting `use` property.
    */
-  getModel (): M {
+  getModel(): M {
     assert(!!this.model, [
       'The model is not registered. Please define the model to be used at',
       '`use` property of the repository class.',
@@ -198,8 +206,13 @@ export class Repository<M extends Model = Model> {
   /**
    * Returns the pinia store used with this model
    */
-  piniaStore<S extends DataStoreState = DataStoreState> () {
-    return useDataStore<S>(this.model.$storeName(), this.model.$piniaOptions(), this.model.$piniaExtend(), this.query())(this.pinia)
+  piniaStore<S extends DataStoreState = DataStoreState>() {
+    return useDataStore<S>(
+      this.model.$storeName(),
+      this.model.$piniaOptions(),
+      this.model.$piniaExtend(),
+      this.query(),
+    )(this.pinia)
   }
 
   /**
@@ -207,30 +220,40 @@ export class Repository<M extends Model = Model> {
    */
   repo<M extends Model>(model: Constructor<M>): Repository<M>
   repo<R extends Repository<any>>(repository: Constructor<R>): R
-  repo (modelOrRepository: any): any {
+  repo(modelOrRepository: any): any {
     return useRepo(modelOrRepository)
   }
 
   /**
    * Create a new Query instance.
    */
-  query (): Query<M> {
-    return new Query(this.database, this.getModel(), this.queryCache, this.hydratedDataCache, this.pinia)
+  query(): Query<M> {
+    return new Query(
+      this.database,
+      this.getModel(),
+      this.queryCache,
+      this.hydratedDataCache,
+      this.pinia,
+    )
   }
 
   /**
    * Create a new Query instance.
    */
-  cache (): WeakCache<string, M[]> | undefined {
+  cache(): WeakCache<string, M[]> | undefined {
     return this.queryCache
   }
 
   /**
    * Add a basic where clause to the query.
    */
-  where<T extends WherePrimaryClosure<M> | NonMethodKeys<M> | string & {}>(
+  where<T extends WherePrimaryClosure<M> | NonMethodKeys<M> | (string & {})>(
     field: T,
-    value?: T extends string[] ? string | number | (string | number)[] : WhereSecondaryClosure<M[T extends keyof M ? T : never]> | M[T extends keyof M ? T : never],
+    value?: T extends string[]
+      ? string | number | (string | number)[]
+      :
+          | WhereSecondaryClosure<M[T extends keyof M ? T : never]>
+          | M[T extends keyof M ? T : never],
   ): Query<M> {
     return this.query().where<T>(field, value)
   }
@@ -238,9 +261,11 @@ export class Repository<M extends Model = Model> {
   /**
    * Add an "or where" clause to the query.
    */
-  orWhere<T extends WherePrimaryClosure<M> | NonMethodKeys<M> | string & {}>(
+  orWhere<T extends WherePrimaryClosure<M> | NonMethodKeys<M> | (string & {})>(
     field: T,
-    value?: WhereSecondaryClosure<M[T extends keyof M ? T : never]> | M[T extends keyof M ? T : never],
+    value?:
+      | WhereSecondaryClosure<M[T extends keyof M ? T : never]>
+      | M[T extends keyof M ? T : never],
   ): Query<M> {
     return this.query().orWhere<T>(field, value)
   }
@@ -248,140 +273,173 @@ export class Repository<M extends Model = Model> {
   /**
    * Add a "where has" clause to the query.
    */
-  whereHas<T extends WithKeys<M>>(relation: T | string & {}, callback: M[T] extends Model | Model[] | null ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>> : () => void = () => { }, operator?: string | number, count?: number): Query<M> {
+  whereHas<T extends WithKeys<M>>(
+    relation: T | (string & {}),
+    callback: M[T] extends Model | Model[] | null
+      ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>>
+      : () => void = () => {},
+    operator?: string | number,
+    count?: number,
+  ): Query<M> {
     return this.query().whereHas<T>(relation, callback, operator, count)
   }
 
   /**
    * Add an "or where has" clause to the query.
    */
-  orWhereHas<T extends WithKeys<M>>(relation: T | string & {}, callback: M[T] extends Model | Model[] | null ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>> : () => void = () => { }, operator?: string | number, count?: number): Query<M> {
+  orWhereHas<T extends WithKeys<M>>(
+    relation: T | (string & {}),
+    callback: M[T] extends Model | Model[] | null
+      ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>>
+      : () => void = () => {},
+    operator?: string | number,
+    count?: number,
+  ): Query<M> {
     return this.query().orWhereHas(relation, callback, operator, count)
   }
 
   /**
    * Add a "has" clause to the query.
    */
-  has (relation: string, operator?: string | number, count?: number): Query<M> {
+  has(relation: string, operator?: string | number, count?: number): Query<M> {
     return this.query().has(relation, operator, count)
   }
 
   /**
    * Add an "or has" clause to the query.
    */
-  orHas (relation: string, operator?: string | number, count?: number): Query<M> {
+  orHas(
+    relation: string,
+    operator?: string | number,
+    count?: number,
+  ): Query<M> {
     return this.query().orHas(relation, operator, count)
   }
 
   /**
    * Add a "doesn't have" clause to the query.
    */
-  doesntHave (relation: string): Query<M> {
+  doesntHave(relation: string): Query<M> {
     return this.query().doesntHave(relation)
   }
 
   /**
    * Add a "doesn't have" clause to the query.
    */
-  orDoesntHave (relation: string): Query<M> {
+  orDoesntHave(relation: string): Query<M> {
     return this.query().orDoesntHave(relation)
   }
 
   /**
    * Add a "where doesn't have" clause to the query.
    */
-  whereDoesntHave<T extends WithKeys<M>>(relation: T | string & {}, callback: M[T] extends Model | Model[] | null ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>> : () => void = () => { }): Query<M> {
+  whereDoesntHave<T extends WithKeys<M>>(
+    relation: T | (string & {}),
+    callback: M[T] extends Model | Model[] | null
+      ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>>
+      : () => void = () => {},
+  ): Query<M> {
     return this.query().whereDoesntHave(relation, callback)
   }
 
   /**
    * Add an "or where doesn't have" clause to the query.
    */
-  orWhereDoesntHave<T extends WithKeys<M>>(relation: T | string & {}, callback: M[T] extends Model | Model[] | null ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>> : () => void = () => { }): Query<M> {
+  orWhereDoesntHave<T extends WithKeys<M>>(
+    relation: T | (string & {}),
+    callback: M[T] extends Model | Model[] | null
+      ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>>
+      : () => void = () => {},
+  ): Query<M> {
     return this.query().orWhereDoesntHave(relation, callback)
   }
 
   /**
    * Make meta field visible
    */
-  withMeta (): Query<M> {
+  withMeta(): Query<M> {
     return this.query().withMeta()
   }
 
   /**
    * Make hidden fields visible
    */
-  makeVisible (fields: string[]): Query<M> {
+  makeVisible(fields: string[]): Query<M> {
     return this.query().makeVisible(fields)
   }
 
   /**
    * Make visible fields hidden
    */
-  makeHidden (fields: string[]): Query<M> {
+  makeHidden(fields: string[]): Query<M> {
     return this.query().makeHidden(fields)
   }
 
   /**
    * Add a "group by" clause to the query.
    */
-  groupBy (...fields: GroupByFields): Query<M> {
+  groupBy(...fields: GroupByFields): Query<M> {
     return this.query().groupBy(...fields)
   }
 
   /**
    * Add an "order by" clause to the query.
    */
-  orderBy (field: OrderBy, direction?: OrderDirection): Query<M> {
+  orderBy(field: OrderBy, direction?: OrderDirection): Query<M> {
     return this.query().orderBy(field, direction)
   }
 
   /**
    * Set the "limit" value of the query.
    */
-  limit (value: number): Query<M> {
+  limit(value: number): Query<M> {
     return this.query().limit(value)
   }
 
   /**
    * Set the "offset" value of the query.
    */
-  offset (value: number): Query<M> {
+  offset(value: number): Query<M> {
     return this.query().offset(value)
   }
 
   /**
    * Set the relationships that should be eager loaded.
    */
-  with<T extends WithKeys<M>>(name: string & {} | T, callback?: M[T] extends Model | Model[] | null ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>> : never): Query<M> {
+  with<T extends WithKeys<M>>(
+    name: (string & {}) | T,
+    callback?: M[T] extends Model | Model[] | null
+      ? EagerLoadConstraint<GetElementType<NonNullable<M[T]>>>
+      : never,
+  ): Query<M> {
     return this.query().with(name, callback)
   }
 
   /**
    * Set to eager load all top-level relationships. Constraint is set for all relationships.
    */
-  withAll (callback?: EagerLoadConstraint<M>): Query<M> {
+  withAll(callback?: EagerLoadConstraint<M>): Query<M> {
     return this.query().withAll(callback)
   }
 
   /**
    * Set to eager load all top-level relationships. Constraint is set for all relationships.
    */
-  withAllRecursive (depth?: number): Query<M> {
+  withAllRecursive(depth?: number): Query<M> {
     return this.query().withAllRecursive(depth)
   }
 
   /**
    * Define to use the cache for a query
    */
-  useCache (key?: string, params?: Record<string, any>): Query<M> {
+  useCache(key?: string, params?: Record<string, any>): Query<M> {
     return this.query().useCache(key, params)
   }
 
   /**
    * Get all models from the store.
    */
-  all (): Collection<M> {
+  all(): Collection<M> {
     return this.query().get()
   }
 
@@ -389,9 +447,9 @@ export class Repository<M extends Model = Model> {
    * Retrieves the models from the store by following the given
    * normalized schema.
    */
-  revive (schema: Element[]): Collection<M>
-  revive (schema: Element): Item<M>
-  revive (schema: Element | Element[]): Item<M> | Collection<M> {
+  revive(schema: Element[]): Collection<M>
+  revive(schema: Element): Item<M>
+  revive(schema: Element | Element[]): Item<M> | Collection<M> {
     return this.query().revive(schema)
   }
 
@@ -400,13 +458,15 @@ export class Repository<M extends Model = Model> {
    * store. It's pretty much the alternative to `new Model()`, but it injects
    * the store instance to support model instance methods in SSR environment.
    */
-  make (records: Element[]): M[]
-  make (record?: Element): M
-  make (records?: Element | Element[]): M | M[] {
+  make(records: Element[]): M[]
+  make(record?: Element): M
+  make(records?: Element | Element[]): M | M[] {
     if (isArray(records)) {
-      return records.map(record => this.getModel().$newInstance(record, {
-        relations: true,
-      }))
+      return records.map((record) =>
+        this.getModel().$newInstance(record, {
+          relations: true,
+        }),
+      )
     }
 
     return this.getModel().$newInstance(records, {
@@ -417,50 +477,50 @@ export class Repository<M extends Model = Model> {
   /*
    * Save the given records to the store with data normalization.
    */
-  save (records: Element[]): M[]
-  save (record: Element): M
-  public save (records: Element | Element[]): M | M[] {
+  save(records: Element[]): M[]
+  save(record: Element): M
+  public save(records: Element | Element[]): M | M[] {
     return this.query().save(records)
   }
 
   /**
    * Create and persist model with default values.
    */
-  new (persist = true): M | null {
+  new(persist = true): M | null {
     return this.query().new(persist)
   }
 
   /**
    * Insert the given records to the store.
    */
-  insert (records: Element[]): Collection<M>
-  insert (record: Element): M
-  insert (records: Element | Element[]): M | Collection<M> {
+  insert(records: Element[]): Collection<M>
+  insert(record: Element): M
+  insert(records: Element | Element[]): M | Collection<M> {
     return this.query().insert(records)
   }
 
   /**
    * Insert the given records to the store by replacing any existing records.
    */
-  fresh (records: Element[]): Collection<M>
-  fresh (record: Element): M
-  fresh (records: Element | Element[]): M | Collection<M> {
+  fresh(records: Element[]): Collection<M>
+  fresh(record: Element): M
+  fresh(records: Element | Element[]): M | Collection<M> {
     return this.query().fresh(records)
   }
 
   /**
    * Destroy the models for the given id.
    */
-  destroy (ids: (string | number)[]): Collection<M>
-  destroy (id: string | number): Item<M>
-  destroy (ids: any): any {
+  destroy(ids: (string | number)[]): Collection<M>
+  destroy(id: string | number): Item<M>
+  destroy(ids: any): any {
     return this.query().destroy(ids)
   }
 
   /**
    * Delete all records in the store.
    */
-  flush (): M[] {
+  flush(): M[] {
     return this.query().flush()
   }
 }

@@ -10,18 +10,18 @@ export class AxiosRepository<M extends Model = Model> extends Repository<M> {
   globalApiConfig: GlobalConfig
   apiConfig: Config
 
-  constructor (database: Database, pinia?: Pinia) {
+  constructor(database: Database, pinia?: Pinia) {
     super(database, pinia)
     this.axios = config?.axiosApi?.axios || null
     this.globalApiConfig = config?.axiosApi || {}
     this.apiConfig = {}
   }
 
-  api () {
+  api() {
     return useAxiosApi(this)
   }
 
-  setAxios (axios: AxiosInstance) {
+  setAxios(axios: AxiosInstance) {
     this.axios = axios
     return this
   }

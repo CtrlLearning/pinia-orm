@@ -21,10 +21,22 @@ describe('feature/relations/morphed_by_many_retrieve', () => {
     static entity = 'tags'
 
     @Attr() declare id: number
-    @MorphedByMany(() => User, { as: 'userPivot', model: () => Taggable }, 'tag_id', 'taggable_id', 'taggable_type')
+    @MorphedByMany(
+      () => User,
+      { as: 'userPivot', model: () => Taggable },
+      'tag_id',
+      'taggable_id',
+      'taggable_type',
+    )
     declare users: User[]
 
-    @MorphedByMany(() => Video, () => Taggable, 'tag_id', 'taggable_id', 'taggable_type')
+    @MorphedByMany(
+      () => Video,
+      () => Taggable,
+      'tag_id',
+      'taggable_id',
+      'taggable_type',
+    )
     declare videos: Video[]
 
     declare pivot: Taggable
@@ -58,9 +70,24 @@ describe('feature/relations/morphed_by_many_retrieve', () => {
         2: { id: 2 },
       },
       taggables: {
-        '[1,1,"users"]': { tag_id: 1, taggable_id: 1, taggable_type: 'users', level: 1 },
-        '[2,3,"videos"]': { tag_id: 2, taggable_id: 3, taggable_type: 'videos', level: 2 },
-        '[2,1,"users"]': { tag_id: 2, taggable_id: 1, taggable_type: 'users', level: null },
+        '[1,1,"users"]': {
+          tag_id: 1,
+          taggable_id: 1,
+          taggable_type: 'users',
+          level: 1,
+        },
+        '[2,3,"videos"]': {
+          tag_id: 2,
+          taggable_id: 3,
+          taggable_type: 'videos',
+          level: 2,
+        },
+        '[2,1,"users"]': {
+          tag_id: 2,
+          taggable_id: 1,
+          taggable_type: 'users',
+          level: null,
+        },
       },
     })
 
@@ -102,8 +129,18 @@ describe('feature/relations/morphed_by_many_retrieve', () => {
         2: { id: 2 },
       },
       taggables: {
-        '[1,1,"users"]': { tag_id: 1, taggable_id: 1, taggable_type: 'users', level: 1 },
-        '[2,1,"users"]': { tag_id: 2, taggable_id: 1, taggable_type: 'users', level: null },
+        '[1,1,"users"]': {
+          tag_id: 1,
+          taggable_id: 1,
+          taggable_type: 'users',
+          level: 1,
+        },
+        '[2,1,"users"]': {
+          tag_id: 2,
+          taggable_id: 1,
+          taggable_type: 'users',
+          level: null,
+        },
       },
     })
 

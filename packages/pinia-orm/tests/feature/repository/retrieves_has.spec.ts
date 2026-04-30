@@ -28,10 +28,10 @@ describe('feature/repository/retrieves_has', () => {
     @Str('') name!: string
 
     @HasMany(() => Post, 'userId')
-      posts!: Post[]
+    posts!: Post[]
 
     @HasOne(() => ExtraPost, 'userId')
-      post!: ExtraPost
+    post!: ExtraPost
   }
 
   it('can filter the query by the has clause', () => {
@@ -80,9 +80,7 @@ describe('feature/repository/retrieves_has', () => {
 
     const users = userRepo.has('posts', 2).get()
 
-    const expected = [
-      { id: 1, name: 'John Doe' },
-    ]
+    const expected = [{ id: 1, name: 'John Doe' }]
 
     expect(users).toHaveLength(1)
     assertInstanceOf(users, User)
@@ -135,9 +133,7 @@ describe('feature/repository/retrieves_has', () => {
 
     const users = userRepo.doesntHave('posts').get()
 
-    const expected = [
-      { id: 3, name: 'Johnny Doe' },
-    ]
+    const expected = [{ id: 3, name: 'Johnny Doe' }]
 
     expect(users).toHaveLength(1)
     assertInstanceOf(users, User)
@@ -164,25 +160,35 @@ describe('feature/repository/retrieves_has', () => {
       },
     })
 
-    const users = userRepo.whereHas('posts', (query) => {
-      query.where('title', 'Title 03')
-    }, '=', 1).get()
+    const users = userRepo
+      .whereHas(
+        'posts',
+        (query) => {
+          query.where('title', 'Title 03')
+        },
+        '=',
+        1,
+      )
+      .get()
 
-    const users2 = userRepo.whereHas('post', (query) => {
-      query.where('title', 'Title 03')
-    }).get()
+    const users2 = userRepo
+      .whereHas('post', (query) => {
+        query.where('title', 'Title 03')
+      })
+      .get()
 
     const users3 = userRepo.whereHas('post').get()
 
-    const expected = [
-      { id: 2, name: 'Jane Doe' },
-    ]
+    const expected = [{ id: 2, name: 'Jane Doe' }]
 
     expect(users).toHaveLength(1)
     expect(users3).toHaveLength(2)
     assertInstanceOf(users, User)
     assertModels(users, expected)
-    assertModels(users2, [{ id: 1, name: 'John Doe' }, { id: 2, name: 'Jane Doe' }])
+    assertModels(users2, [
+      { id: 1, name: 'John Doe' },
+      { id: 2, name: 'Jane Doe' },
+    ])
   })
 
   it('can filter by "where has" clauses with closure', () => {
@@ -201,9 +207,11 @@ describe('feature/repository/retrieves_has', () => {
       },
     })
 
-    const users = userRepo.whereDoesntHave('posts', (query) => {
-      query.where('title', 'Title 03')
-    }).get()
+    const users = userRepo
+      .whereDoesntHave('posts', (query) => {
+        query.where('title', 'Title 03')
+      })
+      .get()
 
     const users2 = userRepo.whereDoesntHave('posts').get()
 
@@ -236,6 +244,8 @@ describe('feature/repository/retrieves_has', () => {
 
     expect(() => {
       userRepo.has('postss', '<', 2).get()
-    }).toThrowError('[Pinia ORM] Relationship [postss] on model [users] not found.')
+    }).toThrowError(
+      '[Pinia ORM] Relationship [postss] on model [users] not found.',
+    )
   })
 })

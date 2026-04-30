@@ -17,4 +17,6 @@ export const CONFIG_DEFAULTS = {
   },
 }
 
-export const config: FilledInstallOptions & { [key: string]: any } = { ...CONFIG_DEFAULTS }
+export const config: FilledInstallOptions & { [key: string]: any } = {
+  ...CONFIG_DEFAULTS,
+}

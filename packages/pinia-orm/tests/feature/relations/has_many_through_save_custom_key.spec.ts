@@ -16,7 +16,13 @@ describe('feature/relations/has_many_save_custom_key', () => {
       static primaryKey = 'countryId'
 
       @Attr() declare countryId: number
-      @HasManyThrough(() => Post, () => User, 'countryId', 'userId', 'countryId')
+      @HasManyThrough(
+        () => Post,
+        () => User,
+        'countryId',
+        'userId',
+        'countryId',
+      )
       declare posts: Post[]
     }
 
@@ -64,7 +70,14 @@ describe('feature/relations/has_many_save_custom_key', () => {
       static primaryKey = 'countryId'
 
       @Attr() declare countryId: number
-      @HasManyThrough(() => Post, () => User, 'countryId', 'userId', 'countryId', 'postId')
+      @HasManyThrough(
+        () => Post,
+        () => User,
+        'countryId',
+        'userId',
+        'countryId',
+        'postId',
+      )
       declare posts: Post[]
     }
 
@@ -89,9 +102,7 @@ describe('feature/relations/has_many_save_custom_key', () => {
     const countryRepo = useRepo(Country)
     const userRepo = useRepo(User)
 
-    userRepo.save([
-      { id: 1, name: 'John Doe', countryId: 1 },
-    ])
+    userRepo.save([{ id: 1, name: 'John Doe', countryId: 1 }])
 
     countryRepo.save({
       countryId: 1,

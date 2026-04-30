@@ -60,8 +60,12 @@ describe('unit/model/Model', () => {
     ])
 
     const users = computed(() => userRepo.all())
-    const usersOriginal = computed(() => users.value.map(u => u.$getOriginal()))
+    const usersOriginal = computed(() =>
+      users.value.map((u) => u.$getOriginal()),
+    )
 
-    expect(users.value.map(user => user.$toJson())).toEqual(usersOriginal.value)
+    expect(users.value.map((user) => user.$toJson())).toEqual(
+      usersOriginal.value,
+    )
   })
 })

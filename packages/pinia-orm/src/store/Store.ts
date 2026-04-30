@@ -41,13 +41,19 @@ export interface CreatePiniaOrm {
 /**
  * Install Pinia ORM to the store.
  */
-export function createORM (options?: InstallOptions): PiniaPlugin {
+export function createORM(options?: InstallOptions): PiniaPlugin {
   config.model = { ...CONFIG_DEFAULTS.model, ...options?.model }
-  config.cache = options?.cache === false ? false : { ...CONFIG_DEFAULTS.cache, ...(options?.cache !== true && options?.cache) }
+  config.cache =
+    options?.cache === false
+      ? false
+      : {
+          ...CONFIG_DEFAULTS.cache,
+          ...(options?.cache !== true && options?.cache),
+        }
   config.pinia = { ...CONFIG_DEFAULTS.pinia, ...options?.pinia }
 
   if (options?.plugins) {
-    options.plugins.forEach(plugin => plugins.push(plugin))
+    options.plugins.forEach((plugin) => plugins.push(plugin))
   }
   return () => {}
 }

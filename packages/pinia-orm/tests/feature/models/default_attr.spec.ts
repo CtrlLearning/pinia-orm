@@ -7,7 +7,7 @@ describe('feature/model/default_attr', () => {
     class User extends Model {
       static entity = 'users'
 
-      static fields () {
+      static fields() {
         return {
           id: this.attr(null),
           str: this.string(''),

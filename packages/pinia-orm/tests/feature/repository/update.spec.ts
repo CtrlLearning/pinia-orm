@@ -26,7 +26,11 @@ describe('feature/repository/update', () => {
 
     userRepo.where('name', 'Jane Doe').update({ age: 50 })
 
-    assertModel(userRepo.where('name', 'Jane Doe').first()!, { id: 2, name: 'Jane Doe', age: 50 })
+    assertModel(userRepo.where('name', 'Jane Doe').first()!, {
+      id: 2,
+      name: 'Jane Doe',
+      age: 50,
+    })
     assertState({
       users: {
         1: { id: 1, name: 'John Doe', age: 40 },

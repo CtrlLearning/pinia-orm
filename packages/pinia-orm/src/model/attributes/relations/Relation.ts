@@ -31,7 +31,7 @@ export abstract class Relation extends Attribute {
   /**
    * Create a new relation instance.
    */
-  protected constructor (parent: Model, related: Model) {
+  protected constructor(parent: Model, related: Model) {
     super(parent)
     this.parent = parent
     this.related = related
@@ -40,46 +40,49 @@ export abstract class Relation extends Attribute {
   /**
    * Get all related models for the relationship.
    */
-  abstract getRelateds (): Model[]
+  abstract getRelateds(): Model[]
 
   /**
    * Get the related model of the relation.
    */
-  getRelated (): Model {
+  getRelated(): Model {
     return this.related
   }
 
   /**
    * Define the normalizr schema for the relation.
    */
-  abstract define (schema: Schema): NormalizrSchema
+  abstract define(schema: Schema): NormalizrSchema
 
   /**
    * Attach the relational key to the given relation.
    */
-  abstract attach (record: Element, child: Element): void
+  abstract attach(record: Element, child: Element): void
 
   /**
    * Set the constraints for an eager loading relation.
    */
-  abstract addEagerConstraints (query: Query<any>, models: Collection): void
+  abstract addEagerConstraints(query: Query<any>, models: Collection): void
 
   /**
    * Match the eagerly loaded results to their parents.
    */
-  abstract match (relation: string, models: Collection, query: Query<any>): void
+  abstract match(relation: string, models: Collection, query: Query<any>): void
 
   /**
    * Get all of the primary keys for an array of models.
    */
-  protected getKeys <M extends Model = Model>(models: Collection<any>, key: string): (string | number)[] {
-    return models.map(model => model[key as keyof M])
+  protected getKeys<M extends Model = Model>(
+    models: Collection<any>,
+    key: string,
+  ): (string | number)[] {
+    return models.map((model) => model[key as keyof M])
   }
 
   /**
    * Specify how this model should behave on delete
    */
-  onDelete (mode?: deleteModes): this {
+  onDelete(mode?: deleteModes): this {
     this.onDeleteMode = mode
 
     return this
@@ -88,13 +91,15 @@ export abstract class Relation extends Attribute {
   /**
    * Run a dictionary map over the items.
    */
-  protected mapToDictionary (
+  protected mapToDictionary(
     models: Collection<any>,
     callback: (model: Model) => [string, Model],
   ): Dictionary {
     return models.reduce<Dictionary>((dictionary, model) => {
       const [key, value] = callback(model)
-      if (!dictionary[key]) { dictionary[key] = [] }
+      if (!dictionary[key]) {
+        dictionary[key] = []
+      }
 
       dictionary[key].push(value)
 
@@ -105,7 +110,7 @@ export abstract class Relation extends Attribute {
   /**
    * Call a function for a current key match
    */
-  protected compositeKeyMapper (
+  protected compositeKeyMapper(
     foreignKey: PrimaryKey,
     localKey: PrimaryKey,
     call: (foreignKey: string, localKey: string) => void,
@@ -128,7 +133,9 @@ export abstract class Relation extends Attribute {
   /**
    * Get the index key defined by the primary key or keys (composite)
    */
-  protected getResolvedKey (model: Model, key: PrimaryKey): string {
-    return isArray(key) ? `[${key.map(keyPart => model[keyPart as keyof Model] as unknown as string).toString()}]` : model[key as keyof Model] as unknown as string
+  protected getResolvedKey(model: Model, key: PrimaryKey): string {
+    return isArray(key)
+      ? `[${key.map((keyPart) => model[keyPart as keyof Model] as unknown as string).toString()}]`
+      : (model[key as keyof Model] as unknown as string)
   }
 }

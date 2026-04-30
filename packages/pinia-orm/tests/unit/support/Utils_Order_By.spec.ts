@@ -96,6 +96,6 @@ describe('unit/support/Utils_Order_by', () => {
 
     const expected = [{ id: 1 }, { id: 2 }, { id: 3 }]
 
-    expect(orderBy(collection, [v => v.id], ['asc'])).toEqual(expected)
+    expect(orderBy(collection, [(v) => v.id], ['asc'])).toEqual(expected)
   })
 })

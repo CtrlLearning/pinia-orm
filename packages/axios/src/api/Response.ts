@@ -32,7 +32,11 @@ export class Response {
   /**
    * Create a new response instance.
    */
-  constructor (repository: AxiosRepository, config: Config, response: AxiosResponse) {
+  constructor(
+    repository: AxiosRepository,
+    config: Config,
+    response: AxiosResponse,
+  ) {
     this.repository = repository
     this.config = config
     this.response = response
@@ -41,15 +45,15 @@ export class Response {
   /**
    * Save response data to the store.
    */
-  async save (): Promise<void> {
+  async save(): Promise<void> {
     const data = this.getDataFromResponse()
 
     if (!this.validateData(data)) {
       console.warn(
         '[Pinia ORM Axios] The response data could not be saved to the store ' +
-        'because it is not an object or an array. You might want to use ' +
-        '`dataTransformer` option to handle non-array/object response ' +
-        'before saving it to the store.',
+          'because it is not an object or an array. You might want to use ' +
+          '`dataTransformer` option to handle non-array/object response ' +
+          'before saving it to the store.',
       )
 
       return
@@ -60,8 +64,8 @@ export class Response {
     if (!this.validatePersistAction(method)) {
       console.warn(
         '[Pinia ORM Axios] The "persistBy" option configured is not a ' +
-        'recognized value. Response data will be persisted by the ' +
-        'default `save` method.',
+          'recognized value. Response data will be persisted by the ' +
+          'default `save` method.',
       )
 
       method = 'save'
@@ -77,7 +81,7 @@ export class Response {
   /**
    * Delete the entity record where the `delete` option is configured.
    */
-  async delete (): Promise<void> {
+  async delete(): Promise<void> {
     if (this.config.delete === undefined) {
       throw new Error(
         '[Pinia ORM Axios] Could not delete records because the `delete` option is not set.',
@@ -93,7 +97,7 @@ export class Response {
    * `dataKey` option is configured, it will return the data from the given
    * property within the response body.
    */
-  getDataFromResponse (): Element | Element[] {
+  getDataFromResponse(): Element | Element[] {
     if (this.config.dataTransformer) {
       return this.config.dataTransformer(this.response)
     }
@@ -126,7 +130,7 @@ export class Response {
   /**
    * Validate the given data to ensure the Pinia ORM persist methods accept it.
    */
-  protected validateData (data: any): data is Element | Element[] {
+  protected validateData(data: any): data is Element | Element[] {
     return data !== null && typeof data === 'object'
   }
 
@@ -134,7 +138,7 @@ export class Response {
    * Validate the given string as to ensure it correlates with the available
    * Pinia ORM persist methods.
    */
-  protected validatePersistAction (action: string): action is PersistMethods {
+  protected validatePersistAction(action: string): action is PersistMethods {
     return ['save', 'insert'].includes(action)
   }
 }

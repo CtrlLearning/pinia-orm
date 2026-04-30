@@ -31,9 +31,7 @@ describe('feature/repository/retrieves_group_by', () => {
         { id: 1, name: 'James', age: 40 },
         { id: 2, name: 'James', age: 30 },
       ],
-      David: [
-        { id: 3, name: 'David', age: 20 },
-      ],
+      David: [{ id: 3, name: 'David', age: 20 }],
     }
 
     expect(users).toEqual(expected)
@@ -55,15 +53,9 @@ describe('feature/repository/retrieves_group_by', () => {
     const users = userRepo.groupBy('name', 'age').get<'group'>()
 
     const expected = {
-      '[James,40]': [
-        { id: 1, name: 'James', age: 40 },
-      ],
-      '[James,30]': [
-        { id: 2, name: 'James', age: 30 },
-      ],
-      '[Andy,20]': [
-        { id: 3, name: 'Andy', age: 20 },
-      ],
+      '[James,40]': [{ id: 1, name: 'James', age: 40 }],
+      '[James,30]': [{ id: 2, name: 'James', age: 30 }],
+      '[Andy,20]': [{ id: 3, name: 'Andy', age: 20 }],
       '[David,20]': [
         { id: 4, name: 'David', age: 20 },
         { id: 5, name: 'David', age: 20 },

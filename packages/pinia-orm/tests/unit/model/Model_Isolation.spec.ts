@@ -62,8 +62,8 @@ describe('unit/model/ModelIsolation', () => {
       new Post({ id: 2, title: 'Second' }),
     ]
 
-    users.forEach(u => u.name = `Updated ${u.name}`)
-    posts.forEach(p => p.title = `Updated ${p.title}`)
+    users.forEach((u) => (u.name = `Updated ${u.name}`))
+    posts.forEach((p) => (p.title = `Updated ${p.title}`))
 
     expect(users[0].$getOriginal()).toEqual({ id: 1, name: 'John' })
     expect(users[1].$getOriginal()).toEqual({ id: 2, name: 'Jane' })

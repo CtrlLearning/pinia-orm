@@ -20,10 +20,22 @@ describe('feature/relations/morphed_by_many_save', () => {
     static entity = 'tags'
 
     @Attr() declare id: number
-    @MorphedByMany(() => User, () => Taggable, 'tag_id', 'taggable_id', 'taggable_type')
+    @MorphedByMany(
+      () => User,
+      () => Taggable,
+      'tag_id',
+      'taggable_id',
+      'taggable_type',
+    )
     declare users: User[]
 
-    @MorphedByMany(() => Video, () => Taggable, 'tag_id', 'taggable_id', 'taggable_type')
+    @MorphedByMany(
+      () => Video,
+      () => Taggable,
+      'tag_id',
+      'taggable_id',
+      'taggable_type',
+    )
     declare videos: Video[]
 
     declare pivot: Taggable
@@ -71,11 +83,36 @@ describe('feature/relations/morphed_by_many_save', () => {
         2: { id: 2 },
       },
       taggables: {
-        '[1,1,"users"]': { tag_id: 1, taggable_id: 1, taggable_type: 'users', level: 1 },
-        '[2,1,"users"]': { tag_id: 2, taggable_id: 1, taggable_type: 'users', level: 2 },
-        '[2,2,"users"]': { tag_id: 2, taggable_id: 2, taggable_type: 'users', level: 2 },
-        '[1,2,"videos"]': { tag_id: 1, taggable_id: 2, taggable_type: 'videos', level: 1 },
-        '[2,1,"videos"]': { tag_id: 2, taggable_id: 1, taggable_type: 'videos', level: 2 },
+        '[1,1,"users"]': {
+          tag_id: 1,
+          taggable_id: 1,
+          taggable_type: 'users',
+          level: 1,
+        },
+        '[2,1,"users"]': {
+          tag_id: 2,
+          taggable_id: 1,
+          taggable_type: 'users',
+          level: 2,
+        },
+        '[2,2,"users"]': {
+          tag_id: 2,
+          taggable_id: 2,
+          taggable_type: 'users',
+          level: 2,
+        },
+        '[1,2,"videos"]': {
+          tag_id: 1,
+          taggable_id: 2,
+          taggable_type: 'videos',
+          level: 1,
+        },
+        '[2,1,"videos"]': {
+          tag_id: 2,
+          taggable_id: 1,
+          taggable_type: 'videos',
+          level: 2,
+        },
       },
     })
   })

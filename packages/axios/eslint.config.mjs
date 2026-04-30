@@ -11,13 +11,16 @@ export default createConfigForNuxt({
 })
   .override('nuxt/javascript', {
     rules: {
-      'curly': ['error', 'all'], // Including if blocks with a single statement
+      curly: ['error', 'all'], // Including if blocks with a single statement
       'dot-notation': 'error',
       'no-console': ['warn', { allow: ['warn', 'error', 'debug'] }],
       'no-lonely-if': 'error', // No single if in an "else" block
       'no-useless-rename': 'error',
       'object-shorthand': 'error',
-      'prefer-const': ['error', { destructuring: 'any', ignoreReadBeforeAssign: false }],
+      'prefer-const': [
+        'error',
+        { destructuring: 'any', ignoreReadBeforeAssign: false },
+      ],
       'require-await': 'error',
       'sort-imports': ['error', { ignoreDeclarationSort: true }],
     },
@@ -67,11 +70,9 @@ export default createConfigForNuxt({
     },
   })
 
-  .append(
-    {
-      files: ['tests/**'],
-      rules: {
-        '@typescript-eslint/no-explicit-any': 'off',
-      },
+  .append({
+    files: ['tests/**'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
     },
-  )
+  })

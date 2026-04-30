@@ -39,7 +39,7 @@ export class BelongsToMany extends Relation {
   /**
    * Create a new belongs to instance.
    */
-  constructor (
+  constructor(
     parent: Model,
     related: Model,
     pivot: Model,
@@ -60,21 +60,21 @@ export class BelongsToMany extends Relation {
   /**
    * Get all related models for the relationship.
    */
-  getRelateds (): Model[] {
+  getRelateds(): Model[] {
     return [this.related, this.pivot]
   }
 
   /**
    * Define the normalizr schema for the relationship.
    */
-  define (schema: Schema): NormalizrSchema {
+  define(schema: Schema): NormalizrSchema {
     return schema.many(this.related, this.parent)
   }
 
   /**
    * Attach the parent type and id to the given relation.
    */
-  attach (record: Element, child: Element): void {
+  attach(record: Element, child: Element): void {
     const pivot = child[this.pivotKey] ?? {}
     pivot[this.foreignPivotKey] = record[this.parentKey]
     pivot[this.relatedPivotKey] = child[this.relatedKey]
@@ -84,20 +84,23 @@ export class BelongsToMany extends Relation {
   /**
    * Convert given value to the appropriate value for the attribute.
    */
-  make (elements?: Element[]): Model[] {
+  make(elements?: Element[]): Model[] {
     return elements
-      ? elements.map(element => this.related.$newInstance(element))
+      ? elements.map((element) => this.related.$newInstance(element))
       : []
   }
 
   /**
    * Match the eagerly loaded results to their parents.
    */
-  match (relation: string, models: Collection<any>, query: Query<any>): void {
+  match(relation: string, models: Collection<any>, query: Query<any>): void {
     const relatedModels = query.get(false)
     const pivotModels = query
       .newQuery(this.pivot.$modelEntity())
-      .whereIn(this.relatedPivotKey, this.getKeys(relatedModels, this.relatedKey))
+      .whereIn(
+        this.relatedPivotKey,
+        this.getKeys(relatedModels, this.relatedKey),
+      )
       .whereIn(this.foreignPivotKey, this.getKeys(models, this.parentKey))
       .groupBy(this.foreignPivotKey, this.relatedPivotKey)
       .get<'group'>()
@@ -105,12 +108,22 @@ export class BelongsToMany extends Relation {
     models.forEach((parentModel) => {
       const relationResults: Model[] = []
       relatedModels.forEach((relatedModel) => {
-        const pivot = pivotModels[`[${parentModel[this.parentKey]},${relatedModel[this.relatedKey]}]`]?.[0] ?? null
+        const pivot =
+          pivotModels[
+            `[${parentModel[this.parentKey]},${relatedModel[this.relatedKey]}]`
+          ]?.[0] ?? null
 
-        if (!pivot) { return }
+        if (!pivot) {
+          return
+        }
 
-        const relatedModelCopy = relatedModel.$newInstance(relatedModel.$toJson(), { operation: undefined })
-        delete relatedModelCopy[`pivot_${this.relatedPivotKey}_${this.pivot.$entity()}`]
+        const relatedModelCopy = relatedModel.$newInstance(
+          relatedModel.$toJson(),
+          { operation: undefined },
+        )
+        delete relatedModelCopy[
+          `pivot_${this.relatedPivotKey}_${this.pivot.$entity()}`
+        ]
         relatedModelCopy.$setRelation(this.pivotKey, pivot, true)
         relationResults.push(relatedModelCopy)
       })
@@ -122,12 +135,12 @@ export class BelongsToMany extends Relation {
   /**
    * Set the constraints for the related relation.
    */
-  addEagerConstraints (_query: Query, _collection: Collection): void {}
+  addEagerConstraints(_query: Query, _collection: Collection): void {}
 
   /**
    * Specify the custom pivot accessor to use for the relationship.
    */
-  as (accessor: string): this {
+  as(accessor: string): this {
     this.pivotKey = accessor
 
     return this

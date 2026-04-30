@@ -52,11 +52,14 @@ describe('feature/repository/save', () => {
 
     userRepo.save({ id: 1, name: 'John Doe', age: 30 })
 
-    assertState({
-      users: {
-        1: { id: 1, name: 'John Doe', age: 30 },
+    assertState(
+      {
+        users: {
+          1: { id: 1, name: 'John Doe', age: 30 },
+        },
       },
-    }, { currentId: null })
+      { currentId: null },
+    )
   })
 
   it('saves multiple models to the store', () => {
@@ -67,12 +70,15 @@ describe('feature/repository/save', () => {
       { id: 2, name: 'Jane Doe', age: 20 },
     ])
 
-    assertState({
-      users: {
-        1: { id: 1, name: 'John Doe', age: 30 },
-        2: { id: 2, name: 'Jane Doe', age: 20 },
+    assertState(
+      {
+        users: {
+          1: { id: 1, name: 'John Doe', age: 30 },
+          2: { id: 2, name: 'Jane Doe', age: 20 },
+        },
       },
-    }, { currentId: null })
+      { currentId: null },
+    )
   })
 
   it('updates existing model if it exists', () => {

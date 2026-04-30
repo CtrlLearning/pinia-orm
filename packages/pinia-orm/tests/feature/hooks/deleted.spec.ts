@@ -2,10 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { Model, useRepo } from '../../../src'
 import { Num, Str } from '../../../src/decorators'
-import {
-  assertState,
-  fillState,
-} from '../../helpers'
+import { assertState, fillState } from '../../helpers'
 
 describe('feature/hooks/deleted', () => {
   it('is not triggered when trying to delete a non existing record', () => {
@@ -16,7 +13,7 @@ describe('feature/hooks/deleted', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static deleted (model: Model) {
+      static deleted(model: Model) {
         model.name = 'John'
       }
     }
@@ -48,7 +45,7 @@ describe('feature/hooks/deleted', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static deleted () {
+      static deleted() {
         // Doing deleted stuff
       }
     }
@@ -79,7 +76,7 @@ describe('feature/hooks/deleted', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static deleted () {
+      static deleted() {
         // Doing deleted stuff
       }
     }

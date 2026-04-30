@@ -1,5 +1,5 @@
 export default class EntitySchema {
-  constructor (key, definition = {}, options = {}) {
+  constructor(key, definition = {}, options = {}) {
     if (!key || typeof key !== 'string') {
       throw new Error(`Expected a string key for Entity, but found ${key}.`)
     }
@@ -9,7 +9,7 @@ export default class EntitySchema {
       mergeStrategy = (entityA, entityB) => {
         return { ...entityA, ...entityB }
       },
-      processStrategy = input => ({ ...input }),
+      processStrategy = (input) => ({ ...input }),
     } = options
 
     this._key = key
@@ -19,26 +19,26 @@ export default class EntitySchema {
     this.define(definition)
   }
 
-  get key () {
+  get key() {
     return this._key
   }
 
-  define (definition) {
+  define(definition) {
     this.schema = Object.keys(definition).reduce((entitySchema, key) => {
       const schema = definition[key]
       return { ...entitySchema, [key]: schema }
     }, this.schema || {})
   }
 
-  getId (input, parent, key) {
+  getId(input, parent, key) {
     return this._getId(input, parent, key)
   }
 
-  merge (entityA, entityB) {
+  merge(entityA, entityB) {
     return this._mergeStrategy(entityA, entityB)
   }
 
-  normalize (input, parent, key, visit, addEntity, visitedEntities) {
+  normalize(input, parent, key, visit, addEntity, visitedEntities) {
     const id = this.getId(input, parent, key)
     const entityType = this.key
 
@@ -56,9 +56,13 @@ export default class EntitySchema {
     const processedEntity = this._processStrategy(input, parent, key)
     Object.keys(this.schema).forEach((key) => {
       // eslint-disable-next-line no-prototype-builtins
-      if (processedEntity.hasOwnProperty(key) && typeof processedEntity[key] === 'object') {
+      if (
+        processedEntity.hasOwnProperty(key) &&
+        typeof processedEntity[key] === 'object'
+      ) {
         const schema = this.schema[key]
-        const resolvedSchema = typeof schema === 'function' ? schema(input) : schema
+        const resolvedSchema =
+          typeof schema === 'function' ? schema(input) : schema
         processedEntity[key] = visit(
           processedEntity[key],
           processedEntity,

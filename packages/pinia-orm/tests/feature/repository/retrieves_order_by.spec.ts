@@ -102,7 +102,7 @@ describe('feature/repository/retrieves_order_by', () => {
       },
     })
 
-    const users = userRepo.orderBy(user => user.age, 'desc').get()
+    const users = userRepo.orderBy((user) => user.age, 'desc').get()
 
     const expected = [
       { id: 1, name: 'James', age: 40 },
@@ -164,20 +164,23 @@ describe('feature/repository/retrieves_order_by', () => {
       },
     })
 
-    const users = userRepo.with('roles').orderBy((user) => {
-      user.roles = useSortBy(user.roles, [['pivot.level', 'asc']])
-    }).get()
+    const users = userRepo
+      .with('roles')
+      .orderBy((user) => {
+        user.roles = useSortBy(user.roles, [['pivot.level', 'asc']])
+      })
+      .get()
 
     const expected = [
-      { id: 1, name: 'James', roles: [
-        { id: 2, users: [] },
-        { id: 1, users: [] },
-      ],
+      {
+        id: 1,
+        name: 'James',
+        roles: [
+          { id: 2, users: [] },
+          { id: 1, users: [] },
+        ],
       },
-      { id: 2, name: 'Andy', roles: [
-        { id: 1, users: [] },
-      ],
-      },
+      { id: 2, name: 'Andy', roles: [{ id: 1, users: [] }] },
       { id: 3, name: 'David', roles: [] },
     ]
 
@@ -201,18 +204,48 @@ describe('feature/repository/retrieves_order_by', () => {
 
     fillState({
       users: {
-        1: { id: 1, name: 'James', age: 40, createdAt: new Date ('2023-01-26').toISOString() },
-        2: { id: 2, name: 'Andy', age: 30, createdAt: new Date ('2023-01-25').toISOString() },
-        3: { id: 3, name: 'David', age: 20, createdAt: new Date ('2023-03-26').toISOString() },
+        1: {
+          id: 1,
+          name: 'James',
+          age: 40,
+          createdAt: new Date('2023-01-26').toISOString(),
+        },
+        2: {
+          id: 2,
+          name: 'Andy',
+          age: 30,
+          createdAt: new Date('2023-01-25').toISOString(),
+        },
+        3: {
+          id: 3,
+          name: 'David',
+          age: 20,
+          createdAt: new Date('2023-03-26').toISOString(),
+        },
       },
     })
 
     const users = userRepo.orderBy('createdAt').get()
 
     const expected = [
-      { id: 2, name: 'Andy', age: 30, createdAt: new Date ('2023-01-25').toISOString() },
-      { id: 1, name: 'James', age: 40, createdAt: new Date ('2023-01-26').toISOString() },
-      { id: 3, name: 'David', age: 20, createdAt: new Date ('2023-03-26').toISOString() },
+      {
+        id: 2,
+        name: 'Andy',
+        age: 30,
+        createdAt: new Date('2023-01-25').toISOString(),
+      },
+      {
+        id: 1,
+        name: 'James',
+        age: 40,
+        createdAt: new Date('2023-01-26').toISOString(),
+      },
+      {
+        id: 3,
+        name: 'David',
+        age: 20,
+        createdAt: new Date('2023-03-26').toISOString(),
+      },
     ]
 
     expect(users).toHaveLength(3)

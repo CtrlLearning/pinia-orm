@@ -11,7 +11,7 @@ describe('Feature - Response - Save', () => {
   class User extends Model {
     static entity = 'users'
 
-    static fields () {
+    static fields() {
       return {
         id: this.attr(null),
         name: this.attr(''),
@@ -29,7 +29,7 @@ describe('Feature - Response - Save', () => {
   it('warns the user if the response data cannot be inserted', async () => {
     const spy = vi.spyOn(console, 'warn')
 
-    spy.mockImplementation(x => x)
+    spy.mockImplementation((x) => x)
 
     const userStore = useAxiosRepo(User)
 

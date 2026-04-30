@@ -15,7 +15,7 @@ describe('unit/model/Model_Casts_String', () => {
 
       @Str('') name!: string
 
-      static casts () {
+      static casts() {
         return {
           name: StringCast,
         }
@@ -31,7 +31,7 @@ describe('unit/model/Model_Casts_String', () => {
 
       @Cast(() => StringCast)
       @Str('test')
-        name!: string
+      name!: string
     }
 
     expect(new User({ name: true }, { operation: 'get' }).name).toBe('true')
@@ -46,7 +46,7 @@ describe('unit/model/Model_Casts_String', () => {
 
       @Cast(() => StringCast)
       @Str(null, { notNullable: true })
-        str!: string | null
+      str!: string | null
     }
 
     expect(new User({ operation: 'get' }).str).toBe(null)
@@ -63,7 +63,7 @@ describe('unit/model/Model_Casts_String', () => {
       @Attr(0) id!: number
       @Attr('') name!: string
 
-      static casts () {
+      static casts() {
         return {
           name: StringCast,
         }

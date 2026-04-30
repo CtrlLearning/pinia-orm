@@ -17,7 +17,7 @@ describe('feature/relations/belongs_to_many_save_custom_key', () => {
 
       @Num(0) belongsToManyId!: number
       @BelongsToMany(() => Role, () => RoleUser, 'user_id', 'role_id')
-        permissions!: Role
+      permissions!: Role
     }
 
     class Role extends Model {
@@ -68,7 +68,7 @@ describe('feature/relations/belongs_to_many_save_custom_key', () => {
     class Contact extends Model {
       static entity = 'contacts'
 
-      static fields () {
+      static fields() {
         return {
           id: this.uid(),
           userId: this.attr(null),
@@ -80,7 +80,7 @@ describe('feature/relations/belongs_to_many_save_custom_key', () => {
     class User extends Model {
       static entity = 'users'
 
-      static fields () {
+      static fields() {
         return {
           id: this.uid(),
           groups: this.belongsToMany(Group, GroupUser, 'userId', 'groupId'),
@@ -92,7 +92,7 @@ describe('feature/relations/belongs_to_many_save_custom_key', () => {
     class Group extends Model {
       static entity = 'groups'
 
-      static fields () {
+      static fields() {
         return {
           id: this.uid(),
           name: this.string('group'),
@@ -104,7 +104,7 @@ describe('feature/relations/belongs_to_many_save_custom_key', () => {
       static entity = 'group_user'
       static primaryKey = ['groupId', 'userId']
 
-      static fields () {
+      static fields() {
         return {
           groupId: this.attr(null), // Docs say this.attr(null) which throws an error
           userId: this.attr(null),
@@ -117,10 +117,12 @@ describe('feature/relations/belongs_to_many_save_custom_key', () => {
       user: {
         id: 1,
         prename: 'blub',
-        groups: [{
-          id: 1,
-          name: 'hoho',
-        }],
+        groups: [
+          {
+            id: 1,
+            name: 'hoho',
+          },
+        ],
       },
     })
 
@@ -148,7 +150,7 @@ describe('feature/relations/belongs_to_many_save_custom_key', () => {
 
       @Num(0) belongsToManyId!: number
       @BelongsToMany(() => Role, () => RoleUser, 'user_id', 'role_id')
-        permissions!: Role
+      permissions!: Role
     }
 
     class Role extends Model {

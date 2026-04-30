@@ -42,9 +42,7 @@ describe('feature/reactivity/reactivity', () => {
 
     userRepo.insert({ id: 1, name: 'John Doe' })
 
-    expect(allUsers.value).toEqual([
-      { id: 1, name: 'John Doe' },
-    ])
+    expect(allUsers.value).toEqual([{ id: 1, name: 'John Doe' }])
   })
 
   it('check update reactivity', () => {
@@ -96,9 +94,7 @@ describe('feature/reactivity/reactivity', () => {
 
     userRepo.destroy([2, 3])
 
-    expect(allUsers.value).toEqual([
-      { id: 1, name: 'John Doe' },
-    ])
+    expect(allUsers.value).toEqual([{ id: 1, name: 'John Doe' }])
   })
 
   it('check delete reactivity', () => {
@@ -122,8 +118,6 @@ describe('feature/reactivity/reactivity', () => {
 
     userRepo.where('name', 'Jane Doe').orWhere('name', 'Johnny Doe').delete()
 
-    expect(allUsers.value).toEqual([
-      { id: 1, name: 'John Doe' },
-    ])
+    expect(allUsers.value).toEqual([{ id: 1, name: 'John Doe' }])
   })
 })

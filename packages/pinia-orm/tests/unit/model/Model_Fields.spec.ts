@@ -7,7 +7,7 @@ describe('unit/model/Model_Fields', () => {
     class User extends Model {
       static entity = 'users'
 
-      static fields () {
+      static fields() {
         return {
           id: this.attr(() => undefined),
           str: this.string(''),

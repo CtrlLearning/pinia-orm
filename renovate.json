@@ -17,27 +17,21 @@
     {
       "groupName": "all non-major dependencies",
       "groupSlug": "all-minor-patch",
-      "matchFiles": ["packages/pinia-orm/package.json", "packages/nuxt/package.json", "packages/axios/package.json", "packages/normalizr/package.json"],
-      "excludePackageNames": ["vue2"],
-      "matchUpdateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "digest"
+      "matchFiles": [
+        "packages/pinia-orm/package.json",
+        "packages/nuxt/package.json",
+        "packages/axios/package.json",
+        "packages/normalizr/package.json"
       ],
+      "excludePackageNames": ["vue2"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
       "lockFileMaintenance": {
         "enabled": true,
-        "extends": [
-          "schedule:weekly"
-        ]
+        "extends": ["schedule:weekly"]
       },
       "automerge": true,
-      "automergeSchedule": [
-        "after 1am and before 2am"
-      ],
-      "schedule": [
-        "after 2am and before 3am"
-      ]
+      "automergeSchedule": ["after 1am and before 2am"],
+      "schedule": ["after 2am and before 3am"]
     }
   ]
 }

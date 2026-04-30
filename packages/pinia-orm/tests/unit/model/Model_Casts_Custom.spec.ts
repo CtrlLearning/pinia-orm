@@ -14,7 +14,7 @@ describe('unit/model/Model_Casts_Custom', () => {
 
       @Attr('{}') name!: string
 
-      static casts () {
+      static casts() {
         return {
           name: CastAttribute,
         }
@@ -26,11 +26,11 @@ describe('unit/model/Model_Casts_Custom', () => {
 
   it('should cast', () => {
     class CustomCast extends CastAttribute {
-      get (value?: any): any {
+      get(value?: any): any {
         return typeof value === 'string' ? `string ${value}` : value
       }
 
-      set (value?: any): any {
+      set(value?: any): any {
         return this.get(value)
       }
     }
@@ -40,23 +40,25 @@ describe('unit/model/Model_Casts_Custom', () => {
 
       @Attr('{}') name!: string
 
-      static casts () {
+      static casts() {
         return {
           name: CustomCast,
         }
       }
     }
 
-    expect(new User({ name: 'John' }, { operation: 'get' }).name).toBe('string John')
+    expect(new User({ name: 'John' }, { operation: 'get' }).name).toBe(
+      'string John',
+    )
   })
 
   it('should cast with decorator', () => {
     class CustomCast extends CastAttribute {
-      get (value?: any): any {
+      get(value?: any): any {
         return typeof value === 'string' ? `string ${value}` : value
       }
 
-      set (value?: any): any {
+      set(value?: any): any {
         return this.get(value)
       }
     }
@@ -65,7 +67,8 @@ describe('unit/model/Model_Casts_Custom', () => {
       static entity = 'users'
 
       @Cast(() => CustomCast)
-      @Attr('test') name!: string
+      @Attr('test')
+      name!: string
     }
 
     expect(new User({ name: 'John' }).name).toBe('string John')
@@ -78,12 +81,12 @@ describe('unit/model/Model_Casts_Custom', () => {
         type: 'string',
       }
 
-      get (value?: any): any {
+      get(value?: any): any {
         const type: 'string' = this.getParameters()?.type
         return typeof value === type ? `${type} ${value}` : value
       }
 
-      set (value?: any): any {
+      set(value?: any): any {
         return this.get(value)
       }
     }
@@ -93,7 +96,7 @@ describe('unit/model/Model_Casts_Custom', () => {
 
       @Attr('{}') name!: string
 
-      static casts () {
+      static casts() {
         return {
           name: CustomCast.withParameters({ type: 'number' }),
         }

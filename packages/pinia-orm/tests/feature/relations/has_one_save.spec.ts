@@ -20,7 +20,7 @@ describe('feature/relations/has_one_save', () => {
     @Str('') name!: string
 
     @HasOne(() => Phone, 'userId')
-      phone!: Phone | null
+    phone!: Phone | null
   }
 
   it('inserts a record to the store with "has one" relation', () => {
@@ -53,13 +53,17 @@ describe('feature/relations/has_one_save', () => {
       usersRepo.save({
         id: 1,
         name: 'John Doe',
-        phone: [{
-          id: 1,
-          userId: 1,
-          number: '123-4567-8912',
-        }],
+        phone: [
+          {
+            id: 1,
+            userId: 1,
+            number: '123-4567-8912',
+          },
+        ],
       })
-    }).toThrowError('[Pinia ORM] You are passing a list to " users.phone " which is a one to one Relation(HasOne): [{"id":1,"userId":1,"number":"123-4567-8912"}]')
+    }).toThrowError(
+      '[Pinia ORM] You are passing a list to " users.phone " which is a one to one Relation(HasOne): [{"id":1,"userId":1,"number":"123-4567-8912"}]',
+    )
   })
 
   it('generates missing foreign key', () => {

@@ -1,7 +1,7 @@
 import { consola } from 'consola'
 import { loadWorkspace } from './_utils'
 
-async function main () {
+async function main() {
   const workspace = await loadWorkspace(process.cwd())
 
   const newVersion = process.argv[2]
@@ -9,7 +9,7 @@ async function main () {
     throw new Error('Please provide version!')
   }
 
-  for (const pkg of workspace.packages.filter(p => !p.data.private)) {
+  for (const pkg of workspace.packages.filter((p) => !p.data.private)) {
     workspace.setVersion(pkg.data.name, newVersion!)
   }
 

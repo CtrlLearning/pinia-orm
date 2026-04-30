@@ -20,7 +20,7 @@ describe('performance/save_has_many_relation', () => {
     @Str('') name!: string
 
     @HasMany(() => Post, 'userId')
-      posts!: Post[]
+    posts!: Post[]
   }
 
   it('saves data with has many relation within decent time', () => {
@@ -59,8 +59,12 @@ describe('performance/save_has_many_relation', () => {
     }
     const useWtihoutCacheTime = performance.now()
     console.timeEnd('get(): without cache')
-    console.log(`Time with Cache ${useCacheTime - timeStart}, without: ${useWtihoutCacheTime - useCacheTime}`)
+    console.log(
+      `Time with Cache ${useCacheTime - timeStart}, without: ${useWtihoutCacheTime - useCacheTime}`,
+    )
 
-    expect(useCacheTime - timeStart).toBeLessThan(useWtihoutCacheTime - useCacheTime)
+    expect(useCacheTime - timeStart).toBeLessThan(
+      useWtihoutCacheTime - useCacheTime,
+    )
   })
 })

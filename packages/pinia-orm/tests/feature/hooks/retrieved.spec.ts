@@ -2,9 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { Model, useRepo } from '../../../src'
 import { Num, Str } from '../../../src/decorators'
-import {
-  fillState,
-} from '../../helpers'
+import { fillState } from '../../helpers'
 
 describe('feature/hooks/retrieved', () => {
   beforeEach(() => {
@@ -19,7 +17,7 @@ describe('feature/hooks/retrieved', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static retrieved (model: Model) {
+      static retrieved(model: Model) {
         model.name = 'John'
       }
     }
@@ -45,7 +43,7 @@ describe('feature/hooks/retrieved', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static retrieved () {
+      static retrieved() {
         console.warn('retrieved')
       }
     }
@@ -72,7 +70,7 @@ describe('feature/hooks/retrieved', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static retrieved () {
+      static retrieved() {
         console.warn('retrieved')
       }
     }

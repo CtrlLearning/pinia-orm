@@ -20,7 +20,7 @@ describe('Feature - Request - Actions', () => {
     class User extends Model {
       static entity = 'users'
 
-      static fields () {
+      static fields() {
         return {
           id: this.attr(null),
           name: this.attr(''),
@@ -53,7 +53,7 @@ describe('Feature - Request - Actions', () => {
     class User extends Model {
       static entity = 'users'
 
-      static fields () {
+      static fields() {
         return {
           id: this.attr(null),
           name: this.attr(''),
@@ -63,7 +63,7 @@ describe('Feature - Request - Actions', () => {
       static config = {
         axiosApi: {
           actions: {
-            fetch (this: Request, url: string): Promise<Response> {
+            fetch(this: Request, url: string): Promise<Response> {
               return this.get(url)
             },
           },

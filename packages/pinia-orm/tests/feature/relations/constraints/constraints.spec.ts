@@ -1,7 +1,13 @@
 import { describe, expect, it } from 'vitest'
 
 import { Model, useRepo } from '../../../../src'
-import { Attr, BelongsToMany, HasOne, Num, Str } from '../../../../src/decorators'
+import {
+  Attr,
+  BelongsToMany,
+  HasOne,
+  Num,
+  Str,
+} from '../../../../src/decorators'
 
 describe('feature/relations/constraints/constraints', () => {
   class Type extends Model {
@@ -90,7 +96,15 @@ describe('feature/relations/constraints/constraints', () => {
     const typesRepo = useRepo(Type)
 
     usersRepo.save([
-      { id: 1, name: 'John Doe', roles: [{ id: 1, pivot: { level: 1 }, phone: { id: 4, number: '999' } }, { id: 2 }, { id: 4 }] },
+      {
+        id: 1,
+        name: 'John Doe',
+        roles: [
+          { id: 1, pivot: { level: 1 }, phone: { id: 4, number: '999' } },
+          { id: 2 },
+          { id: 4 },
+        ],
+      },
       { id: 2, name: 'John Doe', roles: [{ id: 1, pivot: { level: 2 } }] },
       { id: 3, name: 'Johnny Doe' },
     ])

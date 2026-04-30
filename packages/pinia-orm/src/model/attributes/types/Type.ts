@@ -17,7 +17,7 @@ export abstract class Type extends Attribute {
   /**
    * Create a new Type attribute instance.
    */
-  constructor (model: Model, defaultValue: TypeDefault<any> = null) {
+  constructor(model: Model, defaultValue: TypeDefault<any> = null) {
     super(model)
     this.rawDefaultValue = defaultValue
   }
@@ -25,28 +25,39 @@ export abstract class Type extends Attribute {
   /**
    * The computed default value of the attribute.
    */
-  get defaultValue (): any {
-    return typeof this.rawDefaultValue === 'function' ? this.rawDefaultValue() : this.rawDefaultValue
+  get defaultValue(): any {
+    return typeof this.rawDefaultValue === 'function'
+      ? this.rawDefaultValue()
+      : this.rawDefaultValue
   }
 
   /**
    * Set the nullable option to false.
    */
-  notNullable (): this {
+  notNullable(): this {
     this.isNullable = false
     return this
   }
 
-  protected makeReturn<T> (type: 'boolean' | 'number' | 'string', value: any): T {
-    if (value === undefined) { return this.defaultValue }
+  protected makeReturn<T>(
+    type: 'boolean' | 'number' | 'string',
+    value: any,
+  ): T {
+    if (value === undefined) {
+      return this.defaultValue
+    }
 
     if (value === null) {
-      if (!this.isNullable) { this.throwWarning(['is set as non nullable!']) }
+      if (!this.isNullable) {
+        this.throwWarning(['is set as non nullable!'])
+      }
 
       return value
     }
 
-    if (typeof value !== type) { this.throwWarning([value, 'is not a', type]) }
+    if (typeof value !== type) {
+      this.throwWarning([value, 'is not a', type])
+    }
 
     return value
   }
@@ -54,7 +65,11 @@ export abstract class Type extends Attribute {
   /**
    * Throw warning for wrong type
    */
-  protected throwWarning (message: string[]) {
-    console.warn(['[Pinia ORM]'].concat([`Field ${this.model.$entity()}:${this.key} - `, ...message]).join(' '))
+  protected throwWarning(message: string[]) {
+    console.warn(
+      ['[Pinia ORM]']
+        .concat([`Field ${this.model.$entity()}:${this.key} - `, ...message])
+        .join(' '),
+    )
   }
 }

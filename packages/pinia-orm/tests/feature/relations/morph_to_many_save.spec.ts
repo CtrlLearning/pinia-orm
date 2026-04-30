@@ -8,7 +8,13 @@ describe('feature/relations/morph_to_many_save', () => {
     static entity = 'users'
 
     @Attr() declare id: number
-    @MorphToMany(() => Tag, () => Taggable, 'tag_id', 'taggable_id', 'taggable_type')
+    @MorphToMany(
+      () => Tag,
+      () => Taggable,
+      'tag_id',
+      'taggable_id',
+      'taggable_type',
+    )
     declare tags: Tag[]
   }
 
@@ -16,7 +22,13 @@ describe('feature/relations/morph_to_many_save', () => {
     static entity = 'videos'
 
     @Attr() declare id: number
-    @MorphToMany(() => Tag, () => Taggable, 'tag_id', 'taggable_id', 'taggable_type')
+    @MorphToMany(
+      () => Tag,
+      () => Taggable,
+      'tag_id',
+      'taggable_id',
+      'taggable_type',
+    )
     declare tags: Tag[]
   }
 
@@ -77,13 +89,48 @@ describe('feature/relations/morph_to_many_save', () => {
         4: { id: 4 },
       },
       taggables: {
-        '[1,1,"users"]': { tag_id: 1, taggable_id: 1, taggable_type: 'users', level: 1 },
-        '[2,1,"users"]': { tag_id: 2, taggable_id: 1, taggable_type: 'users', level: null },
-        '[4,1,"users"]': { tag_id: 4, taggable_id: 1, taggable_type: 'users', level: null },
-        '[1,2,"users"]': { tag_id: 1, taggable_id: 2, taggable_type: 'users', level: 2 },
-        '[1,1,"videos"]': { tag_id: 1, taggable_id: 1, taggable_type: 'videos', level: 4 },
-        '[2,1,"videos"]': { tag_id: 2, taggable_id: 1, taggable_type: 'videos', level: null },
-        '[1,2,"videos"]': { tag_id: 1, taggable_id: 2, taggable_type: 'videos', level: 5 },
+        '[1,1,"users"]': {
+          tag_id: 1,
+          taggable_id: 1,
+          taggable_type: 'users',
+          level: 1,
+        },
+        '[2,1,"users"]': {
+          tag_id: 2,
+          taggable_id: 1,
+          taggable_type: 'users',
+          level: null,
+        },
+        '[4,1,"users"]': {
+          tag_id: 4,
+          taggable_id: 1,
+          taggable_type: 'users',
+          level: null,
+        },
+        '[1,2,"users"]': {
+          tag_id: 1,
+          taggable_id: 2,
+          taggable_type: 'users',
+          level: 2,
+        },
+        '[1,1,"videos"]': {
+          tag_id: 1,
+          taggable_id: 1,
+          taggable_type: 'videos',
+          level: 4,
+        },
+        '[2,1,"videos"]': {
+          tag_id: 2,
+          taggable_id: 1,
+          taggable_type: 'videos',
+          level: null,
+        },
+        '[1,2,"videos"]': {
+          tag_id: 1,
+          taggable_id: 2,
+          taggable_type: 'videos',
+          level: 5,
+        },
       },
     })
   })

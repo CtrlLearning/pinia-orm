@@ -15,14 +15,16 @@ describe('unit/model/Model_Casts_Boolean', () => {
 
       @Bool(false) isPublished!: boolean
 
-      static casts () {
+      static casts() {
         return {
           isPublished: BooleanCast,
         }
       }
     }
 
-    expect(new User({ isPublished: 1 }, { operation: 'get' }).isPublished).toBe(true)
+    expect(new User({ isPublished: 1 }, { operation: 'get' }).isPublished).toBe(
+      true,
+    )
   })
 
   it('should cast with decorator', () => {
@@ -31,16 +33,30 @@ describe('unit/model/Model_Casts_Boolean', () => {
 
       @Cast(() => BooleanCast)
       @Bool(true)
-        isPublished!: boolean
+      isPublished!: boolean
     }
 
-    expect(new User({ isPublished: true }, { operation: 'get' }).isPublished).toBe(true)
-    expect(new User({ isPublished: 0 }, { operation: 'get' }).isPublished).toBe(false)
-    expect(new User({ isPublished: '1' }, { operation: 'get' }).isPublished).toBe(true)
-    expect(new User({ isPublished: null }, { operation: 'get' }).isPublished).toBe(null)
-    expect(new User({ isPublished: '' }, { operation: 'get' }).isPublished).toBe(false)
-    expect(new User({ isPublished: 'tt12' }, { operation: 'get' }).isPublished).toBe(true)
-    expect(new User({ isPublished: {} }, { operation: 'get' }).isPublished).toBe(false)
+    expect(
+      new User({ isPublished: true }, { operation: 'get' }).isPublished,
+    ).toBe(true)
+    expect(new User({ isPublished: 0 }, { operation: 'get' }).isPublished).toBe(
+      false,
+    )
+    expect(
+      new User({ isPublished: '1' }, { operation: 'get' }).isPublished,
+    ).toBe(true)
+    expect(
+      new User({ isPublished: null }, { operation: 'get' }).isPublished,
+    ).toBe(null)
+    expect(
+      new User({ isPublished: '' }, { operation: 'get' }).isPublished,
+    ).toBe(false)
+    expect(
+      new User({ isPublished: 'tt12' }, { operation: 'get' }).isPublished,
+    ).toBe(true)
+    expect(
+      new User({ isPublished: {} }, { operation: 'get' }).isPublished,
+    ).toBe(false)
     expect(new User({ operation: 'get' }).isPublished).toBe(true)
   })
 
@@ -50,14 +66,22 @@ describe('unit/model/Model_Casts_Boolean', () => {
 
       @Cast(() => BooleanCast)
       @Bool(null, { notNullable: true })
-        isPublished!: boolean | null
+      isPublished!: boolean | null
     }
 
     expect(new User({ operation: 'get' }).isPublished).toBe(null)
-    expect(new User({ isPublished: 'value' }, { operation: 'get' }).isPublished).toBe(true)
-    expect(new User({ isPublished: 1 }, { operation: 'get' }).isPublished).toBe(true)
-    expect(new User({ isPublished: true }, { operation: 'get' }).isPublished).toBe(true)
-    expect(new User({ isPublished: null }, { operation: 'get' }).isPublished).toBe(null)
+    expect(
+      new User({ isPublished: 'value' }, { operation: 'get' }).isPublished,
+    ).toBe(true)
+    expect(new User({ isPublished: 1 }, { operation: 'get' }).isPublished).toBe(
+      true,
+    )
+    expect(
+      new User({ isPublished: true }, { operation: 'get' }).isPublished,
+    ).toBe(true)
+    expect(
+      new User({ isPublished: null }, { operation: 'get' }).isPublished,
+    ).toBe(null)
   })
 
   it('should cast before saved into store', () => {
@@ -67,7 +91,7 @@ describe('unit/model/Model_Casts_Boolean', () => {
       @Attr(0) id!: number
       @Bool(false) isPublished!: boolean
 
-      static casts () {
+      static casts() {
         return {
           isPublished: BooleanCast,
         }

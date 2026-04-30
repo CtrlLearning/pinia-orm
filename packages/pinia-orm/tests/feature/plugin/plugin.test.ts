@@ -27,7 +27,9 @@ describe('feature/plugin/plugin', () => {
 
   it('can extend repository', () => {
     const plugin = definePiniaOrmPlugin((context) => {
-      context.repository.test = () => { return 'test' }
+      context.repository.test = () => {
+        return 'test'
+      }
       return context
     })
 

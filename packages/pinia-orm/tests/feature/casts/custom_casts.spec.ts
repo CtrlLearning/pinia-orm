@@ -12,7 +12,7 @@ describe('feature/casts/custom_casts', () => {
     @Str('') name!: string
     @Attr('{}') owner!: Person
 
-    static casts () {
+    static casts() {
       return {
         owner: PersonCast,
       }
@@ -23,30 +23,30 @@ describe('feature/casts/custom_casts', () => {
     firstname: string
     lastname: string
 
-    constructor (firstname: string, lastname: string) {
+    constructor(firstname: string, lastname: string) {
       this.firstname = firstname
       this.lastname = lastname
     }
 
-    static deserialize (fullname: string): Person {
+    static deserialize(fullname: string): Person {
       const [firstname, lastname] = fullname.split(' ')
       return new Person(firstname, lastname)
     }
 
-    serialize (): string {
+    serialize(): string {
       return `${this.firstname} ${this.lastname}`
     }
   }
 
   class PersonCast extends CastAttribute {
-    get (value?: string): Person | undefined {
+    get(value?: string): Person | undefined {
       if (typeof value == 'string') {
         return Person.deserialize(value)
       }
       return value
     }
 
-    set (value?: Person): string | undefined {
+    set(value?: Person): string | undefined {
       if (value) {
         return value.serialize()
       }
@@ -57,7 +57,11 @@ describe('feature/casts/custom_casts', () => {
   it('check custom cast insertion', () => {
     const houseRepo = useRepo(House)
 
-    const returnedHouse = houseRepo.save({ id: 1, name: 'First', owner: new Person('John', 'Doe') })
+    const returnedHouse = houseRepo.save({
+      id: 1,
+      name: 'First',
+      owner: new Person('John', 'Doe'),
+    })
 
     expect(returnedHouse.owner.firstname).toEqual('John')
     expect(returnedHouse.owner.lastname).toEqual('Doe')
@@ -67,9 +71,11 @@ describe('feature/casts/custom_casts', () => {
     expect(savedHouse.owner.firstname).toEqual('John')
     expect(savedHouse.owner.lastname).toEqual('Doe')
 
-    assertState({ houses: {
-      1: { id: 1, name: 'First', owner: 'John Doe' },
-    } })
+    assertState({
+      houses: {
+        1: { id: 1, name: 'First', owner: 'John Doe' },
+      },
+    })
   })
 
   it('check custom cast update', () => {
@@ -77,11 +83,16 @@ describe('feature/casts/custom_casts', () => {
 
     houseRepo.save({ id: 1, name: 'First', owner: new Person('John', 'Doe') })
 
-    assertState({ houses: {
-      1: { id: 1, name: 'First', owner: 'John Doe' },
-    } })
+    assertState({
+      houses: {
+        1: { id: 1, name: 'First', owner: 'John Doe' },
+      },
+    })
 
-    const returnedHouse = houseRepo.save({ id: 1, owner: new Person('Foo', 'Bar') })
+    const returnedHouse = houseRepo.save({
+      id: 1,
+      owner: new Person('Foo', 'Bar'),
+    })
 
     expect(returnedHouse.owner.firstname).toEqual('Foo')
     expect(returnedHouse.owner.lastname).toEqual('Bar')
@@ -91,8 +102,10 @@ describe('feature/casts/custom_casts', () => {
     expect(updatedHouse.owner.firstname).toEqual('Foo')
     expect(updatedHouse.owner.lastname).toEqual('Bar')
 
-    assertState({ houses: {
-      1: { id: 1, name: 'First', owner: 'Foo Bar' },
-    } })
+    assertState({
+      houses: {
+        1: { id: 1, name: 'First', owner: 'Foo Bar' },
+      },
+    })
   })
 })

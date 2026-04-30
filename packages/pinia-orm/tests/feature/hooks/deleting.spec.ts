@@ -2,10 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 import { Model, useRepo } from '../../../src'
 import { Num, Str } from '../../../src/decorators'
-import {
-  assertState,
-  fillState,
-} from '../../helpers'
+import { assertState, fillState } from '../../helpers'
 
 describe('feature/hooks/deleting', () => {
   it('can be destroyed', () => {
@@ -16,7 +13,7 @@ describe('feature/hooks/deleting', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static deleting (model: Model) {
+      static deleting(model: Model) {
         model.name = 'John'
       }
     }
@@ -46,7 +43,7 @@ describe('feature/hooks/deleting', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static deleting (model: Model) {
+      static deleting(model: Model) {
         model.name = 'John'
       }
     }
@@ -79,7 +76,7 @@ describe('feature/hooks/deleting', () => {
       @Str('') name!: string
       @Num(0) age!: number
 
-      static deleting (model: Model) {
+      static deleting(model: Model) {
         model.name = 'John'
         return false
       }

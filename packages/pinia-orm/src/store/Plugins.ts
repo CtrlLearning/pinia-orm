@@ -15,10 +15,14 @@ export const definePiniaOrmPlugin = (plugin: PiniaOrmPlugin) => plugin
 
 export const plugins: PiniaOrmPlugin[] = []
 
-export function registerPlugins (repository: Repository) {
+export function registerPlugins(repository: Repository) {
   let config = globalConfig
   plugins.forEach((plugin) => {
-    const pluginConfig = plugin({ config, repository, model: repository.getModel() })
+    const pluginConfig = plugin({
+      config,
+      repository,
+      model: repository.getModel(),
+    })
     config = { ...config, ...pluginConfig.config }
   })
 

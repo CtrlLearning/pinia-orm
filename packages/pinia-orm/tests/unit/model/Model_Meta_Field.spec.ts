@@ -18,7 +18,10 @@ describe('unit/model/Model_Meta_Field', () => {
       @Str('') declare name: string
       @Str('') declare username: string
     }
-    const user = new User({ name: 'Test', username: 'John' }, { operation: 'set', action: 'save' })
+    const user = new User(
+      { name: 'Test', username: 'John' },
+      { operation: 'set', action: 'save' },
+    )
 
     expect(user.name).toBe('Test')
     expect(user._meta).toHaveProperty('createdAt')
@@ -44,7 +47,7 @@ describe('unit/model/Model_Meta_Field', () => {
       username: 'JD',
     })
 
-    await new Promise(resolve => setTimeout(resolve, 1500))
+    await new Promise((resolve) => setTimeout(resolve, 1500))
 
     userRepo.save({
       id: 1,
@@ -54,6 +57,8 @@ describe('unit/model/Model_Meta_Field', () => {
 
     const user2 = userRepo.withMeta().find(1)
 
-    expect(user2?._meta?.createdAt).toBeLessThan(user2?._meta?.updatedAt as number)
+    expect(user2?._meta?.createdAt).toBeLessThan(
+      user2?._meta?.updatedAt as number,
+    )
   })
 })

@@ -21,7 +21,7 @@ describe('feature/relations/morph_one_save', () => {
     @Str('') name!: string
 
     @MorphOne(() => Image, 'imageableId', 'imageableType')
-      image!: Image | null
+    image!: Image | null
   }
 
   it('inserts a record to the store with "morph one" relation', () => {
@@ -60,14 +60,18 @@ describe('feature/relations/morph_one_save', () => {
       usersRepo.save({
         id: 1,
         name: 'John Doe',
-        image: [{
-          id: 1,
-          url: '/profile.jpg',
-          imageableId: 1,
-          imageableType: 'users',
-        }],
+        image: [
+          {
+            id: 1,
+            url: '/profile.jpg',
+            imageableId: 1,
+            imageableType: 'users',
+          },
+        ],
       })
-    }).toThrowError('[Pinia ORM] You are passing a list to " users.image " which is a one to one Relation(MorphOne): [{"id":1,"url":"/profile.jpg","imageableId":1,"imageableType":"users"}]')
+    }).toThrowError(
+      '[Pinia ORM] You are passing a list to " users.image " which is a one to one Relation(MorphOne): [{"id":1,"url":"/profile.jpg","imageableId":1,"imageableType":"users"}]',
+    )
   })
 
   it('generates missing parent id', () => {

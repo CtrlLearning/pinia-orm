@@ -90,7 +90,7 @@ describe('feature/repository/retrieves_where', () => {
       },
     })
 
-    const users = userRepo.where(user => user.age === 30).get()
+    const users = userRepo.where((user) => user.age === 30).get()
 
     const expected = [
       { id: 1, name: 'John Doe', age: 30 },
@@ -128,15 +128,16 @@ describe('feature/repository/retrieves_where', () => {
 
     const users2 = userRepo.whereNotIn('age', ages).get()
 
-    const expected2 = [
-      { id: 3, name: 'Johnny Doe', age: 20 },
-    ]
+    const expected2 = [{ id: 3, name: 'Johnny Doe', age: 20 }]
 
     expect(users2).toHaveLength(1)
     assertInstanceOf(users2, User)
     assertModels(users2, expected2)
 
-    const users3 = userRepo.orWhereIn('name', new Set(['John Doe'])).orWhereNotIn('age', ages).get()
+    const users3 = userRepo
+      .orWhereIn('name', new Set(['John Doe']))
+      .orWhereNotIn('age', ages)
+      .get()
 
     const expected3 = [
       { id: 1, name: 'John Doe', age: 40 },
@@ -161,9 +162,7 @@ describe('feature/repository/retrieves_where', () => {
 
     const users = userRepo.whereNull('age').get()
 
-    const expected = [
-      { id: 1, name: 'John Doe', age: null },
-    ]
+    const expected = [{ id: 1, name: 'John Doe', age: null }]
 
     expect(users).toHaveLength(1)
     assertInstanceOf(users, User)

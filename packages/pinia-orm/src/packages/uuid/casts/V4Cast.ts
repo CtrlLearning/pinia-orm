@@ -9,11 +9,11 @@ export class UidCast extends CastAttribute {
   /**
    * Create a new String attribute instance.
    */
-  constructor (attributes: ModelFields) {
+  constructor(attributes: ModelFields) {
     super(attributes)
   }
 
-  static withParameters (parameters?: V4Options): typeof CastAttribute {
+  static withParameters(parameters?: V4Options): typeof CastAttribute {
     this.parameters = parameters
     return this
   }
@@ -21,7 +21,7 @@ export class UidCast extends CastAttribute {
   /**
    * Make the value for the attribute.
    */
-  set (value: any): string | null {
+  set(value: any): string | null {
     return value ?? v4(this.$parameters)
   }
 }

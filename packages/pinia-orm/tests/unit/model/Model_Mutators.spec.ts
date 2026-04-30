@@ -1,7 +1,14 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
 import { Model, useRepo } from '../../../src'
-import { Attr, BelongsToMany, HasMany, Mutate, Num, Str } from '../../../src/decorators'
+import {
+  Attr,
+  BelongsToMany,
+  HasMany,
+  Mutate,
+  Num,
+  Str,
+} from '../../../src/decorators'
 import { assertState } from '../../helpers'
 
 beforeEach(() => {
@@ -15,16 +22,18 @@ describe('unit/model/Model_Mutators', () => {
 
       @Attr('') name!: string
 
-      static mutators () {
+      static mutators() {
         return {
-          name (value: any) {
+          name(value: any) {
             return value.toUpperCase()
           },
         }
       }
     }
 
-    expect(new User({ name: 'john doe' }, { operation: 'get' }).name).toBe('JOHN DOE')
+    expect(new User({ name: 'john doe' }, { operation: 'get' }).name).toBe(
+      'JOHN DOE',
+    )
   })
 
   it('should mutate data if mutators are present with decorator', () => {
@@ -33,10 +42,12 @@ describe('unit/model/Model_Mutators', () => {
 
       @Mutate((value: any) => value.toUpperCase())
       @Attr('')
-        name!: string
+      name!: string
     }
 
-    expect(new User({ name: 'john doe' }, { operation: 'get' }).name).toBe('JOHN DOE')
+    expect(new User({ name: 'john doe' }, { operation: 'get' }).name).toBe(
+      'JOHN DOE',
+    )
   })
 
   it('should mutate data if mutators with getter are present', () => {
@@ -45,7 +56,7 @@ describe('unit/model/Model_Mutators', () => {
 
       @Attr('') name!: string
 
-      static mutators () {
+      static mutators() {
         return {
           name: {
             get: (value: any) => value.toUpperCase(),
@@ -54,7 +65,9 @@ describe('unit/model/Model_Mutators', () => {
       }
     }
 
-    expect(new User({ name: 'john doe' }, { operation: 'get' }).name).toBe('JOHN DOE')
+    expect(new User({ name: 'john doe' }, { operation: 'get' }).name).toBe(
+      'JOHN DOE',
+    )
   })
 
   it('should not mutate data in the store with get', () => {
@@ -64,7 +77,7 @@ describe('unit/model/Model_Mutators', () => {
       @Attr(0) id!: number
       @Attr('') name!: string
 
-      static mutators () {
+      static mutators() {
         return {
           name: {
             get: (value: any) => value.toUpperCase(),
@@ -95,11 +108,15 @@ describe('unit/model/Model_Mutators', () => {
       @Attr(0) id!: number
       @Attr('') name!: string
 
-      static mutators () {
+      static mutators() {
         return {
           name: {
-            set: (value: any) => { return value.toUpperCase() },
-            get: (value: any) => { return value.toLowerCase() },
+            set: (value: any) => {
+              return value.toUpperCase()
+            },
+            get: (value: any) => {
+              return value.toLowerCase()
+            },
           },
         }
       }
@@ -150,10 +167,12 @@ describe('unit/model/Model_Mutators', () => {
       @Attr(0) id!: number
       @Attr('') name!: string
 
-      static mutators () {
+      static mutators() {
         return {
           name: {
-            set: (value: any) => { return value + ' (modified)' },
+            set: (value: any) => {
+              return value + ' (modified)'
+            },
           },
         }
       }
@@ -195,11 +214,15 @@ describe('unit/model/Model_Mutators', () => {
       @Num(0) declare userId: number
       @Str('') declare title: string
 
-      static mutators () {
+      static mutators() {
         return {
           title: {
-            set: (value: any) => { return value.toUpperCase() },
-            get: (value: any) => { return value.toLowerCase() },
+            set: (value: any) => {
+              return value.toUpperCase()
+            },
+            get: (value: any) => {
+              return value.toLowerCase()
+            },
           },
         }
       }
@@ -258,11 +281,15 @@ describe('unit/model/Model_Mutators', () => {
       @Num(0) id!: number
       @Str('') name!: string
 
-      static mutators () {
+      static mutators() {
         return {
           name: {
-            set: (value: any) => { return value.toUpperCase() },
-            get: (value: any) => { return value.toLowerCase() },
+            set: (value: any) => {
+              return value.toUpperCase()
+            },
+            get: (value: any) => {
+              return value.toLowerCase()
+            },
           },
         }
       }
@@ -283,7 +310,10 @@ describe('unit/model/Model_Mutators', () => {
     userRepo.save([
       {
         belongsToManyId: 1,
-        permissions: [{ id: 1, pivot: { level: 1 }, name: 'Color' }, { id: 2, name: 'Test' }],
+        permissions: [
+          { id: 1, pivot: { level: 1 }, name: 'Color' },
+          { id: 2, name: 'Test' },
+        ],
       },
       {
         belongsToManyId: 2,

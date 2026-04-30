@@ -8,7 +8,7 @@ describe('performance/save_has_many_relation', () => {
   class Todo extends Model {
     static entity = 'todos'
 
-    static fields () {
+    static fields() {
       return {
         id: this.uid(),
         title: this.string(''),
@@ -22,11 +22,16 @@ describe('performance/save_has_many_relation', () => {
   it('it finds data in decent time', () => {
     const recordsCount = 10000
 
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 '
+    const characters =
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 '
     const generateString = (length: number) => {
       let result = ''
       const charactersLength = characters.length
-      for (let i = 0; i < length; i++) { result += characters.charAt(Math.floor(Math.random() * charactersLength)) }
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength),
+        )
+      }
 
       return result
     }

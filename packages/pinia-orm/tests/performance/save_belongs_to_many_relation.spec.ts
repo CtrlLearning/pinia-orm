@@ -29,7 +29,7 @@ describe('performance/save_belongs_to_many_relation.spec', () => {
     @Str('') name!: string
 
     @BelongsToMany(() => Role, () => RoleUser, 'user_id', 'role_id')
-      roles!: Role
+    roles!: Role
   }
 
   it('saves data with bleongs to many relation within decent time', () => {
@@ -73,8 +73,12 @@ describe('performance/save_belongs_to_many_relation.spec', () => {
     }
     const useWtihoutCacheTime = performance.now()
     console.timeEnd('get(): without cache')
-    console.log(`Time with Cache ${useCacheTime - timeStart}, without: ${useWtihoutCacheTime - useCacheTime}`)
+    console.log(
+      `Time with Cache ${useCacheTime - timeStart}, without: ${useWtihoutCacheTime - useCacheTime}`,
+    )
 
-    expect(useCacheTime - timeStart).toBeLessThan(useWtihoutCacheTime - useCacheTime)
+    expect(useCacheTime - timeStart).toBeLessThan(
+      useWtihoutCacheTime - useCacheTime,
+    )
   })
 })

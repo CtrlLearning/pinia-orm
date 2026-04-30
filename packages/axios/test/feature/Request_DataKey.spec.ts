@@ -11,7 +11,7 @@ describe('Feature - Request - Data Key', () => {
   class User extends Model {
     static entity = 'users'
 
-    static fields () {
+    static fields() {
       return {
         id: this.attr(null),
         name: this.attr(''),

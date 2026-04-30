@@ -5,7 +5,10 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
-      '@pinia-orm/normalizr': path.resolve(__dirname, '../normalizr/src/index.js'),
+      '@pinia-orm/normalizr': path.resolve(
+        __dirname,
+        '../normalizr/src/index.js',
+      ),
     },
   },
   test: {
