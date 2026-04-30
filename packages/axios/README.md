@@ -1,6 +1,6 @@
 [![Pinia ORM banner](./.github/assets/banner.png)](https://github.com/storm-tail/pinia-orm)
 
-# @pinia-orm/axios
+# @ctrllearning/pinia-orm-axios
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
@@ -30,11 +30,11 @@ Made with ❤️
 
 [MIT](http://opensource.org/licenses/MIT)
 
-[npm-version-src]: https://img.shields.io/npm/v/@pinia-orm/axios/latest.svg
-[npm-version-href]: https://npmjs.com/package/@pinia-orm/axios
-[npm-downloads-src]: https://img.shields.io/npm/dm/@pinia-orm/axios.svg
-[npm-downloads-href]: https://npmjs.com/package/@pinia-orm/axios
+[npm-version-src]: https://img.shields.io/npm/v/@ctrllearning/pinia-orm-axios/latest.svg
+[npm-version-href]: https://npmjs.com/package/@ctrllearning/pinia-orm-axios
+[npm-downloads-src]: https://img.shields.io/npm/dm/@ctrllearning/pinia-orm-axios.svg
+[npm-downloads-href]: https://npmjs.com/package/@ctrllearning/pinia-orm-axios
 [github-actions-ci-src]: https://github.com/codedredd/pinia-orm/actions/workflows/build.yml/badge.svg
 [github-actions-ci-href]: https://github.com/codedredd/pinia-orm/actions?query=workflow%3Abuild
-[license-src]: https://img.shields.io/npm/l/@pinia-orm/axios.svg
-[license-href]: https://npmjs.com/package/@pinia-orm/axios
+[license-src]: https://img.shields.io/npm/l/@ctrllearning/pinia-orm-axios.svg
+[license-href]: https://npmjs.com/package/@ctrllearning/pinia-orm-axios

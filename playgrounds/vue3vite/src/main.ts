@@ -3,7 +3,7 @@ import App from './App.vue'
 
 import { createPinia } from 'pinia'
 import { createORM } from 'pinia-orm'
-import { createPiniaOrmAxios } from '@pinia-orm/axios'
+import { createPiniaOrmAxios } from '@ctrllearning/pinia-orm-axios'
 import axios from 'axios'
 
 const app = createApp(App)

@@ -3,7 +3,7 @@ import { VaCard, VaCardContent, VaCardTitle } from 'vuestic-ui'
 
 import { onMounted, computed } from 'vue'
 
-import { useAxiosRepo } from '@pinia-orm/axios'
+import { useAxiosRepo } from '@ctrllearning/pinia-orm-axios'
 import UserModel from './models/User'
 import { useRepo } from 'pinia-orm'
 

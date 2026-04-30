@@ -215,7 +215,7 @@ importers:
 
   playgrounds/base:
     dependencies:
-      '@pinia-orm/axios':
+      '@ctrllearning/pinia-orm-axios':
         specifier: workspace:*
         version: link:../../packages/axios
       pinia:
@@ -258,7 +258,7 @@ importers:
 
   playgrounds/vue3vite:
     dependencies:
-      '@pinia-orm/axios':
+      '@ctrllearning/pinia-orm-axios':
         specifier: workspace:*
         version: link:../../packages/axios
       axios:
@@ -7315,7 +7315,7 @@ snapshots:
 
   '@types/ws@8.18.1':
     dependencies:
-      '@types/node': 25.6.0
+      '@types/node': 24.12.2
     optional: true
 
   '@types/yargs-parser@21.0.0': {}
@@ -8870,7 +8870,7 @@ snapshots:
 
   happy-dom@20.9.0:
     dependencies:
-      '@types/node': 25.6.0
+      '@types/node': 24.12.2
       '@types/whatwg-mimetype': 3.0.2
       '@types/ws': 8.18.1
       entities: 7.0.1
