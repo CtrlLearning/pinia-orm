@@ -7,5 +7,5 @@ export default defineBuildConfig({
   rollup: {
     emitCJS: true,
   },
-  externals: ['axios', 'pinia-orm', 'pinia'],
+  externals: ['axios', '@ctrllearning/pinia-orm', 'pinia'],
 })
