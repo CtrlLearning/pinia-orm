@@ -20,8 +20,7 @@
     "test": "pnpm --filter './packages/**' test",
     "test:coverage": "pnpm --filter './packages/**' coverage",
     "test:types": "tsc --build ./tsconfig.json",
-    "test:dts": "lerna run test:dts",
-    "docs:api": "lerna run docs:api --scope @pinia/docs"
+    "test:dts": "lerna run test:dts"
   },
   "devDependencies": {
     "@lerna-lite/cli": "^3.6.0",

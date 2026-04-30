@@ -4,8 +4,6 @@ on:
     branches:
       - '**'
     paths-ignore:
-      - docs/**
-      - docs-playground/**
       - playgrounds/**
       - scripts
   pull_request:
@@ -13,8 +11,6 @@ on:
       - 1.x
       - "!v[0-9]*"
     paths-ignore:
-      - docs/**
-      - docs-playground/**
       - playgrounds/**
       - scripts
 jobs:
