@@ -1,19 +1,32 @@
 <script setup>
-import { VaCard } from 'vuestic-ui'
+import {VaCard, VaCardContent, VaCardTitle} from 'vuestic-ui'
 
-import { onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
 
 import { useAxiosRepo } from '@pinia-orm/axios'
 import UserModel from './models/User'
+import {useRepo} from "pinia-orm";
 
 onMounted(() => {
-  console.log(useAxiosRepo(UserModel).api().fetchById(1))
+
+  useRepo(UserModel).save({
+    id: 1,
+    name: 'John Doe',
+    email: 'john@example.com',
+  })
+
+  // console.log(useAxiosRepo(UserModel).api().fetchById(1))
+})
+
+
+const users= computed(() => {
+  return useRepo(UserModel).all()
 })
 </script>
 
 <template>
   <VaCard>
-    <VaCardTitle>Title</VaCardTitle>
-    <VaCardContent> blabla </VaCardContent>
+    <VaCardTitle>Users</VaCardTitle>
+    <VaCardContent>{{ users }}</VaCardContent>
   </VaCard>
 </template>

@@ -13,8 +13,7 @@
     "axios": "^1.7.2",
     "pinia": "^2.1.7",
     "pinia-orm": "workspace:*",
-    "vue": "^3.4.29",
-    "vuestic-ui": "^1.9.12"
+    "vue": "^3.4.29"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",

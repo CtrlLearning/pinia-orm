@@ -15,7 +15,14 @@ export default class User extends Model {
     axiosApi: {
       actions: {
         fetchById(id) {
-          return this.get(`/api/users/${id}`)
+          return [
+            {
+              id,
+              name: 'test',
+              email: 'test@gmail.com',
+            }
+          ]
+          // return this.get(`/api/users/${id}`)
         },
       },
     },
