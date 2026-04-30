@@ -13,7 +13,7 @@
     "noEmit": true,
     "paths": {
       "@pinia/*": ["packages/*/src"],
-      "pinia-orm": ["packages/pinia-orm/src"]
+      "@ctrllearning/pinia-orm": ["packages/pinia-orm/src"]
     },
 
     "target": "esnext",

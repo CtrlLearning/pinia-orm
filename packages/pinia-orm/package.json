@@ -1,5 +1,5 @@
 {
-  "name": "pinia-orm",
+  "name": "@ctrllearning/pinia-orm",
   "version": "3.0.0",
   "description": "The Pinia plugin to enable Object-Relational Mapping access to the Pinia Store.",
   "keywords": [

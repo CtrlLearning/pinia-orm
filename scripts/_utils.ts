@@ -1,15 +1,6 @@
-import { execSync } from 'node:child_process'
 import { promises as fsp } from 'node:fs'
-import { $fetch } from 'ofetch'
 import { resolve } from 'pathe'
 import { globby } from 'globby'
-import { execaSync } from 'execa'
-import {
-  determineSemverChange,
-  getGitDiff,
-  loadChangelogConfig,
-  parseCommits,
-} from 'changelogen'
 
 export interface Dep {
   name: string
@@ -122,56 +113,4 @@ export async function loadWorkspace(dir: string) {
     rename,
     setVersion,
   }
-}
-
-export async function determineBumpType() {
-  const config = await loadChangelogConfig(process.cwd())
-  const commits = await getLatestCommits()
-
-  const bumpType = determineSemverChange(commits, config)
-
-  return bumpType === 'major' ? 'minor' : bumpType
-}
-
-export async function getLatestCommits() {
-  const config = await loadChangelogConfig(process.cwd())
-  const latestTag = execaSync('git', [
-    'describe',
-    '--tags',
-    '--abbrev=0',
-  ]).stdout
-
-  return parseCommits(await getGitDiff(latestTag), config)
-}
-
-export async function getContributors() {
-  const contributors = [] as Array<{ name: string; username: string }>
-  const emails = new Set<string>()
-  const latestTag = execSync('git describe --tags --abbrev=0').toString().trim()
-  const rawCommits = await getGitDiff(latestTag)
-  for (const commit of rawCommits) {
-    if (
-      emails.has(commit.author.email) ||
-      commit.author.name === 'renovate[bot]'
-    ) {
-      continue
-    }
-    const { author } = await $fetch<{
-      author: { login: string; email: string }
-    }>(
-      `https://api.github.com/repos/CodeDredd/pinia-orm/commits/${commit.shortHash}`,
-      {
-        headers: {
-          'User-Agent': 'CodeDredd/pinia-orm',
-          Accept: 'application/vnd.github.v3+json',
-          Authorization: `token ${process.env.GITHUB_TOKEN}`,
-        },
-      },
-    )
-    if (!contributors.some((c) => c.username === author.login)) {
-      contributors.push({ name: commit.author.name, username: author.login })
-    }
-    emails.add(author.email)
-  }
-  return contributors
 }
