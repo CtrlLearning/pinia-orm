@@ -44,9 +44,7 @@
     "size": "size-limit",
     "flow": "flow",
     "flow:ci": "flow check",
-    "lint": "oxlint",
-    "lint2": "eslint . --cache",
-    "lint:fix": "eslint . --cache --fix"
+    "lint": "oxlint"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^11.2.0",
