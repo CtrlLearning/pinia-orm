@@ -184,9 +184,6 @@ async function main() {
   for (const pkg of pkgWithVersions) {
     step(` -> ${pkg.name} (${pkg.path})`)
     await runIfNotDry(`pnpm`, ['run', 'changelog'], { cwd: pkg.path })
-    await runIfNotDry(`pnpm`, ['exec', 'prettier', '--write', 'CHANGELOG.md'], {
-      cwd: pkg.path,
-    })
     await fs.copyFile(
       resolve(__dirname, '../LICENSE'),
       resolve(pkg.path, 'LICENSE'),
@@ -213,11 +210,7 @@ async function main() {
   const { stdout } = await run('git', ['diff'], { stdio: 'pipe' })
   if (stdout) {
     step('\nCommitting changes...')
-    await runIfNotDry('git', [
-      'add',
-      'packages/*/CHANGELOG.md',
-      'packages/*/package.json',
-    ])
+    await runIfNotDry('git', ['add', 'packages/*/package.json'])
     await runIfNotDry('git', [
       'commit',
       '-m',

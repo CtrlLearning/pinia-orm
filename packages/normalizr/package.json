@@ -9,21 +9,15 @@
     "normalize",
     "redux"
   ],
-  "homepage": "https://github.com/CodeDredd/pinia-orm",
+  "homepage": "https://github.com/ctrllearning/pinia-orm",
   "bugs": {
-    "url": "https://github.com/CodeDredd/pinia-orm/issues"
+    "url": "https://github.com/ctrllearning/pinia-orm/issues"
   },
-  "license": "MIT",
-  "author": "Paul Armstrong",
-  "contributors": [
-    "Dan Abramov",
-    "Gregor Becker"
-  ],
+  "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "https://github.com/CodeDredd/pinia-orm.git"
+    "url": "https://github.com/ctrllearning/pinia-orm.git"
   },
-  "funding": "https://github.com/sponsors/codedredd",
   "files": [
     "dist/",
     "index.d.ts",
@@ -47,7 +41,6 @@
   },
   "scripts": {
     "build": "unbuild",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @ctrllearning/pinia-orm-normalizr -r 1",
     "size": "size-limit",
     "flow": "flow",
     "flow:ci": "flow check",
