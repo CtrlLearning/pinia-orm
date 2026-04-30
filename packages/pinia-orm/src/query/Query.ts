@@ -1355,7 +1355,7 @@ export class Query<M extends Model = Model> {
   ): M | Collection<M> {
     return isArray(records)
       ? records.map((record) => this.hydrate(record, options))
-      : this.getHydratedModel(records, { relations: false, ...(options || {}) })
+      : this.getHydratedModel(records, { relations: false, ...options })
   }
 
   /**
@@ -1396,7 +1396,7 @@ export class Query<M extends Model = Model> {
         : this.model
       ).$newInstance(record, {
         relations: false,
-        ...(options || {}),
+        ...options,
         ...newOptions,
       })
     const hydratedModel = getNewInsance()

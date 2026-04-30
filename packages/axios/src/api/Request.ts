@@ -61,9 +61,11 @@ export class Request {
     for (const name in actions) {
       const action = actions[name]
 
-      typeof action === 'function'
-        ? this.registerFunctionAction(name, action)
-        : this.registerObjectAction(name, action)
+      if (typeof action === 'function') {
+        this.registerFunctionAction(name, action)
+      } else {
+        this.registerObjectAction(name, action)
+      }
     }
   }
 
@@ -158,7 +160,9 @@ export class Request {
       return response
     }
 
-    config.save && (await response.save())
+    if (config.save) {
+      await response.save()
+    }
 
     return response
   }

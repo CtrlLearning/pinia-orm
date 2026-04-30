@@ -45,8 +45,7 @@
     "build": "unbuild",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia-orm/axios -r 1",
     "size": "size-limit",
-    "lint": "eslint . --cache",
-    "lint:fix": "eslint . --cache --fix",
+    "lint": "oxlint",
     "test:ui": "vitest --ui --api 9527",
     "test:watch": "vitest --watch",
     "test": "vitest --run"
