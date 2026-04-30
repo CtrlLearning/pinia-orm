@@ -1,22 +1,28 @@
 {
   "name": "@pinia-orm/normalizr",
-  "version": "1.10.2",
   "description": "Normalizes JSON according to schema for Redux and Flux applications",
+  "keywords": [
+    "api",
+    "flux",
+    "json",
+    "normalize",
+    "redux"
+  ],
+  "homepage": "https://github.com/CodeDredd/pinia-orm",
   "bugs": {
     "url": "https://github.com/CodeDredd/pinia-orm/issues"
   },
-  "homepage": "https://github.com/CodeDredd/pinia-orm",
-  "repository": {
-    "url": "https://github.com/CodeDredd/pinia-orm.git",
-    "type": "git"
-  },
-  "keywords": [
-    "flux",
-    "redux",
-    "normalize",
-    "api",
-    "json"
+  "license": "MIT",
+  "author": "Paul Armstrong",
+  "contributors": [
+    "Dan Abramov",
+    "Gregor Becker"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CodeDredd/pinia-orm.git"
+  },
+  "funding": "https://github.com/sponsors/codedredd",
   "files": [
     "dist/",
     "index.d.ts",
@@ -24,12 +30,12 @@
     "README.md"
   ],
   "type": "module",
-  "funding": "https://github.com/sponsors/codedredd",
-  "jsdelivr": "dist/index.mjs",
-  "unpkg": "dist/index.mjs",
+  "sideEffects": false,
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
   "types": "index.d.ts",
+  "unpkg": "dist/index.mjs",
+  "jsdelivr": "dist/index.mjs",
   "exports": {
     ".": {
       "types": "./index.d.ts",
@@ -38,31 +44,23 @@
     },
     "./*": "./*"
   },
-  "sideEffects": false,
   "scripts": {
     "build": "unbuild",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s --commit-path . -l @pinia-orm/normalizr -r 1",
     "size": "size-limit",
     "flow": "flow",
     "flow:ci": "flow check",
-    "lint": "eslint . --cache",
+    "lint": "oxlint",
+    "lint2": "eslint . --cache",
     "lint:fix": "eslint . --cache --fix"
   },
-  "author": "Paul Armstrong",
-  "contributors": [
-    "Dan Abramov",
-    "Gregor Becker"
-  ],
-  "license": "MIT",
   "devDependencies": {
-    "@nuxt/eslint-config": "^0.3.13",
-    "@nuxtjs/eslint-config-typescript": "^12.1.0",
-    "@size-limit/preset-small-lib": "^11.1.4",
-    "eslint": "^9.6.0",
-    "immutable": "^5.0.3",
-    "size-limit": "^11.1.4",
-    "typescript": "^5.5.3",
-    "unbuild": "^3.1.0"
+    "@size-limit/preset-small-lib": "^11.2.0",
+    "immutable": "^5.1.5",
+    "oxlint": "^1.62.0",
+    "size-limit": "^11.2.0",
+    "typescript": "^5.9.3",
+    "unbuild": "^3.6.1"
   },
   "size-limit": [
     {

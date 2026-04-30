@@ -19,8 +19,6 @@ package-lock.json
 
 # Generated dirs
 dist
-.nuxt
-.nuxt-*
 .output
 .gen
 nuxt.d.ts

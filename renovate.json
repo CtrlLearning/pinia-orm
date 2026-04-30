@@ -11,7 +11,7 @@
   "npm": {
     "commitMessageTopic": "{{prettyDepType}} {{depName}}"
   },
-  "ignoreDeps": ["vue2", "chalk", "nuxt3", "nuxt"],
+  "ignoreDeps": ["chalk"],
   "ignorePaths": ["**/playgrounds/**"],
   "packageRules": [
     {
@@ -19,7 +19,6 @@
       "groupSlug": "all-minor-patch",
       "matchFiles": [
         "packages/pinia-orm/package.json",
-        "packages/nuxt/package.json",
         "packages/axios/package.json",
         "packages/normalizr/package.json"
       ],
