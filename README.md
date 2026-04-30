@@ -1,4 +1,4 @@
-# Pinia-orm
+# Pinia-orm!
 
 Forked from [codedredd/pinia-orm](https://github.com/codedredd/pinia-orm)
 
