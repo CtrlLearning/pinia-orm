@@ -1,5 +1,6 @@
 {
   "name": "@pinia-orm/axios",
+  "version": "3.0.0",
   "description": "Axios plugin for pinia-orm",
   "keywords": [
     "api",
