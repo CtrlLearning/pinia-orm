@@ -61,7 +61,7 @@
     "test": "vitest --run"
   },
   "dependencies": {
-    "@pinia-orm/normalizr": "workspace:*"
+    "@ctrllearning/pinia-orm-normalizr": "workspace:*"
   },
   "devDependencies": {
     "@pinia/testing": "^0.1.7",

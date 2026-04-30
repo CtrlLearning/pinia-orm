@@ -1,4 +1,4 @@
-import type { Schema as NormalizrSchema } from '@pinia-orm/normalizr'
+import type { Schema as NormalizrSchema } from '@ctrllearning/pinia-orm-normalizr'
 import { assert } from '../../../support/Utils'
 import type { Schema } from '../../../schema/Schema'
 import type { Collection, Element } from '../../../data/Data'

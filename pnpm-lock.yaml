@@ -142,7 +142,7 @@ importers:
 
   packages/pinia-orm:
     dependencies:
-      '@pinia-orm/normalizr':
+      '@ctrllearning/pinia-orm-normalizr':
         specifier: workspace:*
         version: link:../normalizr
     devDependencies:

@@ -1,5 +1,5 @@
-import type { Schema as NormalizrSchema } from '@pinia-orm/normalizr'
-import { schema as Normalizr } from '@pinia-orm/normalizr'
+import type { Schema as NormalizrSchema } from '@ctrllearning/pinia-orm-normalizr'
+import { schema as Normalizr } from '@ctrllearning/pinia-orm-normalizr'
 import { isArray, isNullish, throwError } from '../support/Utils'
 import { Uid } from '../model/attributes/types/Uid'
 import { Relation } from '../model/attributes/relations/Relation'

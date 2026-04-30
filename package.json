@@ -1,5 +1,5 @@
 {
-  "name": "@stormtail/pinia-orm-root",
+  "name": "@ctrllearning/pinia-orm-root",
   "private": true,
   "scripts": {
     "release": "node scripts/release.mjs",

@@ -5,7 +5,7 @@ export default defineConfig({
   resolve: {
     alias: {
       'pinia-orm': path.resolve(__dirname, '../pinia-orm/src/index.ts'),
-      '@pinia-orm/normalizr': path.resolve(
+      '@ctrllearning/pinia-orm-normalizr': path.resolve(
         __dirname,
         '../normalizr/src/index.js',
       ),
