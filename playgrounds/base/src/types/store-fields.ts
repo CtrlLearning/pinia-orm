@@ -1,5 +1,5 @@
-import type { Attribute } from "pinia-orm";
+import type { Attribute } from 'pinia-orm'
 
 export type StoreFields<T> = {
-  [K in keyof T]: Attribute;
-};
+  [K in keyof T]: Attribute
+}

@@ -1,5 +1,5 @@
 export type ProductRo = {
-  id: number,
-  name: string,
+  id: number
+  name: string
   price: number
 }
