@@ -89,11 +89,13 @@ async function main() {
     }
   }
 
-  const changedPackages = await getChangedPackages()
-  if (!changedPackages.length) {
-    console.log(chalk.red(`No packages have changed since last release`))
-    return
-  }
+  // const changedPackages = await getChangedPackages()
+  const packagesToRelease = await getAllPackages()
+  // const packagesToRelease = releaseAllPackages ? allPackages : changedPackages
+  // if (!packagesToRelease.length) {
+  //   console.log(chalk.red(`No packages have changed since last release`))
+  //   return
+  // }
 
   if (isDryRun) {
     console.log('\n' + chalk.bold.blue('This is a dry run') + '\n')
@@ -107,7 +109,7 @@ async function main() {
   //   choices: changedPackages.map((pkg) => pkg.name),
   // })
 
-  const packagesToRelease = changedPackages
+  // const packagesToRelease = changedPackages
   // const packagesToRelease = changedPackages.filter((pkg) =>
   //   pickedPackages.includes(pkg.name)
   // )
@@ -365,6 +367,32 @@ async function getChangedPackages() {
           return null
         }
       }
+    }),
+  )
+
+  return pkgs.filter((p) => p)
+}
+
+async function getAllPackages() {
+  const folders = await globby(join(__dirname, '../packages/*'), {
+    onlyFiles: false,
+  })
+
+  const pkgs = await Promise.all(
+    folders.map(async (folder) => {
+      if (!(await fs.lstat(folder)).isDirectory()) return null
+
+      const pkg = JSON.parse(await fs.readFile(join(folder, 'package.json')))
+      if (!pkg.private) {
+        return {
+          path: folder,
+          name: pkg.name,
+          version: pkg.version,
+          pkg,
+        }
+      }
+
+      return null
     }),
   )
 
