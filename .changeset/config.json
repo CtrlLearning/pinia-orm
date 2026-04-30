@@ -2,13 +2,7 @@
   "$schema": "https://unpkg.com/@changesets/config@3.0.0/schema.json",
   "changelog": ["@changesets/changelog-github", { "repo": "ctrllearning/pinia-orm" }],
   "commit": false,
-  "fixed": [
-    [
-      "@ctrllearning/pinia-orm",
-      "@ctrllearning/pinia-orm-normalizr",
-      "@ctrllearning/pinia-orm-axios"
-    ]
-  ],
+  "fixed": [],
   "linked": [],
   "access": "public",
   "baseBranch": "main",
