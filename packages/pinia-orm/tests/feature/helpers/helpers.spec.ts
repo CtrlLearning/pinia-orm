@@ -1,5 +1,6 @@
-import { PiniaVuePlugin, createPinia } from 'pinia'
-import Vue from 'vue2'
+import { createPinia } from 'pinia'
+import { mount } from '@vue/test-utils'
+import { defineComponent } from 'vue'
 import { describe, expect, it } from 'vitest'
 
 import { Model, Repository, createORM } from '../../../src'
@@ -15,9 +16,6 @@ describe('feature/helpers/helpers', () => {
     @Str('') name!: string
   }
 
-  // @ts-expect-error wrong type error
-  Vue.use(PiniaVuePlugin)
-
   class UserRepository extends Repository<User> {
     use = User
   }
@@ -26,51 +24,66 @@ describe('feature/helpers/helpers', () => {
     const pinia = createPinia()
     pinia.use(createORM())
 
-    const vm = new Vue({
-      // @ts-expect-error wrong type error
-      pinia,
+    const TestComponent = defineComponent({
       computed: mapRepos({
         userRepo: User,
       }),
+      template: '<div />',
     })
 
-    expect(vm.userRepo).toBeInstanceOf(Repository)
-    expect(vm.userRepo.getModel()).toBeInstanceOf(User)
+    const wrapper = mount(TestComponent, {
+      global: {
+        plugins: [pinia],
+      },
+    })
+
+    expect(wrapper.vm.userRepo).toBeInstanceOf(Repository)
+    expect(wrapper.vm.userRepo.getModel()).toBeInstanceOf(User)
   })
 
   it('can map repositories from abstract repositories in Vue components', () => {
     const pinia = createPinia()
     pinia.use(createORM())
 
-    const vm = new Vue({
-      // @ts-expect-error wrong type error
-      pinia,
+    const TestComponent = defineComponent({
       computed: {
         ...mapRepos({
           userRepo: UserRepository,
         }),
       },
+      template: '<div />',
     })
 
-    expect(vm.userRepo).toBeInstanceOf(Repository)
-    expect(vm.userRepo.getModel()).toBeInstanceOf(User)
+    const wrapper = mount(TestComponent, {
+      global: {
+        plugins: [pinia],
+      },
+    })
+
+    expect(wrapper.vm.userRepo).toBeInstanceOf(Repository)
+    expect(wrapper.vm.userRepo.getModel()).toBeInstanceOf(User)
   })
 
   it('can map repositories in Vue components using spread syntax', () => {
     const pinia = createPinia()
     pinia.use(createORM())
 
-    const vm = new Vue({
-      // @ts-expect-error wrong type error
-      pinia,
+    const TestComponent = defineComponent({
       computed: {
         ...mapRepos({
           userRepo: User,
         }),
       },
+      template: '<div />',
     })
 
-    expect(vm.userRepo).toBeInstanceOf(Repository)
-    expect(vm.userRepo.getModel()).toBeInstanceOf(User)
+    const wrapper = mount(TestComponent, {
+      global: {
+        plugins: [pinia],
+      },
+    })
+
+    expect(wrapper.vm.userRepo).toBeInstanceOf(Repository)
+    expect(wrapper.vm.userRepo.getModel()).toBeInstanceOf(User)
   })
 })

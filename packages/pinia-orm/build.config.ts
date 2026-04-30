@@ -18,7 +18,7 @@ export default defineBuildConfig({
   declaration: true,
   failOnWarn: false,
   clean: true,
-  externals: ['@/composables', 'nanoid', 'uuid', 'nanoid/async', 'nanoid/non-secure', 'pinia', 'vue-demi', 'vue', '@vue/composition-api'],
+  externals: ['@/composables', 'nanoid', 'uuid', 'nanoid/async', 'nanoid/non-secure', 'pinia', 'vue'],
   rollup: {
     emitCJS: true,
   },
