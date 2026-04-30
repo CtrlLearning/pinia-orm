@@ -26,7 +26,7 @@ let {
 // const preId =
 //   args.preid ||
 //   (semver.prerelease(currentVersion) && semver.prerelease(currentVersion)[0])
-const EXPECTED_BRANCH = 'master'
+const EXPECTED_BRANCH = 'main'
 
 const incrementVersion = (increment) =>
   semver.inc(currentVersion, increment, preId)
