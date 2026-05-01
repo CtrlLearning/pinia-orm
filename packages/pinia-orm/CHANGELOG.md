@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.1](https://github.com/CtrlLearning/pinia-orm/compare/@ctrllearning/pinia-orm@4.0.0...@ctrllearning/pinia-orm@4.0.1) (2026-05-01)
+
+### Bug Fixes
+
+* update package.json homepage URLs ([cdbdfe3](https://github.com/CtrlLearning/pinia-orm/commit/cdbdfe3d80e62d5fdfd9fc29e6feddbc42b72568))
+
 # 4.0.0 (2026-05-01)
 
 ### Bug Fixes
