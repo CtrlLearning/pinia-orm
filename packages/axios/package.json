@@ -1,6 +1,6 @@
 {
   "name": "@ctrllearning/pinia-orm-axios",
-  "version": "3.2.1",
+  "version": "3.5.0",
   "description": "Axios plugin for pinia-orm",
   "keywords": [
     "api",

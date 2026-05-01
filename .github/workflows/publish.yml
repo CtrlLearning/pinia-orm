@@ -41,7 +41,7 @@ jobs:
 
       - name: Publish Packages
         run: |
-          pnpm lerna version --conventional-commits --yes
+          pnpm lerna version minor --yes
           pnpm lerna publish from-git --yes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
