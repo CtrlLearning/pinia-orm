@@ -1,6 +1,6 @@
 {
   "name": "@ctrllearning/pinia-orm-normalizr",
-  "version": "3.2.1",
+  "version": "3.5.0",
   "description": "Normalizes JSON according to schema for Redux and Flux applications",
   "keywords": [
     "api",
