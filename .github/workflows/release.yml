@@ -11,14 +11,16 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+
     permissions:
-      contents: write
-      pull-requests: write
+      contents: write        # changesets/action: version commit, tags/releases
+      pull-requests: write   # changesets/action: release PR maken/updaten
+      id-token: write        # npm Trusted Publishing / OIDC
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Full history needed for changesets to detect which packages changed
           fetch-depth: 0
 
       - name: Setup pnpm
@@ -31,6 +33,7 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
+          registry-url: https://registry.npmjs.org
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -41,12 +44,9 @@ jobs:
       - name: Create Release Pull Request or Publish
         uses: changesets/action@v1
         with:
-          # Opens/updates the "Version Packages" PR when changesets are present.
-          # Publishes to npm when that PR is merged (no changesets remain).
           version: pnpm run version-packages
           publish: pnpm run release
           commit: "chore: version packages"
           title: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
