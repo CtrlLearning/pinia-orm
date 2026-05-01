@@ -9,14 +9,14 @@
     "pinia-plugin",
     "vue"
   ],
-  "homepage": "https://github.com/ctrllearning/pinia-orm#readme",
+  "homepage": "https://github.com/CtrlLearning/pinia-orm#readme",
   "bugs": {
-    "url": "https://github.com/ctrllearning/pinia-orm/issues"
+    "url": "https://github.com/CtrlLearning/pinia-orm/issues"
   },
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ctrllearning/pinia-orm.git"
+    "url": "git+https://github.com/CtrlLearning/pinia-orm.git"
   },
   "files": [
     "dist",
