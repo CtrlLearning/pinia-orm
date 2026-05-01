@@ -1,5 +1,6 @@
 // build.config.ts
 // import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig({
@@ -16,10 +17,12 @@ export default defineBuildConfig({
     { input: 'src/packages/uuid/v4', name: 'uuid/v4' },
   ],
   declaration: true,
-  failOnWarn: false,
+  failOnWarn: true,
   clean: true,
+  alias: {
+    '@': fileURLToPath(new URL('./src', import.meta.url)),
+  },
   externals: [
-    '@/composables',
     'nanoid',
     'uuid',
     'nanoid/async',
@@ -29,6 +32,7 @@ export default defineBuildConfig({
   ],
   rollup: {
     emitCJS: true,
+    alias: {},
   },
   // hooks: {
   //   'build:done': (ctx) => {

@@ -20,11 +20,11 @@ A new Markdown file is created under `.changeset/`. Commit it alongside your cod
 
 ### Bump type guide
 
-| Change type | Bump |
-|---|---|
+| Change type                      | Bump    |
+| -------------------------------- | ------- |
 | Bug fix, docs, internal refactor | `patch` |
 | New backwards-compatible feature | `minor` |
-| Breaking API change | `major` |
+| Breaking API change              | `major` |
 
 ---
 
@@ -41,10 +41,10 @@ No manual `npm publish` or `git tag` is required.
 
 ## Required repository secrets
 
-| Secret | Purpose |
-|---|---|
-| `GITHUB_TOKEN` | Automatically provided by GitHub Actions — no setup needed |
-| `NPM_TOKEN` | npm publish token — add in **Settings → Secrets and variables → Actions** |
+| Secret         | Purpose                                                                   |
+| -------------- | ------------------------------------------------------------------------- |
+| `GITHUB_TOKEN` | Automatically provided by GitHub Actions — no setup needed                |
+| `NPM_TOKEN`    | npm publish token — add in **Settings → Secrets and variables → Actions** |
 
 ---
 

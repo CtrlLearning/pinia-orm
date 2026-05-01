@@ -37,6 +37,4 @@ export interface DataStoreState {
   [s: string]: any
 }
 
-export type DataStore = ReturnType<
-  (typeof import('@/composables'))['useDataStore']
->
+export type DataStore = ReturnType<typeof useDataStore>
