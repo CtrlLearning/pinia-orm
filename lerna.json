@@ -1,11 +1,13 @@
 {
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "useWorkspaces": false,
+  "version": "independent",
   "npmClient": "pnpm",
   "command": {
-    "run": {
-      "npmClient": "pnpm"
+    "publish": {
+      "registry": "https://registry.npmjs.org/",
+      "message": "chore(release): publish %s"
     }
   },
-  "useWorkspaces": true,
-  "packages": ["packages/*"],
-  "version": "3.0.0"
+  "packages": ["packages/*"]
 }

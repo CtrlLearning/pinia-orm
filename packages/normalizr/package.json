@@ -39,6 +39,10 @@
     },
     "./*": "./*"
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
     "build": "unbuild",
     "size": "size-limit",
@@ -59,8 +63,5 @@
       "path": "dist/index.mjs",
       "limit": "2 kB"
     }
-  ],
-  "publishConfig": {
-    "access": "public"
-  }
+  ]
 }
