@@ -9,14 +9,14 @@
     "normalize",
     "redux"
   ],
-  "homepage": "https://github.com/ctrllearning/pinia-orm",
+  "homepage": "https://github.com/CtrlLearning/pinia-orm",
   "bugs": {
-    "url": "https://github.com/ctrllearning/pinia-orm/issues"
+    "url": "https://github.com/CtrlLearning/pinia-orm/issues"
   },
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ctrllearning/pinia-orm.git"
+    "url": "https://github.com/CtrlLearning/pinia-orm.git"
   },
   "files": [
     "dist/",
